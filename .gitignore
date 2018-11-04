@@ -1,5 +1,12 @@
-# Directories
+# Editors
 .vs/
+.vscode/
+.atom/
+.idea/
+
+# Build & Binary
+Build/
+build/ 
 bin/
 bin-int/
 
