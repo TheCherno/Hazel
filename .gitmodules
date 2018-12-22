@@ -1,6 +1,8 @@
 [submodule "Hazel/vendor/spdlog"]
 	path = Hazel/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+	ignore = dirty
 [submodule "Hazel/vendor/GLFW"]
 	path = Hazel/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+	ignore = dirty
