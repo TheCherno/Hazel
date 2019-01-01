@@ -42,14 +42,40 @@ project "Hazel"
 
 	links 
 	{ 
-		"GLFW",
-		"opengl32.lib"
+		"GLFW"
 	}
+
+	filter "system:linux"
+		pic "On"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		links 
+		{ 
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11"
+		}
+
+		defines
+		{
+			"HZ_PLATFORM_LINUX",
+			"HZ_BUILD_DLL"
+		}
 
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+
+		links 
+		{ 
+			"opengl32.lib"
+		}
 
 		defines
 		{
@@ -64,18 +90,24 @@ project "Hazel"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
-		buildoptions "/MDd"
+--		buildoptions "/MDd"
 		symbols "On"
+	filter { "system:windows", "configurations:Debug" }
+		buildoptions "/MDd"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
-		buildoptions "/MD"
+--		buildoptions "/MD"
 		optimize "On"
+	filter { "system:windows", "configurations:Release" }
+		buildoptions "/MD"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
-		buildoptions "/MD"
+--		buildoptions "/MD"
 		optimize "On"
+	filter { "system:windows", "configurations:Dist" }
+		buildoptions "/MD"
 
 project "Sandbox"
 	location "Sandbox"
@@ -102,6 +134,16 @@ project "Sandbox"
 		"Hazel"
 	}
 
+	filter "system:linux"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_LINUX"
+		}
+
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -114,15 +156,21 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
-		buildoptions "/MDd"
+--		buildoptions "/MDd"
 		symbols "On"
+	filter { "system:windows", "configurations:Debug" }
+		buildoptions "/MDd"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
-		buildoptions "/MD"
+--		buildoptions "/MD"
 		optimize "On"
+	filter { "system:windows", "configurations:Release" }
+		buildoptions "/MD"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
-		buildoptions "/MD"
+--		buildoptions "/MD"
 		optimize "On"
+	filter { "system:windows", "configurations:Dist" }
+		buildoptions "/MD"

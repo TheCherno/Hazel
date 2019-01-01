@@ -7,7 +7,11 @@
 		#define HAZEL_API __declspec(dllimport)
 	#endif
 #else
-	#error Hazel only supports Windows!
+	#ifdef HZ_BUILD_DLL
+		#define HAZEL_API __attribute__((visibility("default")))
+	#else
+		#define HAZEL_API
+	#endif
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
