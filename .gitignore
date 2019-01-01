@@ -5,3 +5,4 @@ bin-int/
 
 # Files
 *.user
+Makefile
