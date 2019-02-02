@@ -134,5 +134,5 @@ project "Sandbox"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
-    runtime "Release"
+		runtime "Release"
 		optimize "On"
