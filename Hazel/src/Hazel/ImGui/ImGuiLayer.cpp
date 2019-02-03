@@ -7,8 +7,8 @@
 #include "Hazel/Application.h"
 
 // TEMPORARY
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Hazel {
 

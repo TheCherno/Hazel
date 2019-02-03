@@ -1,14 +1,16 @@
 #include "hzpch.h"
+
+// Include GLAD before GLFW, because it otherwise causes a compile error on linux
+#include <glad/glad.h>
 #include "WindowsWindow.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
-#include <glad/glad.h>
 
 namespace Hazel {
-	
+
 	static bool s_GLFWInitialized = false;
 
 	static void GLFWErrorCallback(int error, const char* description)

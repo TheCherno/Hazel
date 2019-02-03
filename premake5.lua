@@ -33,11 +33,22 @@ project "Hazel"
 	pchheader "hzpch.h"
 	pchsource "Hazel/src/hzpch.cpp"
 
+        -- Add all source and header files
 	files
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
 	}
+
+        -- Exclude all folders in Platform, since no all platforms need all of these
+        removefiles { "%{prj.name}/src/Platform/**" }
+
+        -- Except OpenGL ones, those are needed on all platforms
+        files
+        {
+                "%{prj.name}/src/Platform/OpenGL/**.h",
+                "%{prj.name}/src/Platform/OpenGL/**.cpp",
+        }
 
 	includedirs
 	{
@@ -53,7 +64,6 @@ project "Hazel"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
 	}
 
 	filter "system:linux"
@@ -61,6 +71,19 @@ project "Hazel"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+
+                -- Add Linux-specific files
+                files
+        	{
+		        "%{prj.name}/src/Platform/Linux/**.h",
+        		"%{prj.name}/src/Platform/Linux/**.cpp"
+	        }
+
+                files
+                {
+                        "%{prj.name}/src/Platform/Windows/**.h",
+                        "%{prj.name}/src/Platform/Windows/**.cpp",
+                }
 
 		links
 		{
@@ -81,6 +104,14 @@ project "Hazel"
 	filter "system:windows"
 		cppdialect "C++17"
 		systemversion "latest"
+
+                -- Add Windows-specific files
+                files
+        	{
+		        "%{prj.name}/src/Platform/Windows/**.h",
+        		"%{prj.name}/src/Platform/Windows/**.cpp"
+	        }
+
 
 		links
 		{
@@ -150,6 +181,7 @@ project "Sandbox"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+                pic "On"
 
 		defines
 		{
