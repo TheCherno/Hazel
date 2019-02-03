@@ -1,6 +1,9 @@
 workspace "Hazel"
 	architecture "x64"
 	startproject "Sandbox"
+	
+	filter "system:windows"
+		disablewarnings { "4996", "4251" }
 
 	configurations
 	{
