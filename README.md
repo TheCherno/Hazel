@@ -10,5 +10,7 @@ Development header file packages under a Ubuntu variant distribution need to be 
 `sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev`
 
 Hazel can be configured and compiled by:
-```premake5 gmake
-make```
+```bash
+premake5 gmake
+make
+```
