@@ -42,6 +42,8 @@ project "Hazel"
 		pchheader "../src/hzpch.h"
 		pchsource "Hazel/src/hzpch.cpp"
 
+	filter {}
+
 	files
 	{
 		"%{prj.name}/src/**.h",
