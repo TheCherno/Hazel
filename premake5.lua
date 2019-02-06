@@ -30,8 +30,17 @@ project "Hazel"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "hzpch.h"
-	pchsource "Hazel/src/hzpch.cpp"
+	filter "action:vs2017"
+		pchheader "hzpch.h"
+		pchsource "Hazel/src/hzpch.cpp"
+
+	filter "action:xcode4"
+		pchheader "src/hzpch.h"
+		pchsource "Hazel/src/hzpch.cpp"
+
+	filter "action:gmake"
+		pchheader "../src/hzpch.h"
+		pchsource "Hazel/src/hzpch.cpp"
 
 	files
 	{
@@ -48,12 +57,38 @@ project "Hazel"
 		"%{IncludeDir.ImGui}"
 	}
 
-	links 
-	{ 
+	filter "action:xcode4"
+		sysincludedirs
+		{
+			"%{prj.name}/src",
+			"%{prj.name}/vendor/spdlog/include",
+			"${PROJECT_DIR}/vendor/GLFW/include",
+			"${PROJECT_DIR}/vendor/Glad/include",
+			"${PROJECT_DIR}/vendor/ImGui"
+		}
+
+		links
+		{
+			"Cocoa.framework",
+			"IOKit.framework",
+			"QuartzCore.framework"
+		}
+
+	filter "action:gmake"
+		links
+		{
+			"Cocoa.framework",
+			"IOKit.framework",
+			"QuartzCore.framework"
+		}
+
+	filter {}
+
+	links
+	{
 		"GLFW",
 		"Glad",
-		"ImGui",
-		"opengl32.lib"
+		"ImGui"
 	}
 
 	filter "system:windows"
@@ -70,6 +105,17 @@ project "Hazel"
 		postbuildcommands
 		{
 			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+		}
+
+	filter "system:macosx"
+		cppdialect "C++17"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_MACOS",
+			"HZ_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug"
@@ -108,6 +154,15 @@ project "Sandbox"
 		"Hazel/src"
 	}
 
+	filter "action:xcode4"
+		sysincludedirs
+		{
+			"${PROJECT_DIR} /../Hazel/vendor/spdlog/include",
+			"${PROJECT_DIR} /../Hazel/src"
+		}
+
+	filter {}
+
 	links
 	{
 		"Hazel"
@@ -120,6 +175,15 @@ project "Sandbox"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS"
+		}
+
+	filter "system:macosx"
+		cppdialect "C++17"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_MACOS"
 		}
 
 	filter "configurations:Debug"
