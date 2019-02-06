@@ -38,7 +38,7 @@ project "Hazel"
 		pchheader "src/hzpch.h"
 		pchsource "Hazel/src/hzpch.cpp"
 
-	filter "action:gmake"
+	filter "system:macosx", "action:gmake"
 		pchheader "../src/hzpch.h"
 		pchsource "Hazel/src/hzpch.cpp"
 
@@ -69,14 +69,7 @@ project "Hazel"
 			"${PROJECT_DIR}/vendor/ImGui"
 		}
 
-		links
-		{
-			"Cocoa.framework",
-			"IOKit.framework",
-			"QuartzCore.framework"
-		}
-
-	filter "action:gmake"
+	filter "system:macosx"
 		links
 		{
 			"Cocoa.framework",
