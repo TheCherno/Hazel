@@ -21,7 +21,11 @@ namespace Hazel {
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
+		const size_t insertIndex = m_LayerInsert - begin();
+
 		m_Layers.emplace_back(overlay);
+		// emplace might have invalidated the iterator, reconstruct it
+		m_LayerInsert = begin() + insertIndex;
 	}
 
 	void LayerStack::PopLayer(Layer* layer)
