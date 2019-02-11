@@ -33,6 +33,3 @@ project "Glad"
         
 	filter { "system:windows", "configurations:Release" }
 		buildoptions "/MT"
-
-	filter { "system:macosx", "configurations:Release" }
-		buildoptions "/MT"
