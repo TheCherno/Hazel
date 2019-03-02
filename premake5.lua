@@ -16,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
 IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/imgui"
+IncludeDir["glm"] = "Hazel/vendor/glm"
 
 include "Hazel/vendor/GLFW"
 include "Hazel/vendor/Glad"
@@ -36,7 +37,9 @@ project "Hazel"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	includedirs
@@ -45,7 +48,8 @@ project "Hazel"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links 
@@ -100,27 +104,18 @@ project "Hazel"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
---		buildoptions "/MDd"
 		runtime "Debug"
 		symbols "On"
-	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MDd"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
---		buildoptions "/MD"
 		runtime "Release"
 		optimize "On"
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MD"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
---		buildoptions "/MD"
 		runtime "Release"
 		optimize "On"
-	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MD"
 
 project "Sandbox"
 	location "Sandbox"
@@ -141,6 +136,7 @@ project "Sandbox"
 	{
 		"Hazel/vendor/spdlog/include",
 		"Hazel/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -150,7 +146,7 @@ project "Sandbox"
 
 	filter "system:linux"
 		cppdialect "C++17"
-		staticruntime "On"
+--		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -169,25 +165,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
---		buildoptions "/MDd"
 		runtime "Debug"
 		symbols "On"
-	filter { "system:windows", "configurations:Debug" }
-		buildoptions "/MDd"
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
---		buildoptions "/MD"
 		runtime "Release"
 		optimize "On"
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MD"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
---		buildoptions "/MD"
-		optimize "On"
-	filter { "system:windows", "configurations:Dist" }
-		buildoptions "/MD"
 		runtime "Release"
 		optimize "On"
