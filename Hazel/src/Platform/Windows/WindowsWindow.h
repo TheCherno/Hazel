@@ -21,6 +21,7 @@ namespace Hazel {
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		void SetWindowMode(const WindowMode& mode, unsigned int width, unsigned int height) override;
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
@@ -28,17 +29,27 @@ namespace Hazel {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GLFWmonitor* m_PrimaryMonitor; // Stores a reference to the primary monitor
+		GLFWvidmode m_BaseVideoMode;   // Stores the underlying video mode being used by the OS
 
 		struct WindowData
 		{
 			std::string Title;
 			unsigned int Width, Height;
 			bool VSync;
+			WindowMode Mode;
 
 			EventCallbackFn EventCallback;
 		};
 
 		WindowData m_Data;
+
+		struct WindowedModeParams {
+			unsigned int Width, Height;
+			int XPos, YPos;
+		};
+		WindowedModeParams m_OldWindowedParams;
+
 	};
 
 }

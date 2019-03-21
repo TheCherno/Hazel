@@ -7,16 +7,26 @@
 
 namespace Hazel {
 
+	enum WindowMode
+	{
+		WINDOWED,
+		FULL_SCREEN,
+		BORDERLESS
+	};
+
 	struct WindowProps
 	{
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
 
+		WindowMode Mode;
+
 		WindowProps(const std::string& title = "Hazel Engine",
 			        unsigned int width = 1280,
-			        unsigned int height = 720)
-			: Title(title), Width(width), Height(height)
+			        unsigned int height = 720,
+			        WindowMode mode = WindowMode::WINDOWED)
+			: Title(title), Width(width), Height(height), Mode(mode)
 		{
 		}
 	};
@@ -38,6 +48,7 @@ namespace Hazel {
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+		virtual void SetWindowMode(const WindowMode& mode, unsigned int width = 0, unsigned int height = 0) = 0;
 
 		virtual void* GetNativeWindow() const = 0;
 
