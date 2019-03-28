@@ -1,6 +1,9 @@
 # Hazel
 The Hazel Engine is a 3D Application platform made by Yan "TheCherno" Chernikov an Australian YouTuber who creates programming tutorials around diffrent subjects from game development to general language tutorials.
 
+Consider Checking out [TheChernoProject ](https://www.youtube.com/user/TheChernoProject) Youtube Channel
+Also any support on [Patreon](https://www.patreon.com/thecherno) is always appreciated
+
 # History:
 Hazel was started by Yan on September 30th 2018 with the aim to create a Game Engine and eventualy evolved into creating a 3D Application Engine.
 
