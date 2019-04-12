@@ -8,11 +8,11 @@ Also any support on [Patreon](https://www.patreon.com/thecherno) is always appre
 Hazel was started by Yan on September 30th 2018 with the aim to create a Game Engine and eventualy evolved into creating a 3D Application Engine.
 
 # Supported Platforms:
-##### 1. Windows:Supported
-##### 2. Linux:Not Supported
-##### 3. MacOS:Not Supported
-##### 4. Android:Not Supported
-##### 5. IOS:Not Supported
+##### ![](https://img.shields.io/badge/Windows-Supported-green.svg)
+##### ![](https://img.shields.io/badge/Linux-Not%20Supported-red.svg)
+##### ![](https://img.shields.io/badge/MacOS-Not%20Supported-red.svg)
+##### ![](https://img.shields.io/badge/Android-Not%20Supported-red.svg)
+##### ![](https://img.shields.io/badge/IOS-Not%20Supported-red.svg)
 
 Currently only Windows is supported with plans to support Linux,MacOS and maybe Android/ios in the future.
 
