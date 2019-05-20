@@ -13,17 +13,17 @@ project "Glad"
         "src/glad.c"
     }
 
-	includedirs
-	{
-		"include"
-	}
+    includedirs
+    {
+        "include"
+    }
     
     filter "system:windows"
         systemversion "latest"
---        staticruntime "On"
 
     filter "system:linux"
 --        pic "On"
+
 
     filter "configurations:Debug"
         runtime "Debug"
