@@ -24,9 +24,10 @@ include "Hazel/vendor/imgui"
 
 project "Hazel"
 	location "Hazel"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -60,10 +61,7 @@ project "Hazel"
 	}
 
 	filter "system:linux"
-		pic "On"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
+--		pic "on"
 
 		links 
 		{ 
@@ -82,7 +80,6 @@ project "Hazel"
 		}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		links 
@@ -97,10 +94,10 @@ project "Hazel"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-		}
+--		postbuildcommands
+--		{
+--			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
+--		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
@@ -121,7 +118,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -140,25 +138,33 @@ project "Sandbox"
 		"%{IncludeDir.glm}"
 	}
 
-	links
-	{
-		"Hazel"
-	}
-
 	filter "system:linux"
-		cppdialect "C++17"
---		staticruntime "On"
-		systemversion "latest"
-
+		links
+		{
+			"Hazel",
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+		}
 		defines
 		{
 			"HZ_PLATFORM_LINUX"
 		}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
-
+		links
+		{
+			"Hazel",
+		}
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS"

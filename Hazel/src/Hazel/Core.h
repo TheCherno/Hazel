@@ -1,17 +1,23 @@
 #pragma once
 
 #if defined HZ_PLATFORM_WINDOWS
+/*
 	#ifdef HZ_BUILD_DLL
 		#define HAZEL_API __declspec(dllexport)
 	#else
 		#define HAZEL_API __declspec(dllimport)
 	#endif
+*/
+#define HAZEL_API
 #elif defined HZ_PLATFORM_LINUX
+/*
 	#ifdef HZ_BUILD_DLL
 		#define HAZEL_API __attribute__((visibility("default")))
 	#else
 		#define HAZEL_API
 	#endif
+*/
+#define HAZEL_API
 #else
 	#error Unsupported platform!
 #endif
