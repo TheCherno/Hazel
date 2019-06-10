@@ -55,6 +55,7 @@ namespace Hazel {
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_VertexBuffer->Bind();
 		
 		{
 			BufferLayout layout = {
@@ -81,6 +82,7 @@ namespace Hazel {
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_IndexBuffer->Bind();
 
 		std::string vertexSrc = R"(
 			#version 330 core
