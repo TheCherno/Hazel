@@ -99,7 +99,7 @@ namespace Hazel {
 			}
 		)";
 
-		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
 
 		std::string blueShaderVertexSrc = R"(
 			#version 330 core
@@ -128,7 +128,7 @@ namespace Hazel {
 			}
 		)";
 
-		m_BlueShader.reset(new Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
+		m_BlueShader.reset(Shader::Create(blueShaderVertexSrc, blueShaderFragmentSrc));
 	}
 
 	void Application::PushLayer(Layer* layer)
