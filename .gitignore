@@ -5,7 +5,3 @@ bin-int/
 
 # Files
 *.user
-*.sln
-*.vcxproj
-*.filters
-.gitignore
