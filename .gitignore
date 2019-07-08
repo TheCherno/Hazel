@@ -1,7 +1,12 @@
 # Directories
 .vs/
+project/
 /bin/
 bin-int/
 
 # Files
 *.user
+*.suo
+*.dir
+*.vcxproj*
+*.sln

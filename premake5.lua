@@ -1,6 +1,7 @@
 workspace "Hazel"
 	architecture "x64"
 	startproject "Sandbox"
+	location "project"
 
 	configurations
 	{
@@ -10,6 +11,10 @@ workspace "Hazel"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+function output_dir(name)
+	return "%{wks.location}/build/" .. name .. "/" .. outputdir .. "/%{prj.name}"
+end
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
@@ -26,14 +31,14 @@ group "Dependencies"
 group ""
 
 project "Hazel"
-	location "Hazel"
+	location "project/%{prj.name}"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir (output_dir("bin"))
+	objdir (output_dir("bin-int"))
 
 	pchheader "hzpch.h"
 	pchsource "Hazel/src/hzpch.cpp"
@@ -95,14 +100,14 @@ project "Hazel"
 		optimize "on"
 
 project "Sandbox"
-	location "Sandbox"
+	location "project/%{prj.name}"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir (output_dir("bin"))
+	objdir (output_dir("bin-int"))
 
 	files
 	{
