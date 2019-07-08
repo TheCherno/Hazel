@@ -1,17 +1,26 @@
 #pragma once
 
 #ifdef HZ_PLATFORM_WINDOWS
+/*
 #if HZ_DYNAMIC_LINK
 	#ifdef HZ_BUILD_DLL
 		#define HAZEL_API __declspec(dllexport)
 	#else
 		#define HAZEL_API __declspec(dllimport)
 	#endif
+*/
+	#define HAZEL_API
+#elif defined HZ_PLATFORM_LINUX
+/*
+	#ifdef HZ_BUILD_DLL
+		#define HAZEL_API __attribute__((visibility("default")))
+	#else
+		#define HAZEL_API
+	#endif
+*/
+	#define HAZEL_API
 #else
-    #define HAZEL_API
-#endif
-#else
-	#error Hazel only supports Windows!
+	#error Unsupported platform!
 #endif
 
 #ifdef HZ_DEBUG
@@ -19,8 +28,15 @@
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
-	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#if defined HZ_PLATFORM_WINDOWS
+		#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+		#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#elif defined HZ_PLATFORM_LINUX
+		#include <signal.h>
+		#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); raise(SIGTRAP); } }
+		#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); raise(SIGTRAP); } }
+	#else
+	#endif
 #else
 	#define HZ_ASSERT(x, ...)
 	#define HZ_CORE_ASSERT(x, ...)

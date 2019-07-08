@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include "hzpch.h"
 #include "ImGuiLayer.h"
 
@@ -9,7 +10,6 @@
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 namespace Hazel {
 
@@ -48,7 +48,9 @@ namespace Hazel {
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410");
+		ImGui_ImplOpenGL3_Init("#version 450");
+//		ImGui_ImplOpenGL3_Init("#version 430 core");
+//		ImGui_ImplOpenGL3_Init("#version 130");
 	}
 
 	void ImGuiLayer::OnDetach()

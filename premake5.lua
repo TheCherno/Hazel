@@ -62,15 +62,38 @@ project "Hazel"
 	}
 
 	links 
-	{ 
+	{
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
 	}
+
+	filter "system:linux"
+--		pic "on"
+
+		links 
+		{ 
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11"
+		}
+
+		defines
+		{
+			"HZ_PLATFORM_LINUX",
+			"HZ_BUILD_DLL"
+		}
 
 	filter "system:windows"
 		systemversion "latest"
+
+		links 
+		{ 
+			"opengl32.lib"
+		}
 
 		defines
 		{
@@ -118,14 +141,33 @@ project "Sandbox"
 		"%{IncludeDir.glm}"
 	}
 
-	links
-	{
-		"Hazel"
-	}
+	filter "system:linux"
+		links
+		{
+			"Hazel",
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+		}
+		defines
+		{
+			"HZ_PLATFORM_LINUX"
+		}
 
 	filter "system:windows"
 		systemversion "latest"
-
+		links
+		{
+			"Hazel",
+		}
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS"
