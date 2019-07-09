@@ -3,9 +3,10 @@
 ## About
 [The Hazel Engine is a 3D graphics game engine Youtube series teaching project](https://thecherno.com/engine/) by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game, with abstractions to different APIs and platforms.
 
-"TheCherno" is an Australian YouTuber who creates programming tutorials around different subjects from game development to general programming language tutorials at [TheChernoProject](https://www.youtube.com/user/TheChernoProject) on Youtube. TheCherno's work is supported by generous patrons at [Patreon](https://www.patreon.com/thecherno).
+"TheCherno" is an Australian YouTuber who creates programming tutorials around different subjects from game development to general programming language tutorials at [TheChernoProject](https://www.youtube.com/user/TheChernoProject) on Youtube.
 
-[![Twitter](https://img.shields.io/twitter/url/http/thecherno.svg?label=theCherno&style=social)](https://twitter.com/thecherno) [![Youtube](https://img.shields.io/badge/TheChernoProject-red.svg?style=social&logo=youtube)](https://www.youtube.com/user/TheChernoProject)[![Patreon](https://img.shields.io/twitter/url/http/thecherno.svg?label=The%20Cherno&logo=patreon&style=social)](https://www.patreon.com/thecherno)
+[![Twitter](https://img.shields.io/twitter/url/http/thecherno.svg?label=theCherno&style=social)](https://twitter.com/thecherno)
+[![Youtube](https://img.shields.io/badge/TheChernoProject-red.svg?style=social&logo=youtube)](https://www.youtube.com/user/TheChernoProject)
 
 ## 1. Supported platforms
 Currently Hazel supports:
