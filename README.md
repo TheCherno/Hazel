@@ -1,7 +1,7 @@
 # Hazel [![License](https://img.shields.io/github/license/TheCherno/Hazel.svg)](https://github.com/TheCherno/Hazel/blob/master/LICENSE)
 
 ## About
-[The Hazel Engine is a 3D graphics game engine Youtube series teaching project](https://thecherno.com/engine/) by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game, with abstractions to different APIs and platforms.
+The Hazel Engine is [a 3D graphics game engine Youtube series teaching project](https://thecherno.com/engine/) by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game, with abstractions to different APIs and platforms.
 
 "TheCherno" is an Australian YouTuber who creates programming tutorials around different subjects from game development to general programming language tutorials at [TheChernoProject](https://www.youtube.com/user/TheChernoProject) on Youtube.
 
