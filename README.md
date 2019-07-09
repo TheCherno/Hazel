@@ -13,7 +13,9 @@ Currently Hazel supports:
 
 - Computer OS:
   - ![Windows supported](https://img.shields.io/badge/Windows-Supported-green.svg)
-  - ![Linux not supported](https://img.shields.io/badge/Linux-Supported-green.svg)
+    ![Windows platform](https://img.shields.io/badge/platform-win--64-lightgrey.svg)
+  - ![Linux supported](https://img.shields.io/badge/Linux-Supported-green.svg)
+    ![Linux platform Debian](https://img.shields.io/badge/platform-Debian-lightgrey.svg)
   - ![MacOS not supported](https://img.shields.io/badge/MacOS-Not%20Supported-red.svg)
 - Mobile OS:
   - ![Android not supported](https://img.shields.io/badge/Android-Not%20Supported-red.svg)
