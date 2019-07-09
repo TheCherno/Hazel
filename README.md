@@ -44,6 +44,8 @@ Hazel has extra development dependencies needed for Linux. The following package
 - `libxi`
 - `libglew`
 
+#### 2.2.1 Debian
+
 On Debian and Debian derivative distributions, install these packages by running:
 
 `sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev`
