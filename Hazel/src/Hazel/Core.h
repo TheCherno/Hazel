@@ -39,13 +39,22 @@
 	#define HZ_ENABLE_ASSERTS
 #endif
 
-// Asserts
+// Assert statements
+// HZ_ASSERT      will assert the passed statement; if not HZ_ENABLE_ASSERTS will do nothing
+// HZ_ASSERT_CALL will assert the passed statement; if not HZ_ENABLE_ASSERTS will only call the statement
 #ifdef HZ_ENABLE_ASSERTS
 	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
 	#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
+
+	#define HZ_ASSERT_CALL(x, ...) HZ_ASSERT(x, __VA_ARGS__)
+	#define HZ_CORE_ASSERT_CALL(x, ...) HZ_CORE_ASSERT(x, __VA_ARGS__)
+
 #else
 	#define HZ_ASSERT(x, ...)
 	#define HZ_CORE_ASSERT(x, ...)
+
+	#define HZ_ASSERT_CALL(x, ...) x
+	#define HZ_CORE_ASSERT_CALL(x, ...) x
 #endif
 
 #define BIT(x) (1 << x)
