@@ -17,4 +17,5 @@ namespace Hazel {
         HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
+
 }
