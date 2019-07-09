@@ -1,6 +1,7 @@
 # Directories
 .vs/
 /bin/
+Hazel/vendor/**/bin/
 bin-int/
 
 # Files
