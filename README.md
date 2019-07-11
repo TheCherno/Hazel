@@ -34,17 +34,17 @@ Next: Follow the steps relevant to your operating system.
 
 ### 2.1 Windows
 
-Premake is provided as [premake5.exe](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5.exe) in the repository. Execute and follow the install instructions.
+Premake 5.0.0-alpha13 is provided as [premake5.exe](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5.exe) in the repository. Execute and follow the install instructions.
 
 Premake generates project files for Visual Studio. To generate the `.sln` and `.vcxproj` files for Visual Studio 2017, run `premake vs2017` at the command line. Or you may run [GenerateProjects.bat](https://github.com/TheCherno/Hazel/blob/master/GenerateProjects.bat) as a convenience batch file for this task.
 
 ### 2.2 Linux
 
-Premake is provided as [premake5.tar.gz](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5.tar.gz) in the repository. To download and install it, follow the instructions:
+Premake 5.0.0-alpha14 is provided as [premake5-linux.tar.gz](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5-linux.tar.gz) in the repository. To download and install it, follow the instructions:
 
 ```
-$ wget https://github.com/TheCherno/Hazel/raw/master/vendor/bin/premake/premake5.tar.gz
-$ tar -xzvf premake5.tar.gz
+$ wget https://github.com/TheCherno/Hazel/raw/master/vendor/bin/premake/premake5-linux.tar.gz
+$ tar -xzvf premake5-linux.tar.gz
 $ chmod +x premake5 # make premake executable
 $ sudo cp premake5 /usr/bin/
 
