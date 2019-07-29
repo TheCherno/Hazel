@@ -20,7 +20,7 @@ A short description of what fix this is. And how it fixed the issue you describe
   **PR impact**
 List of related issues/PRs this will solve:
 
- Impact                   | PR
+ Impact                  | PR
 ------------------------ | ------
 Other issues this solves | None or #number(s)
 Other PRs this solves    | None or #number(s)

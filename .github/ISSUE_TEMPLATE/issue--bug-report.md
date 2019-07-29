@@ -11,6 +11,8 @@ assignees: ''
 A clear and concise description of what the bug is.
 A screenshot or copy of the error could be helpfull as well.
 
+Make sure your bug can be reproduced with the Hazel Engine and not by your own engine that you're creating alongside with Hazel. For issues with your own engine, we're happy to help you in [TheCherno Discord server](https://discord.gg/K2eSyQA). Thanks for your understanding.
+
  **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
