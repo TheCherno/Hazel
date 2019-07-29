@@ -141,10 +141,14 @@ project "Sandbox"
 		"%{IncludeDir.glm}"
 	}
 
+	links
+	{
+		"Hazel",
+	}
+
 	filter "system:linux"
 		links
 		{
-			"Hazel",
 			"GLFW",
 			"Glad",
 			"ImGui",
@@ -164,10 +168,11 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
+
 		links
 		{
-			"Hazel",
 		}
+
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS"
