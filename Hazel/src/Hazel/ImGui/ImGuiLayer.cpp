@@ -13,9 +13,16 @@
 
 namespace Hazel {
 
-	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer")
+	ImGuiLayer::ImGuiLayer(bool renderDemo, bool renderConsole)
+		: Layer("ImGuiLayer"), m_RenderDemo(renderDemo), m_RenderConsole(renderConsole)
 	{
+        // create the sink
+        m_Console = std::make_shared<ImGuiLog_mt>();
+        //m_Console->set_pattern("");
+
+        // now that we have the sink created, let's register it
+        //std::vector<spdlog::sink_ptr> sinks = spdlog::logger::sinks();
+        //sinks.emplace_back<spdlog::sink_ptr>(m_Console);
 	}
 
 	void ImGuiLayer::OnAttach()
@@ -86,8 +93,7 @@ namespace Hazel {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		ImGui::ShowDemoWindow(&m_RenderDemo);
 	}
 
 }
