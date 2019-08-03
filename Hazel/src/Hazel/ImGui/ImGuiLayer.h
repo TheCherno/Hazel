@@ -6,8 +6,6 @@
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 
-#include "ImGuiLog.h"
-
 namespace Hazel {
 
 	class HAZEL_API ImGuiLayer : public Layer
@@ -26,7 +24,6 @@ namespace Hazel {
 		float m_Time = 0.0f;
         bool m_RenderDemo;
         bool m_RenderConsole;
-        std::shared_ptr<ImGuiLog_mt> m_Console;
 	};
 
 }

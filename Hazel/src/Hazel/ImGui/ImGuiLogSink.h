@@ -3,12 +3,12 @@
 namespace Hazel {
 
     template<class Mutex>
-    class ImGuiLog : public spdlog::sinks::base_sink<std::mutex> {
+    class ImGuiLogSink : public spdlog::sinks::base_sink<std::mutex> {
     public:
-        explicit ImGuiLog() {}
-        ImGuiLog(const ImGuiLog&) = delete;
-        ImGuiLog& operator=(const ImGuiLog&) = delete;
-        virtual ~ImGuiLog() = default;
+        explicit ImGuiLogSink() {}
+        ImGuiLogSink(const ImGuiLogSink&) = delete;
+        ImGuiLogSink& operator=(const ImGuiLogSink&) = delete;
+        virtual ~ImGuiLogSink() = default;
 
     protected:
         void sink_it_(const spdlog::details::log_msg& msg) override
@@ -33,6 +33,6 @@ namespace Hazel {
 #include "spdlog/details/null_mutex.h"
 #include <mutex>
 namespace Hazel {
-    using ImGuiLog_mt = ImGuiLog<std::mutex>;                  // multi-threaded
-    using ImGuiLog_st = ImGuiLog<spdlog::details::null_mutex>; // single threaded
+    using ImGuiLogSink_mt = ImGuiLogSink<std::mutex>;                  // multi-threaded
+    using ImGuiLogSink_st = ImGuiLogSink<spdlog::details::null_mutex>; // single threaded
 }
