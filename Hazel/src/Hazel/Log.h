@@ -15,10 +15,10 @@ namespace Hazel {
 
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
-        inline static std::vector<spdlog::sink_ptr>& GetSinks() { return s_Sinks; }
+		inline static std::vector<spdlog::sink_ptr>& GetSinks() { return s_Sinks; }
 	private:
-        static std::vector<spdlog::sink_ptr> s_Sinks;
-        static std::shared_ptr<spdlog::logger> s_CoreLogger;
+		static std::vector<spdlog::sink_ptr> s_Sinks;
+		static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 

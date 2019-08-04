@@ -16,7 +16,7 @@ namespace Hazel {
 
 	ImGuiLayer::ImGuiLayer(bool renderDemo, bool renderConsole)
 		: Layer("ImGuiLayer"), m_RenderDemo(renderDemo),
-        m_RenderConsole(renderConsole), m_Console(ImGuiConsole::GetConsole())
+		m_RenderConsole(renderConsole), m_Console(ImGuiConsole::GetConsole())
 	{
 	}
 
@@ -90,8 +90,8 @@ namespace Hazel {
 	{
 		ImGui::ShowDemoWindow(&m_RenderDemo);
 
-        if(m_RenderConsole)
-            m_Console->OnImGuiRender(&m_RenderConsole);
+		if(m_RenderConsole)
+			m_Console->OnImGuiRender(&m_RenderConsole);
 	}
 
 }
