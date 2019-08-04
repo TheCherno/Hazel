@@ -10,15 +10,7 @@ namespace Hazel {
 	uint16_t ImGuiConsole::s_MessageBufferCapacity = 200;
 	std::vector<std::shared_ptr<ImGuiConsole::Message>> ImGuiConsole::s_MessageBuffer(s_MessageBufferCapacity);
 	uint16_t ImGuiConsole::s_MessageBufferIndex = 0;
-
-	std::unordered_map<ImGuiConsole::Message::Level, ImGuiConsole::Color> ImGuiConsole::s_RenderColors = {
-		{ImGuiConsole::Message::Level::Trace   , {0.75f, 0.75f, 0.75f, 1.00f}}, // White-ish gray
-		{ImGuiConsole::Message::Level::Info    , {0.00f, 0.50f, 0.00f, 1.00f}}, // Green
-		{ImGuiConsole::Message::Level::Debug   , {0.00f, 0.50f, 0.50f, 1.00f}}, // Cyan
-		{ImGuiConsole::Message::Level::Warn    , {1.00f, 1.00f, 0.00f, 1.00f}}, // Yellow
-		{ImGuiConsole::Message::Level::Error   , {1.00f, 0.00f, 0.00f, 1.00f}}, // Red
-		{ImGuiConsole::Message::Level::Critical, {1.00f, 1.00f, 1.00f, 1.00f}}  // White-white
-	};
+	ImGuiConsole::Message::Level ImGuiConsole::s_MessageBufferRenderFilter = ImGuiConsole::Message::Level::Trace;
 
 	std::shared_ptr<ImGuiConsole> ImGuiConsole::GetConsole()
 	{
@@ -55,6 +47,16 @@ namespace Hazel {
 		ImGui::End();
 	}
 
+	std::vector<ImGuiConsole::Message::Level> ImGuiConsole::Message::s_Levels{
+		ImGuiConsole::Message::Level::Trace,
+		//ImGuiConsole::Message::Level::Debug,
+		ImGuiConsole::Message::Level::Info,
+		ImGuiConsole::Message::Level::Warn,
+		ImGuiConsole::Message::Level::Error,
+		ImGuiConsole::Message::Level::Critical,
+		ImGuiConsole::Message::Level::Off
+	};
+
 	ImGuiConsole::Message::Message(const std::string message, Level level)
 		: m_Message(message), m_Level(level)
 	{
@@ -62,12 +64,42 @@ namespace Hazel {
 
 	void ImGuiConsole::Message::OnImGuiRender()
 	{
-		if (!Valid()) return;
+		if (Valid() && m_Level >= ImGuiConsole::s_MessageBufferRenderFilter)
+		{
+			Color color = GetRenderColor(m_Level);
+			ImGui::PushStyleColor(ImGuiCol_Text, { color.r, color.g, color.b, color.a });
+			ImGui::TextUnformatted(m_Message.c_str());
+			ImGui::PopStyleColor();
+		}
+	}
 
-		Color color = s_RenderColors[m_Level];
-		ImGui::PushStyleColor(ImGuiCol_Text, { color.r, color.g, color.b, color.a });
-		ImGui::TextUnformatted(m_Message.c_str());
-		ImGui::PopStyleColor();
+	ImGuiConsole::Message::Color ImGuiConsole::Message::GetRenderColor(Level level)
+	{
+		switch (level)
+		{
+			case ImGuiConsole::Message::Level::Trace   : return { 0.75f, 0.75f, 0.75f, 1.00f }; // White-ish gray
+			case ImGuiConsole::Message::Level::Info    : return { 0.00f, 0.50f, 0.00f, 1.00f }; // Green
+			case ImGuiConsole::Message::Level::Debug   : return { 0.00f, 0.50f, 0.50f, 1.00f }; // Cyan
+			case ImGuiConsole::Message::Level::Warn    : return { 1.00f, 1.00f, 0.00f, 1.00f }; // Yellow
+			case ImGuiConsole::Message::Level::Error   : return { 1.00f, 0.00f, 0.00f, 1.00f }; // Red
+			case ImGuiConsole::Message::Level::Critical: return { 1.00f, 1.00f, 1.00f, 1.00f }; // White-white
+		}
+		return { 1.00f, 1.00f, 1.00f, 1.00f };
+	}
+
+	const char* ImGuiConsole::Message::GetLevelName(Level level)
+	{
+		switch (level)
+		{
+			case ImGuiConsole::Message::Level::Trace   : return "Trace";
+			case ImGuiConsole::Message::Level::Info    : return "Info";
+			case ImGuiConsole::Message::Level::Debug   : return "Debug";
+			case ImGuiConsole::Message::Level::Warn    : return "Warning";
+			case ImGuiConsole::Message::Level::Error   : return "Error";
+			case ImGuiConsole::Message::Level::Critical: return "Critical";
+			case ImGuiConsole::Message::Level::Off     : return "None";
+		}
+		return "Unknown name";
 	}
 
 }
