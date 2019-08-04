@@ -28,10 +28,10 @@ namespace Hazel {
 		s_ClientLogger->set_level(spdlog::level::trace);
 
 		// For testing purpose only
-		
+		/*
 		for (int i = 0; i < 200; i++)
 			s_CoreLogger->trace(i);
-		/*
+		
 		s_CoreLogger->trace("This is a trace message.");
 		s_CoreLogger->debug("This is a debug message.");
 		s_CoreLogger->info("This is an info message.");
