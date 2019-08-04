@@ -1,11 +1,14 @@
 #include "spdlog/sinks/base_sink.h"
+#include "ImGuiConsole.h"
 
 namespace Hazel {
 
     template<class Mutex>
-    class ImGuiLogSink : public spdlog::sinks::base_sink<std::mutex> {
+    class ImGuiLogSink : public spdlog::sinks::base_sink<std::mutex>,
+                         public ImGuiConsole
+    {
     public:
-        explicit ImGuiLogSink() {}
+        explicit ImGuiLogSink() = default;
         ImGuiLogSink(const ImGuiLogSink&) = delete;
         ImGuiLogSink& operator=(const ImGuiLogSink&) = delete;
         virtual ~ImGuiLogSink() = default;
@@ -20,6 +23,8 @@ namespace Hazel {
             fmt::memory_buffer formatted;
             sink::formatter_->format(msg, formatted);
             std::cout << fmt::to_string(formatted);
+
+            AddMessage({ fmt::to_string(formatted).c_str(), Message::Level::Info });
         }
 
         void flush_() override

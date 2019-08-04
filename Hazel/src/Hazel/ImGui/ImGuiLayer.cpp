@@ -6,6 +6,7 @@
 #include "examples/imgui_impl_opengl3.h"
 
 #include "Hazel/Application.h"
+#include "Hazel\Log.h"
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
@@ -16,6 +17,7 @@ namespace Hazel {
 	ImGuiLayer::ImGuiLayer(bool renderDemo, bool renderConsole)
 		: Layer("ImGuiLayer"), m_RenderDemo(renderDemo), m_RenderConsole(renderConsole)
 	{
+        m_Console = std::dynamic_pointer_cast<ImGuiConsole>(Log::GetSinks()[1]);
 	}
 
 	void ImGuiLayer::OnAttach()
@@ -87,6 +89,7 @@ namespace Hazel {
 	void ImGuiLayer::OnImGuiRender()
 	{
 		ImGui::ShowDemoWindow(&m_RenderDemo);
+        m_Console->OnImGuiRender(&m_RenderConsole);
 	}
 
 }

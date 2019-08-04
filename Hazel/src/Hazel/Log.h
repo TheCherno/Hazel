@@ -4,6 +4,8 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
+#include "ImGui/ImGuiConsole.h"
+
 namespace Hazel {
 
 	class HAZEL_API Log
@@ -13,8 +15,10 @@ namespace Hazel {
 
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
+        inline static std::vector<spdlog::sink_ptr>& GetSinks() { return s_Sinks; }
 	private:
-		static std::shared_ptr<spdlog::logger> s_CoreLogger;
+        static std::vector<spdlog::sink_ptr> s_Sinks;
+        static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 
