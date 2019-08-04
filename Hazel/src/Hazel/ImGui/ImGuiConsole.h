@@ -12,29 +12,35 @@ namespace Hazel {
             {
                 Invalid = -1,
                 Trace = 0,
-                Info = 1,
-                Warn = 2,
-                Error = 3,
-                Critical = 4,
-                None = 5,
+                Debug = 1,
+                Info = 2,
+                Warn = 3,
+                Error = 4,
+                Critical = 5,
+                Off = 6, // Display nothing
             };
         public:
-            Message(const char* msg = "", Level lvl = Level::Invalid);
+            Message(const std::string message = "", Level level = Level::Invalid);
             inline bool Valid() { return m_Level != Level::Invalid; }
+            void OnImGuiRender();
         public:
-            const char* m_Message;
-            Level m_Level;
+            const std::string m_Message;
+            const Level m_Level;
         };
+        struct Color { float r, g, b, a; };
     public:
         ~ImGuiConsole() = default;
+        static std::shared_ptr<ImGuiConsole> GetConsole();
         static void OnImGuiRender(bool* show);
+        static inline void SetColor(Message::Level level, Color color) { s_RenderColors[level] = color; }
     protected:
-        ImGuiConsole();
-        static void AddMessage(Message msg);
+        ImGuiConsole() = default;
+        static void AddMessage(std::shared_ptr<Message> message);
     private:
         static uint16_t s_MessageBufferCapacity;
-        static std::vector<Message> s_MessageBuffer;
+        static std::vector<std::shared_ptr<Message>> s_MessageBuffer;
         static uint16_t s_MessageBufferIndex;
+        static std::unordered_map<Message::Level, Color> s_RenderColors;
     };
 
 }

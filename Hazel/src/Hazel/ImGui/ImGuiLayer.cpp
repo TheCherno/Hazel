@@ -15,9 +15,9 @@
 namespace Hazel {
 
 	ImGuiLayer::ImGuiLayer(bool renderDemo, bool renderConsole)
-		: Layer("ImGuiLayer"), m_RenderDemo(renderDemo), m_RenderConsole(renderConsole)
+		: Layer("ImGuiLayer"), m_RenderDemo(renderDemo),
+        m_RenderConsole(renderConsole), m_Console(ImGuiConsole::GetConsole())
 	{
-        m_Console = std::dynamic_pointer_cast<ImGuiConsole>(Log::GetSinks()[1]);
 	}
 
 	void ImGuiLayer::OnAttach()
@@ -89,7 +89,9 @@ namespace Hazel {
 	void ImGuiLayer::OnImGuiRender()
 	{
 		ImGui::ShowDemoWindow(&m_RenderDemo);
-        m_Console->OnImGuiRender(&m_RenderConsole);
+
+        if(m_RenderConsole)
+            m_Console->OnImGuiRender(&m_RenderConsole);
 	}
 
 }
