@@ -22,11 +22,12 @@ namespace Hazel {
 			struct Color { float r, g, b, a; };
 		public:
 			Message(const std::string message = "", Level level = Level::Invalid);
-			inline bool Valid() { return m_Level != Level::Invalid; }
 			void OnImGuiRender();
+			static Level GetLowerLevel(Level level);
+			static Level GetHigherLevel(Level level);
+			static const char* GetLevelName(Level level);
 		private:
 			static Color GetRenderColor(Level level);
-			static const char* GetLevelName(Level level);
 		public:
 			const std::string m_Message;
 			const Level m_Level;
@@ -39,6 +40,12 @@ namespace Hazel {
 	protected:
 		ImGuiConsole() = default;
 		static void AddMessage(std::shared_ptr<Message> message);
+	private:
+		struct ImGuiRendering
+		{
+			static void ImGuiRenderHeader();
+			static void ImGuiRenderMessages();
+		};
 	private:
 		static uint16_t s_MessageBufferCapacity;
 		static std::vector<std::shared_ptr<Message>> s_MessageBuffer;
