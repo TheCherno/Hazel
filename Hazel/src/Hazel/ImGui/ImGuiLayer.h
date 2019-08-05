@@ -26,7 +26,6 @@ namespace Hazel {
 		float m_Time = 0.0f;
 		bool m_RenderDemo;
 		bool m_RenderConsole;
-		std::shared_ptr<ImGuiConsole> m_Console;
 	};
 
 }
