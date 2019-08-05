@@ -10,3 +10,6 @@
 [submodule "Hazel/vendor/glm"]
 	path = Hazel/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "vendor/premake/premake-core"]
+	path = vendor/premake/premake-core
+	url = https://github.com/premake/premake-core.git
