@@ -30,6 +30,13 @@ namespace Hazel {
 			s_RequestScrollToBottom = true;
 	}
 
+	void ImGuiConsole::Flush()
+	{
+		for (auto message = s_MessageBuffer.begin(); message != s_MessageBuffer.end(); message++)
+			(*message) = std::make_shared<Message>();
+		s_MessageBufferBegin = 0;
+	}
+
 	void ImGuiConsole::OnImGuiRender(bool* show)
 	{
 		ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
@@ -45,14 +52,18 @@ namespace Hazel {
 	void ImGuiConsole::ImGuiRendering::ImGuiRenderHeader()
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
-		float spacing = style.ItemInnerSpacing.x;
-		float button_sz = ImGui::GetFrameHeight();
-		float width = ImGui::CalcItemWidth() / 2.0f;
+		const float spacing = style.ItemInnerSpacing.x;
+
+		// Text change level
+		ImGui::AlignFirstTextHeightToWidgets();
+		ImGui::Text("Display");
+
+		ImGui::SameLine(0.0f, 2.0f * spacing);
 
 		// Dropdown with levels
-		ImGui::PushItemWidth(width - spacing * 2.0f - button_sz * 2.0f);
+		ImGui::PushItemWidth(ImGui::CalcTextSize("Critical").x * 1.36f);
 		if (ImGui::BeginCombo(
-			"##MessageBufferRenderFilter",
+			"##MessageRenderFilter",
 			Message::GetLevelName(s_MessageBufferRenderFilter),
 			ImGuiComboFlags_NoArrowButton))
 		{
@@ -68,25 +79,38 @@ namespace Hazel {
 		}
 		ImGui::PopItemWidth();
 
-		// Buttons to quickly change level
 		ImGui::SameLine(0.0f, spacing);
-		if (ImGui::ArrowButton("##MessageBufferRenderFilter_L", ImGuiDir_Left))
+
+		// Buttons to quickly change level
+		if (ImGui::ArrowButton("##MessageRenderFilter_L", ImGuiDir_Left))
 		{
 			s_MessageBufferRenderFilter = Message::GetLowerLevel(s_MessageBufferRenderFilter);
 		}
+
 		ImGui::SameLine(0.0f, spacing);
-		if (ImGui::ArrowButton("##MessageBufferRenderFilter_R", ImGuiDir_Right))
+
+		if (ImGui::ArrowButton("##MessageRenderFilter_R", ImGuiDir_Right))
 		{
 			s_MessageBufferRenderFilter = Message::GetHigherLevel(s_MessageBufferRenderFilter);
 		}
 
-		// Text change level
 		ImGui::SameLine(0.0f, spacing);
-		ImGui::Text("Display level");
 
-		// Checkbox for scrolling lock
-		ImGui::SameLine(0.0f, 5.0f * spacing);
-		ImGui::Checkbox("Scroll to bottom", &s_AllowScrollingToBottom);
+		// Button for advanced settings
+		if (ImGui::Button("Settings"))
+			ImGui::OpenPopup("SettingsPopup");
+		if (ImGui::BeginPopup("SettingsPopup"))
+		{
+			// Checkbox for scrolling lock
+			ImGui::Checkbox("Scroll to bottom", &s_AllowScrollingToBottom);
+
+			// Button to clear the console
+			if (ImGui::Button("Clear console"))
+				ImGuiConsole::Flush();
+
+			ImGui::EndPopup();
+		}
+
 	}
 
 	void ImGuiConsole::ImGuiRendering::ImGuiRenderMessages()

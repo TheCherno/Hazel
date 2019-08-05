@@ -38,6 +38,7 @@ namespace Hazel {
 	public:
 		~ImGuiConsole() = default;
 		static void AddMessage(std::shared_ptr<Message> message);
+		static void Flush();
 		static void OnImGuiRender(bool* show);
 	protected:
 		ImGuiConsole() = default;

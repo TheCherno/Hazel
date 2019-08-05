@@ -21,6 +21,7 @@ namespace Hazel {
 
 		void flush_() override
 		{
+			ImGuiConsole::Flush();
 		}
 	private:
 		static ImGuiConsole::Message::Level GetMessageLevel(const spdlog::level::level_enum level)
