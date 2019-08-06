@@ -6,7 +6,7 @@ rem Check if the premake submodule is installed or not.
     echo Checking out the premake repository...
     if exist premake-core\Bootstrap.mak (
         echo.
-        goto CheckCompiler
+        goto CheckVisualStudio
     ) else (
         goto InstallPremakeSubmodule
     )
@@ -20,29 +20,67 @@ rem The premake submodule was not found, so we download it from github.
     echo.
     goto CheckPremakeSubmodule
 
-rem Before we start compiling, we check the compiler.
-:CheckCompiler
-    echo Starting the compiler...
-
-    rem Go to the install folder of the Visual Studio instance
+rem Extract info about our Visual Studio install we will require.
+:CheckVisualStudio
+    echo Inspecting Visual Studio install...
     rem This option only works on VS2017 and higher
     rem More info:
     rem     https://renenyffenegger.ch/notes/Windows/development/Visual-Studio/environment-variables/index
     rem     https://devblogs.microsoft.com/setup/vswhere-is-now-installed-with-visual-studio-2017/
+
+    rem Extract install directory
     for /f "usebackq tokens=*" %%i in (`
         call "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
     `) do (
         setlocal
         set InstallDir=%%i
     )
+    echo Install directory: %InstallDir%
 
+    rem Extract install version
+    for /f "usebackq tokens=*" %%j in (`
+        call "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationVersion
+    `) do (
+        setlocal
+        set InstallVersion=%%j
+    )
+    echo Installed version: %InstallVersion%
+
+    rem extract release version (year)
+    for /f "tokens=1 delims=." %%v in ("%InstallVersion%") do (
+        setlocal
+        set InstallVersionVS="None"
+        if %%v==15 (
+            setlocal
+            set InstallVersionVS=2017
+        )
+        if %%v==16 (
+            setlocal
+            set InstallVersionVS=2019
+        )
+    )
+    if %InstallVersionVS%=="None" (
+        echo Unsupported installed version detected!
+        pause
+        exit
+    )
+    echo Detected VS%InstallVersionVS%
+
+    echo.
+    goto CheckCompiler
+
+rem Before we start compiling, we check the compiler.
+:CheckCompiler
+    echo Starting the compiler...
+
+    rem Go to the install folder of the Visual Studio instance
     pushd "%InstallDir%\VC\Auxiliary\build"
-        rem Depending on the architecture, call the correct file
+        rem Depending on the architecture, call the correct file to get access to nmake
         if "%programfiles%"=="C:\Program Files" (
-            rem This is a 64-bit cmd.exe shell.
+            rem This is a 64-bit cmd.exe shell
             call vcvars64.bat
         ) else (
-            rem This is a 32-bit cmd.exe shell.
+            rem This is a 32-bit cmd.exe shell
             call vcvars32.bat
         )
 
@@ -72,7 +110,7 @@ rem The premake submodule is installed, now we can compile premake.
 
         rem Create premake5.exe
         echo Compiling...
-        nmake -f Bootstrap.mak msdev=vs2017 windows-msbuild
+        nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
     popd
     
     if exist bin\release\premake5.exe (
@@ -92,7 +130,6 @@ rem Failed to compile premake
     if errorlevel 1 (
         goto CompilePremake
     )
-    goto CompilePremakeFailed
 
 rem After compilation, copy the binary to the correct directory.
 :MovePremakeBinary
