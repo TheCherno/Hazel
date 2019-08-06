@@ -40,8 +40,7 @@ rem Before we start compiling, we check the compiler.
         rem Depending on the architecture, call the correct file
         if "%programfiles%"=="C:\Program Files" (
             rem This is a 64-bit cmd.exe shell.
-            rem call vcvars64.bat
-            call vcvars32.bat
+            call vcvars64.bat
         ) else (
             rem This is a 32-bit cmd.exe shell.
             call vcvars32.bat
@@ -73,7 +72,7 @@ rem The premake submodule is installed, now we can compile premake.
 
         rem Create premake5.exe
         echo Compiling...
-        nmake -c -f Bootstrap.mak msdev=2017 windows-msbuild
+        nmake -f Bootstrap.mak msdev=vs2017 windows-msbuild
     popd
     
     if exist bin\release\premake5.exe (
@@ -81,12 +80,19 @@ rem The premake submodule is installed, now we can compile premake.
         echo.
         goto MovePremakeBinary
     ) else (
-        :CompilePremakeFailed
-            set /P c=Build failed! Do you want to retry [Y/N]?
-            if /I "%c%" EQU "Y" goto CompilePremake
-            if /I "%c%" EQU "N" exit
-            goto CompilePremakeFailed
+        goto CompilePremakeFailed
     )
+
+rem Failed to compile premake
+:CompilePremakeFailed
+    choice /m "Build failed! Do you want to retry?"
+    if errorlevel 2 (
+        exit
+    )
+    if errorlevel 1 (
+        goto CompilePremake
+    )
+    goto CompilePremakeFailed
 
 rem After compilation, copy the binary to the correct directory.
 :MovePremakeBinary
