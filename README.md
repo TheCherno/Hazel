@@ -15,7 +15,7 @@ Currently Hazel supports:
 
 - Computer OS:
   - ![Windows supported](https://img.shields.io/badge/Windows-win--64-green.svg)
-  - ![Linux supported](https://img.shields.io/badge/Linux-Debian-green.svg)
+  - ![Linux supported](https://img.shields.io/badge/Linux-Arch%20%7C%20Debian-green.svg)
   - ![MacOS not supported](https://img.shields.io/badge/MacOS-Not%20Supported-red.svg)
 - Mobile OS:
   - ![Android not supported](https://img.shields.io/badge/Android-Not%20Supported-red.svg)
@@ -59,15 +59,20 @@ Hazel has extra development dependencies needed for Linux. The following package
 - `libxi`
 - `libglew`
 
-#### 2.2.1 Debian
-
-On Debian and Debian derivative distributions, install these packages by running:
-
-`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev`
-
-Hazel then is configured and compiled with:
+Hazel is configured and compiled with:
 ```bash
 premake5 gmake2
 make
 ```
 
+#### 2.2.1 Arch
+
+On Arch and Arch derivative distributions, install the additional dependencies by running:
+
+`sudo pacman -S libxcursor libxrandr libxinerama libxi glew`
+
+#### 2.2.2 Debian
+
+On Debian and Debian derivative distributions, install the additional dependencies by running:
+
+`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev`
