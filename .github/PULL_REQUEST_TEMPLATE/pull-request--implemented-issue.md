@@ -20,5 +20,5 @@ Other PRs this solves    | None or #number(s)
 A short description of what fix this is. And how it fixed the problem.
 
  **Additional context**
-Add any other context about the solution here. Did you test the sollution on all (relevant) platforms?
+Add any other context about the solution here. Did you test the solution on all (relevant) platforms?
 If not, create a todo list here.
