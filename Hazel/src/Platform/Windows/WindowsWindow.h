@@ -3,7 +3,6 @@
 #include "Hazel/Window.h"
 #include "Hazel/Renderer/GraphicsContext.h"
 
-#include <glad/glad.h> // required in WindowsWindow.cpp; but must be included before GLFW
 #include <GLFW/glfw3.h>
 
 namespace Hazel {

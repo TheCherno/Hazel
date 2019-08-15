@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include "hzpch.h"
 #include "ImGuiLayer.h"
 
@@ -10,6 +9,7 @@
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Hazel {
 
