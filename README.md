@@ -10,7 +10,11 @@ The Hazel Engine is [a 3D graphics game engine Youtube series teaching project](
 [![Youtube](https://img.shields.io/badge/TheChernoProject--red.svg?style=social&logo=youtube)](https://www.youtube.com/user/TheChernoProject)
 [![Discord](https://img.shields.io/badge/TheCherno%20Server--blue.svg?style=social&logo=Discord)](https://discord.gg/K2eSyQA)
 
-## 1. Supported platforms
+## 1. Hazel support
+
+Hazel is in active development. Here is a short list of what is supported and what isn't. This can change at any time.
+
+### 1.1 Supported platforms
 Currently Hazel supports:
 
 - Computer OS:
@@ -22,6 +26,9 @@ Currently Hazel supports:
   - ![IOS not supported](https://img.shields.io/badge/IOS-Not%20Supported-red.svg)
 
 Windows and Linux is currently supported with plans for MacOS and Android/IOS support in the future.
+
+### 1.2 Hardware requirements
+As of now, Hazel only supports OpenGL Rendering and requires a minimum version of 4.5.
 
 ## 2 Installing and setup
 
