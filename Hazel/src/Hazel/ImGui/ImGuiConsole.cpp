@@ -11,11 +11,11 @@ namespace Hazel {
 	uint16_t ImGuiConsole::s_MessageBufferSize = 0;
 	uint16_t ImGuiConsole::s_MessageBufferBegin = 0;
 	ImGuiConsole::Message::Level ImGuiConsole::s_MessageBufferRenderFilter = ImGuiConsole::Message::Level::Trace;
-	std::vector<std::shared_ptr<ImGuiConsole::Message>> ImGuiConsole::s_MessageBuffer(s_MessageBufferCapacity);
+	std::vector<Ref<ImGuiConsole::Message>> ImGuiConsole::s_MessageBuffer(s_MessageBufferCapacity);
 	bool ImGuiConsole::s_AllowScrollingToBottom = true;
 	bool ImGuiConsole::s_RequestScrollToBottom = false;
 
-	void ImGuiConsole::AddMessage(std::shared_ptr<Message> message)
+	void ImGuiConsole::AddMessage(Ref<Message> message)
 	{
 		if (message->m_Level == Message::Level::Invalid)
 			return;
@@ -26,11 +26,11 @@ namespace Hazel {
 		if (s_MessageBufferSize < s_MessageBufferCapacity)
 			s_MessageBufferSize++;
 
-		if (s_AllowScrollingToBottom)
-			s_RequestScrollToBottom = true;
+		// Request to scroll to bottom of the list to view the new message
+		s_RequestScrollToBottom = s_AllowScrollingToBottom;
 	}
 
-	void ImGuiConsole::Flush()
+	void ImGuiConsole::Clear()
 	{
 		for (auto message = s_MessageBuffer.begin(); message != s_MessageBuffer.end(); message++)
 			(*message) = std::make_shared<Message>();
@@ -106,7 +106,7 @@ namespace Hazel {
 
 			// Button to clear the console
 			if (ImGui::Button("Clear console"))
-				ImGuiConsole::Flush();
+				ImGuiConsole::Clear();
 
 			ImGui::EndPopup();
 		}

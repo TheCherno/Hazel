@@ -7,7 +7,10 @@ namespace Hazel {
 	class ImGuiConsoleSink : public spdlog::sinks::base_sink<std::mutex>
 	{
 	public:
-		explicit ImGuiConsoleSink() = default;
+		explicit ImGuiConsoleSink(bool forceFlush = false, uint8_t bufferCapacity = 10)
+			: m_MessageBufferCapacity(forceFlush ? 1 : bufferCapacity), m_MessageBuffer(std::vector<Ref<ImGuiConsole::Message>>(forceFlush ? 1 : bufferCapacity))
+		{
+		}
 		ImGuiConsoleSink(const ImGuiConsoleSink&) = delete;
 		ImGuiConsoleSink& operator=(const ImGuiConsoleSink&) = delete;
 		virtual ~ImGuiConsoleSink() = default;
@@ -16,12 +19,17 @@ namespace Hazel {
 		{
 			fmt::memory_buffer formatted;
 			sink::formatter_->format(msg, formatted);
-			ImGuiConsole::AddMessage(std::make_shared<ImGuiConsole::Message>(fmt::to_string(formatted), GetMessageLevel(msg.level)));
+
+			*(m_MessageBuffer.begin() + m_MessagesBuffered) = std::make_shared<ImGuiConsole::Message>(fmt::to_string(formatted), GetMessageLevel(msg.level));
+			if (++m_MessagesBuffered == m_MessageBufferCapacity)
+				flush_();
 		}
 
 		void flush_() override
 		{
-			ImGuiConsole::Flush();
+			for (Ref<ImGuiConsole::Message> message : m_MessageBuffer)
+				ImGuiConsole::AddMessage(message);
+			m_MessagesBuffered = 0;
 		}
 	private:
 		static ImGuiConsole::Message::Level GetMessageLevel(const spdlog::level::level_enum level)
@@ -38,6 +46,10 @@ namespace Hazel {
 			}
 			return ImGuiConsole::Message::Level::Invalid;
 		}
+	private:
+		uint8_t m_MessagesBuffered = 0;
+		uint8_t m_MessageBufferCapacity;
+		std::vector<Ref<ImGuiConsole::Message>> m_MessageBuffer;
 	};
 
 }

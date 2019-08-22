@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Hazel\Core.h"
+
 namespace Hazel {
 
 	class ImGuiConsole
@@ -37,8 +39,8 @@ namespace Hazel {
 		};
 	public:
 		~ImGuiConsole() = default;
-		static void AddMessage(std::shared_ptr<Message> message);
-		static void Flush();
+		static void AddMessage(Ref<Message> message);
+		static void Clear();
 		static void OnImGuiRender(bool* show);
 	protected:
 		ImGuiConsole() = default;
@@ -53,7 +55,7 @@ namespace Hazel {
 		static uint16_t s_MessageBufferSize;
 		static uint16_t s_MessageBufferBegin;
 		static Message::Level s_MessageBufferRenderFilter;
-		static std::vector<std::shared_ptr<Message>> s_MessageBuffer;
+		static std::vector<Ref<Message>> s_MessageBuffer;
 		static bool s_AllowScrollingToBottom;
 		static bool s_RequestScrollToBottom;
 	};
