@@ -48,9 +48,11 @@ namespace Hazel {
 		struct ImGuiRendering
 		{
 			static void ImGuiRenderHeader();
+			static void ImGuiRenderSettings();
 			static void ImGuiRenderMessages();
 		};
 	private:
+		static float s_DisplayScale;
 		static uint16_t s_MessageBufferCapacity;
 		static uint16_t s_MessageBufferSize;
 		static uint16_t s_MessageBufferBegin;
