@@ -11,7 +11,6 @@ Hazel.config
 Hazel.creator
 Hazel.files
 Hazel.includes
-imgui.ini
 
 # Visual Studio files
 *.sln
