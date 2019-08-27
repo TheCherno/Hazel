@@ -7,7 +7,7 @@
 
 namespace Hazel {
 	
-	enum WindowMode
+	enum class WindowMode : uint8_t
 	{
 		Windowed,
 		Borderless,
