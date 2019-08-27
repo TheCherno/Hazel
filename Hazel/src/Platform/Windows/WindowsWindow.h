@@ -22,6 +22,7 @@ namespace Hazel {
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		void SetWindowMode(const WindowMode& mode) override;
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
@@ -30,12 +31,16 @@ namespace Hazel {
 	private:
 		GLFWwindow* m_Window;
 		GraphicsContext* m_Context;
+		GLFWmonitor* m_PrimaryMonitor;
+		GLFWvidmode m_BaseVideoMode;
 
 		struct WindowData
 		{
 			std::string Title;
 			unsigned int Width, Height;
+			int XPos, YPos;
 			bool VSync;
+			WindowMode Mode;
 
 			EventCallbackFn EventCallback;
 		};
