@@ -19,11 +19,13 @@ namespace Hazel {
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
+		bool VSync;
 		WindowMode Mode;
 
 		WindowProps(const std::string& title = "Hazel Engine",
 			        unsigned int width = 1280,
 			        unsigned int height = 720,
+			    	bool VSync = true,
 			   	WindowMode mode = WindowMode::Windowed)
 			: Title(title), Width(width), Height(height), Mode(mode)
 		{
