@@ -191,25 +191,36 @@ namespace Hazel {
 
 		GLFWmonitor* monitor = nullptr;
 
-		if (mode == WindowMode::Windowed) {
+		switch (mode)
+		{
+		default:
+			HZ_CORE_ERROR("Invalid WindowMode providied.");
+		case WindowMode::Windowed:
+		{
 			if (width == 0 || height == 0) {
 				width = m_Data.Width;
 				height = m_Data.Height;
 			}
 			glfwGetWindowPos(m_Window, &(m_Data.XPos), &(m_Data.YPos));
+			break;
 		}
-		else if (mode == WindowMode::Borderless) {
+		case WindowMode::Borderless:
+		{
 			width = m_BaseVideoMode.width;
 			height = m_BaseVideoMode.height;
 			monitor = m_PrimaryMonitor;
+			break;
 		}
-		else if (mode == WindowMode::FullScreen) {
+		case WindowMode::FullScreen:
+		{
 			if (width == 0 || height == 0) {
 				// TODO: Change this to check if it is a valid full screen resolution pair
 				width = m_Data.Width;
 				height = m_Data.Height;
 			}
 			monitor = m_PrimaryMonitor;
+			break;
+		}
 		}
 
 		m_Data.Width = width;
