@@ -3,36 +3,17 @@
 
 #include "Hazel/Log.h"
 
-#include <glad/glad.h>
+#include "Hazel/Renderer/Renderer.h"
 
 #include "Input.h"
+
+#include <glfw/glfw3.h>
 
 namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	Application* Application::s_Instance = nullptr;
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-			case Hazel::ShaderDataType::Float:    return GL_FLOAT;
-			case Hazel::ShaderDataType::Float2:   return GL_FLOAT;
-			case Hazel::ShaderDataType::Float3:   return GL_FLOAT;
-			case Hazel::ShaderDataType::Float4:   return GL_FLOAT;
-			case Hazel::ShaderDataType::Mat3:     return GL_FLOAT;
-			case Hazel::ShaderDataType::Mat4:     return GL_FLOAT;
-			case Hazel::ShaderDataType::Int:      return GL_INT;
-			case Hazel::ShaderDataType::Int2:     return GL_INT;
-			case Hazel::ShaderDataType::Int3:     return GL_INT;
-			case Hazel::ShaderDataType::Int4:     return GL_INT;
-			case Hazel::ShaderDataType::Bool:     return GL_BOOL;
-		}
-		
-		HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
 
 	Application::Application()
 	{
@@ -42,8 +23,11 @@ namespace Hazel {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
+		Renderer::Init();
+
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+<<<<<<< HEAD
 
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
@@ -121,18 +105,18 @@ namespace Hazel {
 
 	Application::~Application()
 	{
+=======
+>>>>>>> e8b2ad932372b0121349f34df14e743bb95773fc
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
-		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e)
@@ -152,15 +136,12 @@ namespace Hazel {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
