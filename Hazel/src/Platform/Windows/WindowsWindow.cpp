@@ -181,7 +181,7 @@ namespace Hazel {
 	
 	void WindowsWindow::SetWindowMode(const WindowMode& mode)
 	{
-		HZ_ASSERT(m_Window, "Failed to retrieve window.");
+		HZ_CORE_ASSERT(m_Window, "Failed to retrieve window.");
 		if (mode == m_Data.Mode) return;
 
 		unsigned int width = 0, height = 0;
