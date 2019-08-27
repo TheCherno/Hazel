@@ -27,7 +27,7 @@ namespace Hazel {
 			        unsigned int height = 720,
 			    	bool VSync = true,
 			   	WindowMode mode = WindowMode::Windowed)
-			: Title(title), Width(width), Height(height), Mode(mode)
+			: Title(title), Width(width), Height(height), VSync(VSync), Mode(mode)
 		{
 		}
 	};
