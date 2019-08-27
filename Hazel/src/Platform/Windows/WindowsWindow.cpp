@@ -47,6 +47,9 @@ namespace Hazel {
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
+		
+		m_PrimaryMonitor = glfwGetPrimaryMonitor();
+		m_BaseVideoMode = *(glfwGetVideoMode(m_PrimaryMonitor));
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
@@ -55,6 +58,9 @@ namespace Hazel {
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
+		
+		glfwGetWindowPos(m_Window, &(m_Data.XPos), &(m_Data.YPos));
+		SetWindowMode(props.Mode);
 
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -171,6 +177,47 @@ namespace Hazel {
 	bool WindowsWindow::IsVSync() const
 	{
 		return m_Data.VSync;
+	}
+	
+	void WindowsWindow::SetWindowMode(const WindowMode& mode)
+	{
+		HZ_ASSERT(m_Window, "Failed to retrieve window.");
+		if (mode == m_Data.Mode) return;
+
+		unsigned int width = 0, height = 0;
+
+		m_PrimaryMonitor = glfwGetPrimaryMonitor();
+		m_BaseVideoMode = *(glfwGetVideoMode(m_PrimaryMonitor));
+
+		GLFWmonitor* monitor = nullptr;
+
+		if (mode == WindowMode::Windowed) {
+			if (width == 0 || height == 0) {
+				width = m_Data.Width;
+				height = m_Data.Height;
+			}
+			glfwGetWindowPos(m_Window, &(m_Data.XPos), &(m_Data.YPos));
+		}
+		else if (mode == WindowMode::Borderless) {
+			width = m_BaseVideoMode.width;
+			height = m_BaseVideoMode.height;
+			monitor = m_PrimaryMonitor;
+		}
+		else if (mode == WindowMode::FullScreen) {
+			if (width == 0 || height == 0) {
+				// TODO: Change this to check if it is a valid full screen resolution pair
+				width = m_Data.Width;
+				height = m_Data.Height;
+			}
+			monitor = m_PrimaryMonitor;
+		}
+
+		m_Data.Width = width;
+		m_Data.Height = height;
+
+		m_Data.Mode = mode;
+
+		glfwSetWindowMonitor(m_Window, monitor, m_Data.XPos, m_Data.YPos, width, height, m_BaseVideoMode.refreshRate);
 	}
 
 }
