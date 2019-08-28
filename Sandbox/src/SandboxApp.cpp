@@ -231,10 +231,10 @@ public:
 		ImGui::Begin("Resizing window");
 		if (ImGui::Button("Windowed"))
 			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::Windowed);
-		if (ImGui::Button("Fullscreen"))
-			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::FullScreen);
 		if (ImGui::Button("Borderless"))
 			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::Borderless);
+		if (ImGui::Button("Fullscreen"))
+			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::Fullscreen);
 		ImGui::End();
 	}
 
