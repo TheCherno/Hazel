@@ -93,7 +93,7 @@ namespace Hazel {
 					data.Mode = WindowMode::Windowed;
 					return;
 			}
-			HZ_CORE_ERROR("Invalid maximised value");
+			HZ_CORE_ASSERT(false, "Invalid maximised value");
 		});
 
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
@@ -267,8 +267,12 @@ namespace Hazel {
 			{
 				// Achieved by creating a windowed window with size of monitor
 				if (m_Data.Mode == WindowMode::Borderless)
-					// TODO: temorary disable resize events
+				{
+					GLFWwindowsizefun prevCallback = glfwSetWindowSizeCallback(m_Window, NULL);
 					SetWindowMode(WindowMode::Windowed); // this way we obtain a window again
+					if (prevCallback)
+						glfwSetWindowSizeCallback(m_Window, prevCallback);
+				}
 
 				glfwMaximizeWindow(m_Window);
 				m_Data.Mode = mode;
