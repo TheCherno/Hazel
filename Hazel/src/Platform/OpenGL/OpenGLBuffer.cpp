@@ -38,12 +38,7 @@ namespace Hazel {
 		: m_Count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
-<<<<<<< HEAD
 		glNamedBufferData(m_RendererID, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
-=======
-		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
->>>>>>> e8b2ad932372b0121349f34df14e743bb95773fc
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

@@ -15,6 +15,8 @@ namespace Hazel {
 
 		virtual const BufferLayout& GetLayout() const override { return m_Layout; }
 		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
+
+		friend class OpenGLVertexArray;
 	private:
 		uint32_t m_RendererID;
 		BufferLayout m_Layout;
@@ -30,6 +32,8 @@ namespace Hazel {
 		virtual void Unbind() const;
 
 		virtual uint32_t GetCount() const { return m_Count; }
+
+		friend class OpenGLVertexArray;
 	private:
 		uint32_t m_RendererID;
 		uint32_t m_Count;
