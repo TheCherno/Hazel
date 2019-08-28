@@ -250,19 +250,15 @@ namespace Hazel {
 			case WindowMode::FullScreen:
 			{
 				// Achieved by creating a windowed window with size of monitor
-				int border = 0, headerBorder = 100;
-				glm::uvec4 taskbar = { 0, 0, 0 , 100}; // x = left; y = top; z = right; w = bottom
-				/* TODO:
-					- Make a struct screenproperties (static part of Window?) -> specify for each screen:
-						- Extract frame borders of the window (headerBorder, border)
-						- Extract location from taskbar as well (could be 0 if it is hidden)
-					- Accomodate this in WindowPosCallback (compensate for fullscreen)
-				*/
-				windowPosX = border + taskbar.x;
-				windowPosY = headerBorder + taskbar.y;
-				m_Data.Width = baseVideoMode.width - 2 * border - taskbar.x - taskbar.z;
-				m_Data.Height = baseVideoMode.height - headerBorder - border - taskbar.y - taskbar.w;
-				break;
+				if (m_Data.Mode == WindowMode::Borderless)
+					// TODO: temorary disable resize events
+					SetWindowMode(WindowMode::Windowed); // this way we obtain a window again
+
+				glfwMaximizeWindow(m_Window);
+				// TODO:
+				//	- Extract width/height removed from taskbar as well (could be 0 if it is hidden)
+				//	- Accomodate this in WindowPosCallback (compensate for fullscreen) not changing position
+				return;
 			}
 		}
 
