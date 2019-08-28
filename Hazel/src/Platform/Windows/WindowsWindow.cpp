@@ -55,22 +55,28 @@ namespace Hazel {
 		glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		m_Context = new OpenGLContext(m_Window);
-		m_Context->Init();
-
-		glfwSetWindowUserPointer(m_Window, &m_Data);
-
-		int Xpos, Ypos;
+		int Xpos, Ypos; // Extract the position in windowed mode
 		glfwGetWindowPos(m_Window, &Xpos, &Ypos);
 		m_Data.WindowedPos = { Xpos, Ypos };
 
+		if (m_Data.Mode == props.Mode) {
+			m_Data.Width = props.Width;
+			m_Data.Height = props.Height;
+		}
+		else {
+			SetWindowMode(props.Mode);
+		}
+
+		// Now the window is constructed, we can create a context for it
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
+		// Set additional window parameters
 		SetVSync(props.VSync);
 
-		// Change mode if needed
-		if (m_Data.Mode != props.Mode)
-			SetWindowMode(props.Mode);
-		
 		// Set GLFW callbacks
+		glfwSetWindowUserPointer(m_Window, &m_Data);
+
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -233,13 +239,12 @@ namespace Hazel {
 				m_Data.Width = m_Data.WindowedWidth;
 				m_Data.Height = m_Data.WindowedHeight;
 
-				if (m_Data.Mode == WindowMode::FullScreen)
-					glfwRestoreWindow(m_Window);
-				else
+				if (m_Data.Mode != WindowMode::FullScreen)
 					glfwSetWindowMonitor(m_Window, nullptr,
 					                     m_Data.WindowedPos.x, m_Data.WindowedPos.y,
 					                     m_Data.Width, m_Data.Height,
 					                     baseVideoMode.refreshRate);
+				glfwRestoreWindow(m_Window);
 				m_Data.Mode = mode;
 
 				glfwSetWindowAttrib(m_Window, GLFW_DECORATED, GLFW_TRUE);
