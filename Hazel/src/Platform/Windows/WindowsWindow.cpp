@@ -54,10 +54,10 @@ namespace Hazel {
 		switch (m_Data.Mode)
 		{
 			case WindowMode::Fullscreen:
+			case WindowMode::Borderless:
 				m_Data.Width = baseVideoMode->width;
 				m_Data.Height = baseVideoMode->height;
 				break;
-			case WindowMode::Borderless:
 			case WindowMode::Windowed:
 				m_Data.Width = props.Width;
 				m_Data.Height = props.Height;
@@ -241,10 +241,10 @@ namespace Hazel {
 		switch (mode)
 		{
 			case WindowMode::Fullscreen:
+			case WindowMode::Borderless:
 				width = baseVideoMode->width;
 				height = baseVideoMode->height;
 				break;
-			case WindowMode::Borderless:
 			case WindowMode::Windowed:
 				width = m_Data.WindowedWidth;
 				height = m_Data.WindowedHeight;
