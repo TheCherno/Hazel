@@ -84,14 +84,22 @@ namespace Hazel {
 			switch (maximised)
 			{
 				case GLFW_TRUE:
-					data.Mode == WindowMode::FullScreen;
+					data.Mode = WindowMode::FullScreen;
 					return;
-				default:
-					HZ_CORE_ERROR("Invalid maximised value");
 				case GLFW_FALSE:
-					data.Mode == WindowMode::Windowed;
+					data.Mode = WindowMode::Windowed;
 					return;
 			}
+			HZ_CORE_ERROR("Invalid maximised value");
+		});
+
+		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
+		{
+			if (posX == 0 && posY == 0)
+				return; // Borderless, not moved
+
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			data.WindowedPos = { posX, posY };
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
