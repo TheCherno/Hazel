@@ -9,9 +9,10 @@ namespace Hazel {
 	
 	enum class WindowMode : uint8_t
 	{
-		Windowed,
-		Borderless,
-		FullScreen
+		// Definitions see https://stackoverflow.com/questions/34462445/fullscreen-vs-borderless-window/50452322#50452322
+		Windowed,   // A windowed window with decorations
+		Borderless, // A windowed window without decorations utilizing full display space
+		Fullscreen  // A window using the full screen
 	};
 
 	struct WindowProps
@@ -25,7 +26,7 @@ namespace Hazel {
 		WindowProps(const std::string& title = "Hazel Engine",
 		            unsigned int width = 1280,
 		            unsigned int height = 720,
-		            WindowMode mode = WindowMode::FullScreen,
+		            WindowMode mode = WindowMode::Windowed,
 		            bool VSync = true)
 			: Title(title), Width(width), Height(height), VSync(VSync), Mode(mode)
 		{
