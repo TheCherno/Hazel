@@ -4,6 +4,7 @@
 #include "Hazel/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
+#include <glm\glm.hpp>
 
 namespace Hazel {
 
@@ -31,18 +32,18 @@ namespace Hazel {
 	private:
 		GLFWwindow* m_Window;
 		GraphicsContext* m_Context;
-		GLFWmonitor* m_PrimaryMonitor;
-		GLFWvidmode m_BaseVideoMode;
 
 		struct WindowData
 		{
 			std::string Title;
 			unsigned int Width, Height;
-			int XPos, YPos;
 			bool VSync;
-			WindowMode Mode;
 
 			EventCallbackFn EventCallback;
+
+			WindowMode Mode;
+			glm::uvec2 WindowedPos;
+			unsigned int WindowedWidth, WindowedHeight;
 		};
 
 		WindowData m_Data;

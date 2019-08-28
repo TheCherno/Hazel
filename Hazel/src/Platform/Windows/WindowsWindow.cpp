@@ -34,8 +34,8 @@ namespace Hazel {
 	void WindowsWindow::Init(const WindowProps& props)
 	{
 		m_Data.Title = props.Title;
-		m_Data.Width = props.Width;
-		m_Data.Height = props.Height;
+		m_Data.WindowedWidth = props.Width;
+		m_Data.WindowedHeight = props.Height;
 
 		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -48,20 +48,25 @@ namespace Hazel {
 			s_GLFWInitialized = true;
 		}
 		
-		m_PrimaryMonitor = glfwGetPrimaryMonitor();
-		m_BaseVideoMode = *(glfwGetVideoMode(m_PrimaryMonitor));
-
+		// Create window in windowed mode
+		m_Data.Mode = WindowMode::Windowed;
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(props.VSync);
-		
-		glfwGetWindowPos(m_Window, &(m_Data.XPos), &(m_Data.YPos));
-		SetWindowMode(props.Mode);
 
+		int Xpos, Ypos;
+		glfwGetWindowPos(m_Window, &Xpos, &Ypos);
+		m_Data.WindowedPos = { Xpos, Ypos };
+
+		SetVSync(props.VSync);
+
+		// Change mode if needed
+		if (m_Data.Mode != props.Mode)
+			SetWindowMode(props.Mode);
+		
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
@@ -184,51 +189,45 @@ namespace Hazel {
 		HZ_CORE_ASSERT(m_Window, "Failed to retrieve window.");
 		if (mode == m_Data.Mode) return;
 
-		unsigned int width = 0, height = 0;
+		GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+		GLFWvidmode baseVideoMode = *(glfwGetVideoMode(primaryMonitor));
 
-		m_PrimaryMonitor = glfwGetPrimaryMonitor();
-		m_BaseVideoMode = *(glfwGetVideoMode(m_PrimaryMonitor));
-
+		int windowPosX = 0, windowPosY = 0;
 		GLFWmonitor* monitor = nullptr;
 
 		switch (mode)
 		{
-		default:
-			HZ_CORE_ERROR("Invalid WindowMode providied.");
-		case WindowMode::Windowed:
-		{
-			if (width == 0 || height == 0) {
-				width = m_Data.Width;
-				height = m_Data.Height;
+			default:
+				HZ_CORE_ERROR("WindowMode not supported.");
+			case WindowMode::Windowed:
+			{
+				m_Data.Width = m_Data.WindowedWidth;
+				m_Data.Height = m_Data.WindowedHeight;
+				windowPosX = m_Data.WindowedPos.x;
+				windowPosY = m_Data.WindowedPos.y;
+				break;
 			}
-			glfwGetWindowPos(m_Window, &(m_Data.XPos), &(m_Data.YPos));
-			break;
-		}
-		case WindowMode::Borderless:
-		{
-			width = m_BaseVideoMode.width;
-			height = m_BaseVideoMode.height;
-			monitor = m_PrimaryMonitor;
-			break;
-		}
-		case WindowMode::FullScreen:
-		{
-			if (width == 0 || height == 0) {
-				// TODO: Change this to check if it is a valid full screen resolution pair
-				width = m_Data.Width;
-				height = m_Data.Height;
+			case WindowMode::Borderless:
+			{
+				m_Data.Width = baseVideoMode.width;
+				m_Data.Height = baseVideoMode.height;
+				monitor = primaryMonitor;
+				break;
 			}
-			monitor = m_PrimaryMonitor;
-			break;
-		}
+			case WindowMode::FullScreen:
+			{
+				// Achieved by creating a windowed window with size of monitor
+				m_Data.Width = baseVideoMode.width;
+				m_Data.Height = baseVideoMode.height;
+				break;
+			}
 		}
 
-		m_Data.Width = width;
-		m_Data.Height = height;
-
+		glfwSetWindowMonitor(m_Window, monitor,
+		                     windowPosX, windowPosY,
+		                     m_Data.Width, m_Data.Height,
+		                     baseVideoMode.refreshRate);
 		m_Data.Mode = mode;
-
-		glfwSetWindowMonitor(m_Window, monitor, m_Data.XPos, m_Data.YPos, width, height, m_BaseVideoMode.refreshRate);
 	}
 
 }
