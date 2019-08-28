@@ -58,7 +58,9 @@ namespace Hazel {
 				m_Data.Height = baseVideoMode->height;
 				break;
 			case WindowMode::Borderless:
-				// TODO
+				m_Data.Width = baseVideoMode->width;
+				m_Data.Height = baseVideoMode->height;
+				break;
 			case WindowMode::Windowed:
 				m_Data.Width = props.Width;
 				m_Data.Height = props.Height;
@@ -95,6 +97,7 @@ namespace Hazel {
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
+			HZ_CORE_TRACE("glfw size event raised ({0}, {1})", width, height);
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.Width = width;
 			data.Height = height;
@@ -103,25 +106,11 @@ namespace Hazel {
 			data.EventCallback(event);
 		});
 
-		glfwSetWindowMaximizeCallback(m_Window, [](GLFWwindow* window, int maximised)
-		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			switch (maximised)
-			{
-				case GLFW_TRUE:
-					data.Mode = WindowMode::Fullscreen;
-					return;
-				case GLFW_FALSE:
-					data.Mode = WindowMode::Windowed;
-					return;
-			}
-			HZ_CORE_ASSERT(false, "Invalid maximised value");
-		});
-
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
 		{
-			if (posX == 0 && posY == 0)
+			if (posX <= 0 || posY <= 0)
 				return; // Borderless, not moved
+			HZ_CORE_TRACE("glfw moved event raised ({0}, {1})", posX, posY);
 
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.WindowedPos = { posX, posY };
@@ -236,39 +225,39 @@ namespace Hazel {
 	void WindowsWindow::SetWindowMode(const WindowMode& mode)
 	{
 		if (mode == m_Data.Mode) return;
-		m_Data.Mode = mode;
 
 		GLFWmonitor* windowRenderScreen = glfwGetPrimaryMonitor(); // where the window will be rendered
 		const GLFWvidmode* baseVideoMode = glfwGetVideoMode(windowRenderScreen);
 
 		// Set the actual width and height
-		switch (m_Data.Mode)
+		switch (mode)
 		{
 			case WindowMode::Fullscreen:
+			case WindowMode::Borderless:
 				m_Data.Width = baseVideoMode->width;
 				m_Data.Height = baseVideoMode->height;
 				break;
-			case WindowMode::Borderless:
-				// TODO
 			case WindowMode::Windowed:
 				m_Data.Width = m_Data.WindowedWidth;
 				m_Data.Height = m_Data.WindowedHeight;
 				break;
 		}
+        m_Data.Mode = mode;
 
 		HZ_CORE_ASSERT(m_Window, "Failed to retrieve window.");
+		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_FLOATING, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
 		glfwSetWindowMonitor(m_Window,
-		                     m_Data.Mode == WindowMode::Windowed ? nullptr : windowRenderScreen,
+		                     m_Data.Mode == WindowMode::Fullscreen ? windowRenderScreen : nullptr,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.x : 0,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.y : 0,
 		                     m_Data.Width, m_Data.Height,
 		                     baseVideoMode->refreshRate);
 
-		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_FLOATING, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
-
+		if (m_Data.Mode == WindowMode::Borderless)
+			glfwMaximizeWindow(m_Window);
 		if (glfwGetWindowAttrib(m_Window, GLFW_FLOATING) == GLFW_FALSE)
 			glfwShowWindow(m_Window);
 	}
