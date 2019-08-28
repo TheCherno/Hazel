@@ -110,8 +110,6 @@ namespace Hazel {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			if (data.Mode != WindowMode::Windowed) // Not in Windowed mode, we can't move the window
 				return;
-            if (posX == 0 && posY == 0) // Minimised
-                return;
 			if (data.WindowedPos.x == posX && data.WindowedPos.y == posY) // Not actualy moved (eg comming out of fullscreen)
 				return;
 
