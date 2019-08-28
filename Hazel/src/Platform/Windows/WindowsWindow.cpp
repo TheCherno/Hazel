@@ -58,9 +58,6 @@ namespace Hazel {
 				m_Data.Height = baseVideoMode->height;
 				break;
 			case WindowMode::Borderless:
-				m_Data.Width = baseVideoMode->width;
-				m_Data.Height = baseVideoMode->height;
-				break;
 			case WindowMode::Windowed:
 				m_Data.Width = props.Width;
 				m_Data.Height = props.Height;
@@ -84,6 +81,8 @@ namespace Hazel {
 			glfwGetWindowPos(m_Window, &Xpos, &Ypos);
 			m_Data.WindowedPos = { Xpos, Ypos };
 		}
+		else if (m_Data.Mode == WindowMode::Borderless)
+			glfwMaximizeWindow(m_Window);
 
 		// Now the window is constructed, we can create a context for it
 		m_Context = new OpenGLContext(m_Window);
@@ -225,21 +224,23 @@ namespace Hazel {
 	void WindowsWindow::SetWindowMode(const WindowMode& mode)
 	{
 		if (mode == m_Data.Mode) return;
+        HZ_CORE_TRACE("Swapping to mode '{0}'", mode == WindowMode::Windowed ? "Windowed" : mode == WindowMode::Fullscreen ? "Fullscreen" : "Borderless");
 
 		GLFWmonitor* windowRenderScreen = glfwGetPrimaryMonitor(); // where the window will be rendered
 		const GLFWvidmode* baseVideoMode = glfwGetVideoMode(windowRenderScreen);
 
 		// Set the actual width and height
+		int width, height;
 		switch (mode)
 		{
 			case WindowMode::Fullscreen:
-			case WindowMode::Borderless:
-				m_Data.Width = baseVideoMode->width;
-				m_Data.Height = baseVideoMode->height;
+				width = baseVideoMode->width;
+				height = baseVideoMode->height;
 				break;
+			case WindowMode::Borderless:
 			case WindowMode::Windowed:
-				m_Data.Width = m_Data.WindowedWidth;
-				m_Data.Height = m_Data.WindowedHeight;
+				width = m_Data.WindowedWidth;
+				height = m_Data.WindowedHeight;
 				break;
 		}
         m_Data.Mode = mode;
@@ -253,7 +254,7 @@ namespace Hazel {
 		                     m_Data.Mode == WindowMode::Fullscreen ? windowRenderScreen : nullptr,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.x : 0,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.y : 0,
-		                     m_Data.Width, m_Data.Height,
+		                     width, height,
 		                     baseVideoMode->refreshRate);
 
 		if (m_Data.Mode == WindowMode::Borderless)
