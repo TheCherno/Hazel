@@ -110,6 +110,8 @@ namespace Hazel {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			if (data.Mode != WindowMode::Windowed) // Not in Windowed mode, we can't move the window
 				return;
+            if (posX == 0 && posY == 0) // Minimised
+                return;
 			if (data.WindowedPos.x == posX && data.WindowedPos.y == posY) // Not actualy moved (eg comming out of fullscreen)
 				return;
 
@@ -226,10 +228,13 @@ namespace Hazel {
 	void WindowsWindow::SetWindowMode(const WindowMode& mode)
 	{
 		if (mode == m_Data.Mode) return;
-        HZ_CORE_TRACE("Swapping to mode '{0}'", mode == WindowMode::Windowed ? "Windowed" : mode == WindowMode::Fullscreen ? "Fullscreen" : "Borderless");
+		HZ_CORE_TRACE("Swapping to mode '{0}'", mode == WindowMode::Windowed ? "Windowed" : mode == WindowMode::Fullscreen ? "Fullscreen" : "Borderless");
 
 		GLFWmonitor* windowRenderScreen = glfwGetPrimaryMonitor(); // where the window will be rendered
 		const GLFWvidmode* baseVideoMode = glfwGetVideoMode(windowRenderScreen);
+
+		if (m_Data.Mode == WindowMode::Borderless)
+			glfwRestoreWindow(m_Window);
 
 		// Set the actual width and height
 		int width, height;
