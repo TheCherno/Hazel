@@ -107,11 +107,13 @@ namespace Hazel {
 
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
 		{
-			if (posX <= 0 || posY <= 0)
-				return; // Borderless, not moved
-			HZ_CORE_TRACE("glfw moved event raised ({0}, {1})", posX, posY);
-
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			if (data.Mode != WindowMode::Windowed) // Not in Windowed mode, we can't move the window
+				return;
+			if (data.WindowedPos.x == posX && data.WindowedPos.y == posY) // Not actualy moved (eg comming out of fullscreen)
+				return;
+
+			HZ_CORE_TRACE("glfw moved event raised ({0}, {1})", posX, posY);
 			data.WindowedPos = { posX, posY };
 		});
 
@@ -243,19 +245,19 @@ namespace Hazel {
 				height = m_Data.WindowedHeight;
 				break;
 		}
-        m_Data.Mode = mode;
 
 		HZ_CORE_ASSERT(m_Window, "Failed to retrieve window.");
-		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_FLOATING, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
-		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
+		m_Data.Mode = mode;
 		glfwSetWindowMonitor(m_Window,
 		                     m_Data.Mode == WindowMode::Fullscreen ? windowRenderScreen : nullptr,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.x : 0,
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.y : 0,
 		                     width, height,
 		                     baseVideoMode->refreshRate);
+		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, m_Data.Mode == WindowMode::Windowed ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_FLOATING, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
+		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, m_Data.Mode == WindowMode::Fullscreen ? GLFW_TRUE : GLFW_FALSE);
 
 		if (m_Data.Mode == WindowMode::Borderless)
 			glfwMaximizeWindow(m_Window);
