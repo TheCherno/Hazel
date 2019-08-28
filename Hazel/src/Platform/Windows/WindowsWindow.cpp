@@ -50,6 +50,9 @@ namespace Hazel {
 		
 		// Create window in windowed mode
 		m_Data.Mode = WindowMode::Windowed;
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
 		m_Context = new OpenGLContext(m_Window);
@@ -218,6 +221,9 @@ namespace Hazel {
 
 		int windowPosX = 0, windowPosY = 0;
 		GLFWmonitor* monitor = nullptr;
+		int windowDecorated = GLFW_TRUE;
+		int windowResizeable = GLFW_TRUE;
+		int windowAutoIconify = GLFW_FALSE;
 
 		switch (mode)
 		{
@@ -236,13 +242,26 @@ namespace Hazel {
 				m_Data.Width = baseVideoMode.width;
 				m_Data.Height = baseVideoMode.height;
 				monitor = primaryMonitor;
+				windowDecorated = GLFW_FALSE;
+				windowResizeable = GLFW_FALSE;
+				windowAutoIconify = GLFW_TRUE;
 				break;
 			}
 			case WindowMode::FullScreen:
 			{
 				// Achieved by creating a windowed window with size of monitor
-				m_Data.Width = baseVideoMode.width;
-				m_Data.Height = baseVideoMode.height;
+				int border = 0, headerBorder = 100;
+				glm::uvec4 taskbar = { 0, 0, 0 , 100}; // x = left; y = top; z = right; w = bottom
+				/* TODO:
+					- Make a struct screenproperties (static part of Window?) -> specify for each screen:
+						- Extract frame borders of the window (headerBorder, border)
+						- Extract location from taskbar as well (could be 0 if it is hidden)
+					- Accomodate this in WindowPosCallback (compensate for fullscreen)
+				*/
+				windowPosX = border + taskbar.x;
+				windowPosY = headerBorder + taskbar.y;
+				m_Data.Width = baseVideoMode.width - 2 * border - taskbar.x - taskbar.z;
+				m_Data.Height = baseVideoMode.height - headerBorder - border - taskbar.y - taskbar.w;
 				break;
 			}
 		}
@@ -251,6 +270,9 @@ namespace Hazel {
 		                     windowPosX, windowPosY,
 		                     m_Data.Width, m_Data.Height,
 		                     baseVideoMode.refreshRate);
+		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, windowDecorated);
+		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, windowResizeable);
+		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, windowAutoIconify);
 		m_Data.Mode = mode;
 	}
 

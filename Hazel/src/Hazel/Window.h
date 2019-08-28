@@ -25,7 +25,7 @@ namespace Hazel {
 		WindowProps(const std::string& title = "Hazel Engine",
 		            unsigned int width = 1280,
 		            unsigned int height = 720,
-		            WindowMode mode = WindowMode::Windowed,
+		            WindowMode mode = WindowMode::FullScreen,
 		            bool VSync = true)
 			: Title(title), Width(width), Height(height), VSync(VSync), Mode(mode)
 		{
