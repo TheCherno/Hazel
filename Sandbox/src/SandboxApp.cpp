@@ -227,6 +227,15 @@ public:
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
+
+		ImGui::Begin("Resizing window");
+		if (ImGui::Button("Windowed"))
+			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::Windowed);
+		if (ImGui::Button("Fullscreen"))
+			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::FullScreen);
+		if (ImGui::Button("Borderless"))
+			Hazel::Application::Get().GetWindow().SetWindowMode(Hazel::WindowMode::Borderless);
+		ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override
