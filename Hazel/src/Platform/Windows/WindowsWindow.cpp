@@ -228,24 +228,40 @@ namespace Hazel {
 		switch (mode)
 		{
 			default:
-				HZ_CORE_ERROR("WindowMode not supported.");
 			case WindowMode::Windowed:
 			{
 				m_Data.Width = m_Data.WindowedWidth;
 				m_Data.Height = m_Data.WindowedHeight;
-				windowPosX = m_Data.WindowedPos.x;
-				windowPosY = m_Data.WindowedPos.y;
-				break;
+
+				if (m_Data.Mode == WindowMode::FullScreen)
+					glfwRestoreWindow(m_Window);
+				else
+					glfwSetWindowMonitor(m_Window, nullptr,
+					                     m_Data.WindowedPos.x, m_Data.WindowedPos.y,
+					                     m_Data.Width, m_Data.Height,
+					                     baseVideoMode.refreshRate);
+				m_Data.Mode = mode;
+
+				glfwSetWindowAttrib(m_Window, GLFW_DECORATED, GLFW_TRUE);
+				glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, GLFW_TRUE);
+				glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, GLFW_FALSE);
+				return;
 			}
 			case WindowMode::Borderless:
 			{
 				m_Data.Width = baseVideoMode.width;
 				m_Data.Height = baseVideoMode.height;
-				monitor = primaryMonitor;
-				windowDecorated = GLFW_FALSE;
-				windowResizeable = GLFW_FALSE;
-				windowAutoIconify = GLFW_TRUE;
-				break;
+
+				glfwSetWindowMonitor(m_Window, primaryMonitor,
+				                     m_Data.WindowedPos.x, m_Data.WindowedPos.y,
+				                     m_Data.Width, m_Data.Height,
+				                     baseVideoMode.refreshRate);
+				m_Data.Mode = mode;
+
+				glfwSetWindowAttrib(m_Window, GLFW_DECORATED, GLFW_FALSE);
+				glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, GLFW_FALSE);
+				glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, GLFW_TRUE);
+				return;
 			}
 			case WindowMode::FullScreen:
 			{
@@ -255,21 +271,14 @@ namespace Hazel {
 					SetWindowMode(WindowMode::Windowed); // this way we obtain a window again
 
 				glfwMaximizeWindow(m_Window);
+				m_Data.Mode = mode;
 				// TODO:
 				//	- Extract width/height removed from taskbar as well (could be 0 if it is hidden)
 				//	- Accomodate this in WindowPosCallback (compensate for fullscreen) not changing position
 				return;
 			}
 		}
-
-		glfwSetWindowMonitor(m_Window, monitor,
-		                     windowPosX, windowPosY,
-		                     m_Data.Width, m_Data.Height,
-		                     baseVideoMode.refreshRate);
-		glfwSetWindowAttrib(m_Window, GLFW_DECORATED, windowDecorated);
-		glfwSetWindowAttrib(m_Window, GLFW_RESIZABLE, windowResizeable);
-		glfwSetWindowAttrib(m_Window, GLFW_AUTO_ICONIFY, windowAutoIconify);
-		m_Data.Mode = mode;
+		HZ_CORE_ASSERT(false, "Unsupported WindowMode!");
 	}
 
 }
