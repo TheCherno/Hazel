@@ -82,7 +82,7 @@ namespace Hazel {
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
 		m_Window->GetContext()->UpdateViewport(e.GetWidth(), e.GetHeight());
-		return true;
+		return false; // Allow layers to get this event
 	}
 
 }
