@@ -57,21 +57,68 @@ namespace Hazel {
 		SetVSync(true);
 
 		// Set GLFW callbacks
+		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int xPos, int yPos)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			WindowMovedEvent event(xPos, yPos);
+			data.EventCallback(event);
+		});
+
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.Width = width;
 			data.Height = height;
 
-			WindowResizeEvent event(width, height);
+			WindowResizedEvent event(width, height);
 			data.EventCallback(event);
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			WindowCloseEvent event;
+			WindowClosedEvent event;
 			data.EventCallback(event);
+		});
+
+		glfwSetWindowFocusCallback(m_Window, [](GLFWwindow* window, int focused)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			if (focused == GLFW_TRUE)
+			{
+				HZ_CORE_TRACE("Window Focused");
+				WindowFocusedEvent event;
+				data.EventCallback(event);
+			}
+			else
+			{
+				HZ_CORE_TRACE("Window Focus Lost");
+				WindowFocusLostEvent event;
+				data.EventCallback(event);
+			}
+		});
+
+		glfwSetWindowIconifyCallback(m_Window, [](GLFWwindow* window, int iconified)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			if (iconified == GLFW_TRUE)
+			{
+				HZ_CORE_TRACE("Window Iconified");
+				WindowIconifiedEvent event;
+				data.EventCallback(event);
+			}
+			else
+			{
+				HZ_CORE_TRACE("Window Restored");
+				WindowRestoredEvent event;
+				data.EventCallback(event);
+			}
+		});
+
+		glfwSetWindowRefreshCallback(m_Window, [](GLFWwindow* window)
+		{
+			HZ_CORE_TRACE("Window Refreshed");
 		});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)

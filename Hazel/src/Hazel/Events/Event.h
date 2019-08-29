@@ -13,8 +13,8 @@ namespace Hazel {
 	enum class EventType
 	{
 		None = 0,
-		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
-		AppTick, AppUpdate, AppRender,
+		WindowMoved, WindowResized, WindowClosed, WindowFocused, WindowFocusLost, WindowIconified, WindowRestored,
+		AppTicked, AppRendered,
 		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
