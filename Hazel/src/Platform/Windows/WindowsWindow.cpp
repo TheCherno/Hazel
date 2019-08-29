@@ -107,23 +107,24 @@ namespace Hazel {
 		glfwSetWindowMaximizeCallback(m_Window, [](GLFWwindow* window, int maximized)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			data.Maximised = maximized == GLFW_TRUE ? true : false;
+
+			if (data.Mode == WindowMode::Windowed)
+				data.Maximised = maximized == GLFW_TRUE ? true : false;
 		});
 
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			if (data.Mode != WindowMode::Windowed) // Not in Windowed mode, we can't move the window
-				return;
-			if (data.WindowedPos.x == posX && data.WindowedPos.y == posY) // Not actualy moved (eg comming out of fullscreen)
-				return;
+			if (data.Mode == WindowMode::Windowed)
+				data.WindowedPos = { posX, posY };
 
-			data.WindowedPos = { posX, posY };
+			// TODO: move event here
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
@@ -237,12 +238,33 @@ namespace Hazel {
 
 		// Disable callbacks temporary, to prevent multiple resize events firing during this scope
 		auto resizeCallbackFn = glfwSetWindowSizeCallback(m_Window, NULL);
+		auto moveCallbackFn = glfwSetWindowPosCallback(m_Window, NULL);
+		auto maximizeCallbackFn = glfwSetWindowMaximizeCallback(m_Window, NULL);
+
+		glm::i32vec2 oldPos, newPos;
+		glfwGetWindowPos(m_Window, &oldPos.x, &oldPos.y);
+
+		switch (m_Data.Mode)
+		{
+			case WindowMode::Borderless:
+				glfwRestoreWindow(m_Window);
+				break;
+			case WindowMode::Fullscreen:
+				break;
+			case WindowMode::Windowed:
+				if (m_Data.Maximised)
+				{
+					glfwRestoreWindow(m_Window);
+					glfwGetWindowPos(m_Window, &newPos.x, &newPos.y);
+					m_Data.WindowedPos = newPos;
+				}
+				break;
+		}
 
 		int width, height;
 		switch (mode)
 		{
 			case WindowMode::Borderless:
-				glfwRestoreWindow(m_Window);
 				width = baseVideoMode->width;
 				height = baseVideoMode->height;
 				break;
@@ -251,8 +273,6 @@ namespace Hazel {
 				height = baseVideoMode->height;
 				break;
 			case WindowMode::Windowed:
-				if (m_Data.Maximised)
-					glfwRestoreWindow(m_Window);
 				width = m_Data.WindowedWidth;
 				height = m_Data.WindowedHeight;
 				break;
@@ -270,14 +290,21 @@ namespace Hazel {
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.y : 0,
 		                     width, height,
 		                     baseVideoMode->refreshRate);
-		if (m_Data.Mode == WindowMode::Borderless)
+		if (m_Data.Mode == WindowMode::Borderless || (m_Data.Mode == WindowMode::Windowed && m_Data.Maximised))
 			glfwMaximizeWindow(m_Window);
 
 		// re-enable callbacks
 		glfwSetWindowSizeCallback(m_Window, resizeCallbackFn);
+		glfwSetWindowPosCallback(m_Window, moveCallbackFn);
+		glfwSetWindowMaximizeCallback(m_Window, maximizeCallbackFn);
+
+		// manualy raising a single resize event if needed (in correct order)
+		glfwGetWindowPos(m_Window, &newPos.x, &newPos.y);
+		if (oldPos != newPos)
+			moveCallbackFn(m_Window, newPos.x, newPos.y);
 		glfwGetWindowSize(m_Window, &width, &height);
 		if (width != m_Data.Width || height != m_Data.Height)
-			resizeCallbackFn(m_Window, width, height); // manualy raising a single resize event if needed
+			resizeCallbackFn(m_Window, width, height);
 
 		if (glfwGetWindowAttrib(m_Window, GLFW_FLOATING) == GLFW_FALSE)
 			glfwShowWindow(m_Window);
