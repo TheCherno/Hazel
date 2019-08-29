@@ -35,8 +35,8 @@ namespace Hazel {
 	{
 		m_Data.Title = props.Title;
 		m_Data.Mode = props.Mode;
-        m_Data.WindowedMaximised = false;
-        m_Data.WindowedWidth = props.Width;
+		m_Data.WindowedMaximised = false;
+		m_Data.WindowedWidth = props.Width;
 		m_Data.WindowedHeight = props.Height;
 
 		if (!s_GLFWInitialized)
