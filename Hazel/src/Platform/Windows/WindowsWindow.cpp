@@ -35,7 +35,8 @@ namespace Hazel {
 	{
 		m_Data.Title = props.Title;
 		m_Data.Mode = props.Mode;
-		m_Data.WindowedWidth = props.Width;
+        m_Data.WindowedMaximised = false;
+        m_Data.WindowedWidth = props.Width;
 		m_Data.WindowedHeight = props.Height;
 
 		if (!s_GLFWInitialized)
@@ -109,7 +110,7 @@ namespace Hazel {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			if (data.Mode == WindowMode::Windowed)
-				data.Maximised = maximized == GLFW_TRUE ? true : false;
+				data.WindowedMaximised = maximized == GLFW_TRUE ? true : false;
 		});
 
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
@@ -252,7 +253,7 @@ namespace Hazel {
 			case WindowMode::Fullscreen:
 				break;
 			case WindowMode::Windowed:
-				if (m_Data.Maximised)
+				if (m_Data.WindowedMaximised)
 				{
 					glfwRestoreWindow(m_Window);
 					glfwGetWindowPos(m_Window, &newPos.x, &newPos.y);
@@ -290,7 +291,7 @@ namespace Hazel {
 		                     m_Data.Mode == WindowMode::Windowed ? m_Data.WindowedPos.y : 0,
 		                     width, height,
 		                     baseVideoMode->refreshRate);
-		if (m_Data.Mode == WindowMode::Borderless || (m_Data.Mode == WindowMode::Windowed && m_Data.Maximised))
+		if (m_Data.Mode == WindowMode::Borderless || (m_Data.Mode == WindowMode::Windowed && m_Data.WindowedMaximised))
 			glfwMaximizeWindow(m_Window);
 
 		// re-enable callbacks
