@@ -12,6 +12,7 @@ namespace Hazel {
 		OpenGLContext(GLFWwindow* windowHandle);
 
 		virtual void Init() override;
+		virtual void UpdateViewport(unsigned int width, unsigned int height) override;
 		virtual void SwapBuffers() override;
 	private:
 		GLFWwindow* m_WindowHandle;

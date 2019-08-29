@@ -4,6 +4,7 @@
 
 #include "Hazel/Core.h"
 #include "Hazel/Events/Event.h"
+#include "Hazel/Renderer/GraphicsContext.h"
 
 namespace Hazel {
 	
@@ -53,6 +54,7 @@ namespace Hazel {
 		virtual void SetWindowMode(const WindowMode& mode) = 0;
 
 		virtual void* GetNativeWindow() const = 0;
+		virtual GraphicsContext* GetContext() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

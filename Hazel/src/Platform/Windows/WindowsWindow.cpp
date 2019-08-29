@@ -96,7 +96,6 @@ namespace Hazel {
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
-			HZ_CORE_TRACE("glfw size event raised ({0}, {1})", width, height);
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.Width = width;
 			data.Height = height;
@@ -113,7 +112,6 @@ namespace Hazel {
 			if (data.WindowedPos.x == posX && data.WindowedPos.y == posY) // Not actualy moved (eg comming out of fullscreen)
 				return;
 
-			HZ_CORE_TRACE("glfw moved event raised ({0}, {1})", posX, posY);
 			data.WindowedPos = { posX, posY };
 		});
 

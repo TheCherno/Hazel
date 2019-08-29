@@ -26,6 +26,11 @@ namespace Hazel {
 
 	}
 
+	void OpenGLContext::UpdateViewport(unsigned int width, unsigned int height)
+	{
+		glViewport(0, 0, width, height);
+	}
+
 	void OpenGLContext::SwapBuffers()
 	{
 		glfwSwapBuffers(m_WindowHandle);
