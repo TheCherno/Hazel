@@ -104,6 +104,12 @@ namespace Hazel {
 			data.EventCallback(event);
 		});
 
+		glfwSetWindowMaximizeCallback(m_Window, [](GLFWwindow* window, int maximized)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			data.Maximised = maximized == GLFW_TRUE ? true : false;
+		});
+
 		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int posX, int posY)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -229,19 +235,21 @@ namespace Hazel {
 		GLFWmonitor* windowRenderScreen = glfwGetPrimaryMonitor(); // where the window will be rendered
 		const GLFWvidmode* baseVideoMode = glfwGetVideoMode(windowRenderScreen);
 
-		if (m_Data.Mode == WindowMode::Borderless)
-			glfwRestoreWindow(m_Window);
-
-		// Set the actual width and height
 		int width, height;
 		switch (mode)
 		{
-			case WindowMode::Fullscreen:
 			case WindowMode::Borderless:
+				glfwRestoreWindow(m_Window);
+				width = baseVideoMode->width;
+				height = baseVideoMode->height;
+				break;
+			case WindowMode::Fullscreen:
 				width = baseVideoMode->width;
 				height = baseVideoMode->height;
 				break;
 			case WindowMode::Windowed:
+				if (m_Data.Maximised)
+					glfwRestoreWindow(m_Window);
 				width = m_Data.WindowedWidth;
 				height = m_Data.WindowedHeight;
 				break;

@@ -43,6 +43,7 @@ namespace Hazel {
 			EventCallbackFn EventCallback;
 
 			WindowMode Mode;
+			bool Maximised;
 			glm::uvec2 WindowedPos;
 			unsigned int WindowedWidth, WindowedHeight;
 		};
