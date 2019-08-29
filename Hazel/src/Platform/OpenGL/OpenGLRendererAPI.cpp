@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 
 namespace Hazel {
+	
 #ifdef HZ_ENABLE_RENDERER_LOG
 	void OpenGLRendererAPI::OpenGLMessageCallback(
 		unsigned source,
@@ -26,11 +27,11 @@ namespace Hazel {
 
 	void OpenGLRendererAPI::Init()
 	{
-#ifdef HZ_ENABLE_RENDERER_LOG
+	#ifdef HZ_ENABLE_RENDERER_LOG
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
-#endif
+	#endif
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
