@@ -18,6 +18,9 @@
 
 #ifdef HZ_DEBUG
 	#define HZ_ENABLE_ASSERTS
+	#define HZ_ENABLE_RENDERER_LOG
+	#define HZ_ENABLE_CORE_LOG
+	#define HZ_ENABLE_CLIENT_LOG
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
