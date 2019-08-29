@@ -14,7 +14,7 @@ namespace Hazel {
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
 
-#ifdef HZ_ENABLE_RENDERER_LOG
+	#ifdef HZ_ENABLE_RENDERER_LOG
 		static void OpenGLMessageCallback(
 			unsigned source,
 			unsigned type,
@@ -23,7 +23,7 @@ namespace Hazel {
 			int length,
 			const char* message,
 			const void* userParam);
-#endif
+	#endif
 	};
 
 
