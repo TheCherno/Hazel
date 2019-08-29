@@ -100,6 +100,11 @@ namespace Hazel {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.Width = width;
 			data.Height = height;
+			if (data.Mode == WindowMode::Windowed && !data.WindowedMaximised)
+			{
+				data.WindowedWidth = width;
+				data.WindowedHeight = height;
+			}
 
 			WindowResizeEvent event(width, height);
 			data.EventCallback(event);
@@ -118,8 +123,6 @@ namespace Hazel {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			if (data.Mode == WindowMode::Windowed)
 				data.WindowedPos = { posX, posY };
-
-			// TODO: move event here
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)

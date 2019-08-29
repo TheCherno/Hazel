@@ -39,12 +39,13 @@ namespace Hazel {
 			std::string Title;
 			unsigned int Width, Height;
 			bool VSync;
+			WindowMode Mode;
 
 			EventCallbackFn EventCallback;
 
-			WindowMode Mode;
+			// Internal data to support mode switching
 			bool WindowedMaximised;
-			glm::uvec2 WindowedPos;
+			glm::ivec2 WindowedPos;
 			unsigned int WindowedWidth, WindowedHeight;
 		};
 		WindowData m_Data;
