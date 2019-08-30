@@ -7,8 +7,9 @@ assignees: ''
 
 ---
 
- **PR impact:**
+**PR impact:**
 List of related issues/PRs this will solve:
+###### _Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords)._
 
 Impact                   | PR
 ------------------------ | ------
@@ -19,6 +20,6 @@ Other PRs this solves    | None or #number(s)
 **Proposed fix:**
 A short description of what fix this is. And how it fixed the problem.
 
- **Additional context**
+**Additional context**
 Add any other context about the solution here. Did you test the solution on all (relevant) platforms?
 If not, create a todo list here.
