@@ -10,7 +10,6 @@ namespace Hazel {
 	
 	enum class WindowMode : uint8_t
 	{
-		// Definitions see https://stackoverflow.com/questions/34462445/fullscreen-vs-borderless-window/50452322#50452322
 		Windowed,   // A windowed window with decorations
 		Borderless, // A windowed window without decorations utilizing full display space
 		Fullscreen  // A window using the full screen
