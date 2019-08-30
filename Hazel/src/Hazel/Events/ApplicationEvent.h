@@ -21,7 +21,7 @@ namespace Hazel {
 		}
 
 		EVENT_CLASS_TYPE(WindowMoved)
-			EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	private:
 		int m_XPos, m_YPos;
 	};
@@ -75,30 +75,21 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API WindowIconifiedEvent : public Event
-	{
-	public:
-		WindowIconifiedEvent() {}
-
-		EVENT_CLASS_TYPE(WindowIconified)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
-	};
-
-	class HAZEL_API WindowRestoredEvent : public Event
-	{
-	public:
-		WindowRestoredEvent() {}
-
-		EVENT_CLASS_TYPE(WindowRestored)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
-	};
-
 	class HAZEL_API AppTickedEvent : public Event
 	{
 	public:
 		AppTickedEvent() {}
 
 		EVENT_CLASS_TYPE(AppTicked)
+		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+	};
+
+	class HAZEL_API AppUpdatedEvent : public Event
+	{
+	public:
+		AppUpdatedEvent() {}
+
+		EVENT_CLASS_TYPE(AppUpdated)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
