@@ -22,6 +22,8 @@ namespace Hazel {
 			case GL_DEBUG_SEVERITY_LOW:          HZ_CORE_WARN(message); return;
 			case GL_DEBUG_SEVERITY_NOTIFICATION: HZ_CORE_TRACE(message); return;
 		}
+		
+		HZ_CORE_ASSERT(false, "Unknown severity level!");
 	}
 #endif
 
