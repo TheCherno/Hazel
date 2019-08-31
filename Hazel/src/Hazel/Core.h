@@ -34,14 +34,19 @@
 
 namespace Hazel {
 
-    template<typename T>
-    const auto MakeScope = std::make_unique<T>;
-    template<typename T>
-    using Scope = std::unique_ptr<T>;
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+	template<typename T, typename... Args>
+	constexpr inline Scope<T> CreateScope(Args&&... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
 
-    template<typename T>
-    const auto MakeRef = std::make_shared<T>;
-    template<typename T>
-    using Ref = std::shared_ptr<T>;
-
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+	template<typename T, typename... Args>
+	constexpr inline Ref<T> CreateRef(Args&&... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
 }
