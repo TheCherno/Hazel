@@ -17,7 +17,7 @@ namespace Hazel {
 
 	Application::Application()
 	{
-		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
+		HZ_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());

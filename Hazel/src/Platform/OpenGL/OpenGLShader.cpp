@@ -34,8 +34,8 @@ namespace Hazel {
 			// We don't need the shader anymore.
 			glDeleteShader(vertexShader);
 
-			HZ_CORE_ERROR("{0}", infoLog.data());
-			HZ_CORE_ASSERT(false, "Vertex shader compilation failure!");
+			HZ_LOG_ERROR("{0}", infoLog.data());
+			HZ_ASSERT(false, "Vertex shader compilation failure!");
 			return;
 		}
 
@@ -65,8 +65,8 @@ namespace Hazel {
 			// Either of them. Don't leak shaders.
 			glDeleteShader(vertexShader);
 
-			HZ_CORE_ERROR("{0}", infoLog.data());
-			HZ_CORE_ASSERT(false, "Fragment shader compilation failure!");
+			HZ_LOG_ERROR("{0}", infoLog.data());
+			HZ_ASSERT(false, "Fragment shader compilation failure!");
 			return;
 		}
 
@@ -101,8 +101,8 @@ namespace Hazel {
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
 
-			HZ_CORE_ERROR("{0}", infoLog.data());
-			HZ_CORE_ASSERT(false, "Shader link failure!");
+			HZ_LOG_ERROR("{0}", infoLog.data());
+			HZ_ASSERT(false, "Shader link failure!");
 			return;
 		}
 
