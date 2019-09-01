@@ -20,7 +20,7 @@ namespace Hazel {
 
 }
 
-#ifdef HZ_BUILD_DLL
+#ifdef HZ_BUILD_ENGINE
 	// Core log macros
 	#define HZ_LOG_TRACE(...)    ::Hazel::Log::GetCoreLogger()->trace(__VA_ARGS__)
 	#define HZ_LOG_INFO(...)     ::Hazel::Log::GetCoreLogger()->info(__VA_ARGS__)
