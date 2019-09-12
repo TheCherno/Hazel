@@ -20,11 +20,11 @@ A short description of what fix this is and how it fixed the issue you described
 **PR impact** _(Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords))_
 List of related issues/PRs this will solve:
 
- Impact                  | PR
+ Impact                  | Issue/PR
 ------------------------ | ------
 Other issues this solves | None or #number(s)
 Other PRs this solves    | None or #number(s)
 
 **Additional context**
 Add any other context about the solution here. Did you test the solution on all (relevant) platforms?
-If not, create a todo list here.
+If not, create a [task list](https://help.github.com/en/articles/about-task-lists) here.
