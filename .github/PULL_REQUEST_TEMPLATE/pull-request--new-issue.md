@@ -14,12 +14,11 @@ A screenshot or copy of the error could be helpful as well.
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Proposed fix**
+**Proposed fix** _(Make sure you've read [on how to contribute](https://github.com/TheCherno/Hazel/blob/master/.github/CONTRIBUTING.md) to Hazel)_
 A short description of what fix this is and how it fixed the issue you described.
 
-**PR impact**
+**PR impact** _(Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords))_
 List of related issues/PRs this will solve:
-###### _Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords)._
 
  Impact                  | PR
 ------------------------ | ------
