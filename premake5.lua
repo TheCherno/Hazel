@@ -28,7 +28,6 @@ group "Dependencies"
 	include "Hazel/vendor/GLFW"
 	include "Hazel/vendor/Glad"
 	include "Hazel/vendor/imgui"
-
 group ""
 
 project "Hazel"
@@ -71,15 +70,39 @@ project "Hazel"
 	}
 
 	links 
-	{ 
+	{
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
 	}
+
+	filter "system:linux"
+--		pic "on"
+
+		links 
+		{ 
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11"
+		}
+
+		defines
+		{
+			"HZ_PLATFORM_LINUX",
+			"HZ_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
+		}
 
 	filter "system:windows"
 		systemversion "latest"
+
+		links 
+		{ 
+			"opengl32.lib"
+		}
 
 		defines
 		{
@@ -129,11 +152,35 @@ project "Sandbox"
 
 	links
 	{
-		"Hazel"
+		"Hazel",
 	}
+
+	filter "system:linux"
+		links
+		{
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+		}
+		defines
+		{
+			"HZ_PLATFORM_LINUX"
+		}
 
 	filter "system:windows"
 		systemversion "latest"
+
+		links
+		{
+		}
 
 		defines
 		{
