@@ -54,7 +54,7 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 ### Coding Conventions
 
-- For variables we use readable camel case: `doSomethingCool`. If they are class members we use the 'm_' prefix: `m_DoSomethingCool`. When they are static we ise the 's_' prefix: `s_DoSomethingCool`.
+- For variables we use readable camel case: `doSomethingCool`. If they are class members use the 'm_' prefix: `m_DoSomethingCool`. When they are static use the 's_' prefix: `s_DoSomethingCool`.
 
 - Use tabs for indentation, not spaces
 
