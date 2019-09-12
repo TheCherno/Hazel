@@ -78,4 +78,23 @@ namespace Hazel {
 		return true;
 	}
 
+	std::string Application::CorrectFilePath(const std::string& path)
+	{
+		#if defined(HZ_DEBUG) || defined(HZ_RELEASE)
+			struct stat buffer;
+			int status;
+
+			std::vector<std::string>prepath_string_vector = {"", "./Sandbox/", "../../../Sandbox/"};
+			for (auto path_iter : prepath_string_vector)
+			{
+				std::string modified_path = path_iter + path;
+				status = stat(modified_path.c_str(), &buffer);
+
+				if (status == 0)
+					return modified_path;
+			}
+		#endif
+
+		return path;
+	}
 }

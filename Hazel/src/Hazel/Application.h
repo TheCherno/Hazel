@@ -29,6 +29,7 @@ namespace Hazel {
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
+		static std::string CorrectFilePath(const std::string&);
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 	private:
