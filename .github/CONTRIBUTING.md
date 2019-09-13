@@ -16,7 +16,7 @@ Thanks for your understanding.
 
 Bugs should be reported on our [GitHub Issue Tracker][issue-tracker] using the bug report template.
 
-Follow the advice in [How do I ask a good question?][how-to-ask]. While the article is intended for people asking questions on [Stack Overflow](https://stackoverflow.com/), it all applies to writing a good bug report too.
+Follow the advice in [How do I ask a good question?][how-to-ask]. While the article is intended for people asking questions on Stack Overflow, it all applies to writing a good bug report too.
 
 ## Requesting New Features
 
