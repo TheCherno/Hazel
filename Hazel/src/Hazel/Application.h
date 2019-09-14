@@ -16,7 +16,7 @@ namespace Hazel {
 	class Application
 	{
 	public:
-		Application();
+		Application(std::string);
 		virtual ~Application() = default;
 
 		void Run();
@@ -29,7 +29,7 @@ namespace Hazel {
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
-		static std::string CorrectFilePath(const std::string&);
+		std::string CorrectFilePath(const std::string&);
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 	private:
@@ -40,6 +40,7 @@ namespace Hazel {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
+		std::string m_base_directory;
 	};
 
 	// To be defined in CLIENT

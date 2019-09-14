@@ -7,7 +7,8 @@
 
 #include "Input.h"
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
+#include <filesystem>
 
 namespace Hazel {
 
@@ -15,10 +16,12 @@ namespace Hazel {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(std::string base_directory)
 	{
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+
+		m_base_directory = base_directory;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
@@ -81,16 +84,11 @@ namespace Hazel {
 	std::string Application::CorrectFilePath(const std::string& path)
 	{
 		#if defined(HZ_DEBUG) || defined(HZ_RELEASE)
-			struct stat buffer;
-			int status;
-
-			std::vector<std::string>prepath_string_vector = {"", "./Sandbox/", "../../../Sandbox/"};
+			std::vector<std::string>prepath_string_vector = {"", "./" + m_base_directory + "/", "../../../" + m_base_directory + "/"};
 			for (auto path_iter : prepath_string_vector)
 			{
 				std::string modified_path = path_iter + path;
-				status = stat(modified_path.c_str(), &buffer);
-
-				if (status == 0)
+				if (std::filesystem::exists(modified_path) == true)
 					return modified_path;
 			}
 		#endif
