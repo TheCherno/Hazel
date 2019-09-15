@@ -52,20 +52,20 @@ namespace Hazel {
 	class HAZEL_API MouseButtonEvent : public Event
 	{
 	public:
-		inline MouseButtonCode GetMouseButton() const { return m_Button; }
+		inline MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(MouseButtonCode button)
+		MouseButtonEvent(MouseCode button)
 			: m_Button(button) {}
 
-		MouseButtonCode m_Button;
+		MouseCode m_Button;
 	};
 
 	class HAZEL_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(MouseButtonCode button)
+		MouseButtonPressedEvent(MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -81,7 +81,7 @@ namespace Hazel {
 	class HAZEL_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(MouseButtonCode button)
+		MouseButtonReleasedEvent(MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
