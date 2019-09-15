@@ -26,7 +26,7 @@ namespace Hazel {
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
 	private:
-		static Input* s_Instance;
+		static Hazel::Scope<Input> s_Instance;
 	};
 
 }
