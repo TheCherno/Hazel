@@ -1,3 +1,5 @@
+# vim:noet
+
 workspace "Hazel"
 	architecture "x64"
 	startproject "Sandbox"
@@ -81,12 +83,19 @@ project "Hazel"
 	filter "system:windows"
 		systemversion "latest"
 
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
+		if os.target() == "windows" then
+			defines
+			{
+				"HZ_PLATFORM_WINDOWS",
+				"HZ_BUILD_DLL",
+				"GLFW_INCLUDE_NONE"
+			}
+		else
+			defines
+			{
+				"GLFW_INCLUDE_NONE"
+			}
+		end
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
