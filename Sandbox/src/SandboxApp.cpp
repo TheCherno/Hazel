@@ -239,3 +239,10 @@ Hazel::Application* Hazel::CreateApplication()
 {
 	return new Sandbox();
 }
+
+int main(int argc, char* argv[])
+{
+	Hazel::Log::Init();
+	auto app = Hazel::CreateApplication();
+	app->Run();
+}
