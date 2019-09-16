@@ -136,10 +136,24 @@ project "Sandbox"
 		"%{IncludeDir.glm}"
 	}
 
-	links
-	{
-		"Hazel"
-	}
+	if os.target() == "windows" then
+		links
+		{
+			"Hazel",
+		}
+	else
+		links
+		{
+			"Hazel",
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"GL",
+			"X11",
+			"dl",
+			"pthread"
+		}
+	end
 
 	filter "system:windows"
 		systemversion "latest"
