@@ -1,7 +1,16 @@
 # Directories
 .vs/
-/bin/
-bin-int/
+**/bin/
+**/bin-int
 
 # Files
 *.user
+Hazel/vendor/imgui/Makefile
+tags
+
+Hazel/Makefile
+Hazel/src/hzpch.o.d
+Hazel/vendor/Glad/Makefile
+Makefile
+Sandbox/.gdb_history
+Sandbox/Makefile
