@@ -17,6 +17,7 @@ namespace Hazel
 		ButtonLeft             = Button0,
 		ButtonRight            = Button1,
 		ButtonMiddle           = Button2
+
 	};
 }
 
