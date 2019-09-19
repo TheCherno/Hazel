@@ -71,7 +71,7 @@ namespace Hazel {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseButtonPressedEvent: " << static_cast<uint32_t>(m_Button);
+			ss << "MouseButtonPressedEvent: " << static_cast<int32_t>(m_Button);
 			return ss.str();
 		}
 
@@ -87,7 +87,7 @@ namespace Hazel {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseButtonReleasedEvent: " << static_cast<uint32_t>(m_Button);
+			ss << "MouseButtonReleasedEvent: " << static_cast<int32_t>(m_Button);
 			return ss.str();
 		}
 

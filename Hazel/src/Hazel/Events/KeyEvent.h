@@ -47,7 +47,7 @@ namespace Hazel {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << static_cast<uint32_t>(m_KeyCode);
+			ss << "KeyReleasedEvent: " << static_cast<int32_t>(m_KeyCode);
 			return ss.str();
 		}
 
@@ -63,7 +63,7 @@ namespace Hazel {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyTypedEvent: " << static_cast<uint32_t>(m_KeyCode);
+			ss << "KeyTypedEvent: " << static_cast<int32_t>(m_KeyCode);
 			return ss.str();
 		}
 
