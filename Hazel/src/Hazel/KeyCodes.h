@@ -128,6 +128,12 @@ namespace Hazel
 		KeyRightSuper          = 347,
 		KeyMenu                = 348
 	};
+
+	inline std::ostream& operator<<(std::ostream& os, const KeyCode& keyCode)
+	{
+		os << static_cast<int32_t>(keyCode);
+		return os;
+	}
 }
 
 // From glfw3.h
