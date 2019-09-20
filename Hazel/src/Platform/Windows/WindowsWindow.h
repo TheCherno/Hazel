@@ -19,7 +19,6 @@ namespace Hazel {
 		inline unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
-		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
@@ -30,17 +29,6 @@ namespace Hazel {
 	private:
 		GLFWwindow* m_Window;
 		GraphicsContext* m_Context;
-
-		struct WindowData
-		{
-			std::string Title;
-			unsigned int Width, Height;
-			bool VSync;
-
-			EventCallbackFn EventCallback;
-		};
-
-		WindowData m_Data;
 	};
 
 }
