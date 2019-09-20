@@ -8,15 +8,18 @@
 #include "Input.h"
 
 #include <GLFW/glfw3.h>
+#include <filesystem>
 
 namespace Hazel {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(std::string base_directory)
 	{
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+
+		m_BaseDirectory = base_directory;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
@@ -76,4 +79,21 @@ namespace Hazel {
 		return true;
 	}
 
+	std::string Application::CorrectFilePath(const std::string& path)
+	{
+		#if defined(HZ_DEBUG) || defined(HZ_RELEASE)
+			if (std::filesystem::exists(path))	//Unmodified path check
+				return path;
+
+			auto check_path = std::filesystem::path(".") / m_BaseDirectory / path;	//Subdirectory of project
+			if (std::filesystem::exists(check_path))
+				return check_path;
+
+			check_path = std::filesystem::path("../../..") / m_BaseDirectory / path;	//Decend to project directory from executable's directory
+			if (std::filesystem::exists(check_path))
+				return check_path;
+		#endif
+
+		return path;
+	}
 }
