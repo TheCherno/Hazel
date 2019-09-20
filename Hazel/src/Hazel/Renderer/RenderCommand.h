@@ -27,7 +27,7 @@ namespace Hazel {
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 	private:
-		static Hazel::Scope<RendererAPI> s_RendererAPI;
+		static Scope<RendererAPI> s_RendererAPI;
 	};
 
 }
