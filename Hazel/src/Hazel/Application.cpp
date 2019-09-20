@@ -21,7 +21,7 @@ namespace Hazel {
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_base_directory = base_directory;
+		m_BaseDirectory = base_directory;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
@@ -84,13 +84,16 @@ namespace Hazel {
 	std::string Application::CorrectFilePath(const std::string& path)
 	{
 		#if defined(HZ_DEBUG) || defined(HZ_RELEASE)
-			std::vector<std::string>prepath_string_vector = {"", "./" + m_base_directory + "/", "../../../" + m_base_directory + "/"};
-			for (auto path_iter : prepath_string_vector)
-			{
-				std::string modified_path = path_iter + path;
-				if (std::filesystem::exists(modified_path) == true)
-					return modified_path;
-			}
+			if (std::filesystem::exists(path))	//Unmodified path check
+				return path;
+
+			auto check_path = std::filesystem::path(".") / m_BaseDirectory / path;	//Subdirectory of project
+			if (std::filesystem::exists(check_path))
+				return check_path;
+
+			check_path = std::filesystem::path("../../..") / m_BaseDirectory / path;	//Decend to project directory from executable's directory
+			if (std::filesystem::exists(check_path))
+				return check_path;
 		#endif
 
 		return path;

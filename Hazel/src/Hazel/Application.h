@@ -40,7 +40,7 @@ namespace Hazel {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
-		std::string m_base_directory;
+		std::string m_BaseDirectory;
 	};
 
 	// To be defined in CLIENT
