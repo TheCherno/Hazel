@@ -5,8 +5,7 @@
 
 namespace Hazel {
 	
-#ifdef HZ_ENABLE_RENDERER_LOG
-	void OpenGLRendererAPI::OpenGLMessageCallback(
+	void OpenGLMessageCallback(
 		unsigned source,
 		unsigned type,
 		unsigned id,
@@ -25,7 +24,6 @@ namespace Hazel {
 		
 		HZ_CORE_ASSERT(false, "Unknown severity level!");
 	}
-#endif
 
 	void OpenGLRendererAPI::Init()
 	{
