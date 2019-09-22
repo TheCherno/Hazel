@@ -86,8 +86,7 @@ namespace Hazel {
 			HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
 			pos = source.find(typeToken, nextLinePos); //Start of next shader type declaration line
 
-			if (pos == std::string::npos) shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos);
-			else shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos, pos - nextLinePos);
+			shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
 		}
 
 		return shaderSources;
