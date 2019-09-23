@@ -30,8 +30,7 @@ namespace Hazel {
 		glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
 		glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
 
-		HZ_CORE_ASSERT(versionMajor >= 4, "Hazel requires at least OpenGL version 4.5!");
-		HZ_CORE_ASSERT(versionMinor >= 5, "Hazel requires at least OpenGL version 4.5!");
+		HZ_CORE_ASSERT(versionMajor >= 4 && versionMinor >= 5, "Hazel requires at least OpenGL version 4.5!");
 		#endif
 	}
 
