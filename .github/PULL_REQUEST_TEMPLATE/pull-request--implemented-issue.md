@@ -1,12 +1,3 @@
----
-name: 'Pull Request: Implemented issue'
-about: Propose an implementation to help us resolve an open issue
-title: Add a relevant PR title here. Mension issue #number
-labels: ''
-assignees: ''
-
----
-
 #### PR impact _(Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords))_
 List of related issues/PRs this will solve:
 

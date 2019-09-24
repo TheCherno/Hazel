@@ -1,12 +1,3 @@
----
-name: 'Pull Request: New issue'
-about: Report and propose a fix for a (small) issue in Hazel
-title: Add a relevant PR title here.
-labels: ''
-assignees: ''
-
----
-
 #### Describe the issue
 A clear and concise description of what the issue is.
 A screenshot or copy of the error could be helpful as well.

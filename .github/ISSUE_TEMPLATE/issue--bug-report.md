@@ -1,12 +1,3 @@
----
-name: 'Issue: Bug report'
-about: Create a report to help us improve Hazel
-title: Add a relevant bug report title here
-labels: ''
-assignees: ''
-
----
-
 #### Describe the bug
 A clear and concise description of what the bug is.
 A screenshot or copy of the error could be helpful as well.
