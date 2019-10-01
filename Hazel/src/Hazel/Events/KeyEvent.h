@@ -23,7 +23,7 @@ namespace Hazel {
 		KeyPressedEvent(int keycode, int repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
-		inline int GetRepeatCount() const { return m_RepeatCount; }
+		inline int GetRepeatCount() const { return m_RepeatCount; } //The Repeat Count is number of times the key event has repeated. So on the third time the event triggers it has repeated twice.
 
 		std::string ToString() const override
 		{
