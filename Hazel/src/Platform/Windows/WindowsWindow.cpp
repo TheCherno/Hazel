@@ -90,7 +90,7 @@ namespace Hazel {
 				}
 				case GLFW_RELEASE:
 				{
-					s_KeyRepeatCounts[key] = 0;
+					s_KeyRepeatCounts.erase(key);
 					KeyReleasedEvent event(key);
 					data.EventCallback(event);
 					break;
