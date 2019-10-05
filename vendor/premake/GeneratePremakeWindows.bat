@@ -4,21 +4,20 @@ goto CheckPremakeSubmodule
 rem Check the premake submodule.
 :CheckPremakeSubmodule
 	echo Checking out the premake repository...
-	rem Check if binaries already exist.
+
 	if exist bin\premake5.exe (
 		goto Finished
-	)
-
-	rem Check if the core submodule exist.
-	else if exist premake-core\Bootstrap.mak (
-		echo.
-		if exist premake-core\bin\release\premake5.exe (
-			goto MovePremakeBinary
-		) else (
-			goto CheckVisualStudio
-		)	
 	) else (
-		goto InstallPremakeSubmodule
+		if exist premake-core\Bootstrap.mak (
+			echo.
+			if exist premake-core\bin\release\premake5.exe (
+				goto MovePremakeBinary
+			) else (
+				goto CheckVisualStudio
+			)	
+		) else (
+			goto InstallPremakeSubmodule
+		)
 	)
 
 rem The premake submodule was not found, so we download it from github.
