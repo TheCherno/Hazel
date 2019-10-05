@@ -24,7 +24,7 @@ rem The premake submodule was not found, so we download it from github.
 :InstallPremakeSubmodule
 	echo Repository not found. Downloading...
 
-    pushd premake-core
+	pushd premake-core
 		git submodule init
 		git submodule update --recursive
 	popd
