@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core/Input.h"
+#include "Hazel/Input.h"
 
 namespace Hazel {
 

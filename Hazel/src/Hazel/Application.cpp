@@ -1,7 +1,7 @@
 #include "hzpch.h"
 #include "Application.h"
 
-#include "Hazel/Core/Log.h"
+#include "Hazel/Log.h"
 
 #include "Hazel/Renderer/Renderer.h"
 
@@ -43,7 +43,6 @@ namespace Hazel {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -61,11 +60,8 @@ namespace Hazel {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			if (!m_Minimized)
-			{
-				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate(timestep);
-			}
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate(timestep);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
@@ -80,20 +76,6 @@ namespace Hazel {
 	{
 		m_Running = false;
 		return true;
-	}
-
-	bool Application::OnWindowResize(WindowResizeEvent& e)
-	{
-		if (e.GetWidth() == 0 || e.GetHeight() == 0)
-		{
-			m_Minimized = true;
-			return false;
-		}
-
-		m_Minimized = false;
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
-
-		return false;
 	}
 
 }
