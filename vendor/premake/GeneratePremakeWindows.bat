@@ -1,12 +1,22 @@
 @echo off
 goto CheckPremakeSubmodule
 
-rem Check if the premake submodule is installed or not.
+rem Check the premake submodule.
 :CheckPremakeSubmodule
 	echo Checking out the premake repository...
-	if exist premake-core\Bootstrap.mak (
+	rem Check if binaries already exist.
+	if exist bin\premake5.exe (
+		goto Finished
+	)
+
+	rem Check if the core submodule exist.
+	else if exist premake-core\Bootstrap.mak (
 		echo.
-		goto CheckVisualStudio
+		if exist premake-core\bin\release\premake5.exe (
+			goto MovePremakeBinary
+		) else (
+			goto CheckVisualStudio
+		)	
 	) else (
 		goto InstallPremakeSubmodule
 	)
@@ -15,7 +25,10 @@ rem The premake submodule was not found, so we download it from github.
 :InstallPremakeSubmodule
 	echo Repository not found. Downloading...
 
-	git submodule update --recursive
+    pushd premake-core
+		git submodule init
+		git submodule update --recursive
+	popd
 
 	echo.
 	goto CheckPremakeSubmodule
@@ -113,7 +126,7 @@ rem The premake submodule is installed, now we can compile premake.
 		nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
 	popd
 	
-	if exist bin\release\premake5.exe (
+	if exist premake-core\bin\release\premake5.exe (
 		echo Premake binary build succesfully!
 		echo.
 		goto MovePremakeBinary
@@ -134,7 +147,11 @@ rem Failed to compile premake
 rem After compilation, copy the binary to the correct directory.
 :MovePremakeBinary
 	echo Moving Premake5.exe to bin location...
-	xcopy premake-core\bin\release\premake5.exe ..\bin\premake
+	xcopy premake-core\bin\release\premake5.exe bin\
 	echo.
+	goto Finished
 	
-pause
+:Finished
+	echo Premake is generated.
+	pause
+	exit
