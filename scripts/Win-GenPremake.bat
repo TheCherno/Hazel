@@ -1,4 +1,5 @@
 @echo off
+pushd ..\vendor\premake
 goto CheckPremakeSubmodule
 
 rem Check the premake submodule.
@@ -6,7 +7,7 @@ rem Check the premake submodule.
 	echo Checking out the premake repository...
 
 	if exist bin\premake5.exe (
-		goto Finished
+		goto FinishedProgram
 	) else (
 		if exist premake-core\Bootstrap.mak (
 			echo.
@@ -74,7 +75,7 @@ rem Extract info about our Visual Studio install we will require.
 	if %InstallVersionVS%=="None" (
 		echo Unsupported installed version detected!
 		pause
-		exit
+		goto ExitProgram
 	)
 	echo Detected VS%InstallVersionVS%
 
@@ -101,7 +102,7 @@ rem Before we start compiling, we check the compiler.
 		if %errorlevel% neq 0 (
 			echo nmake not found!
 			pause
-			exit
+			goto ExitProgram
 		)
 	popd
 
@@ -137,7 +138,7 @@ rem Failed to compile premake
 :CompilePremakeFailed
 	choice /m "Build failed! Do you want to retry?"
 	if errorlevel 2 (
-		exit
+		goto ExitProgram
 	)
 	if errorlevel 1 (
 		goto CompilePremake
@@ -148,9 +149,13 @@ rem After compilation, copy the binary to the correct directory.
 	echo Moving Premake5.exe to bin location...
 	xcopy premake-core\bin\release\premake5.exe bin\
 	echo.
-	goto Finished
+	goto FinishedProgram
 	
-:Finished
+:FinishedProgram
 	echo Premake is generated.
 	pause
+	goto ExitProgram
+
+:ExitProgram
+	popd
 	exit
