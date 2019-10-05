@@ -1,3 +1,9 @@
+---
+name: 'Pull Request: Implemented issue'
+about: Propose an implementation to help us resolve an open issue
+
+---
+
 #### PR impact _(Make sure to add [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords))_
 List of related issues/PRs this will solve:
 
