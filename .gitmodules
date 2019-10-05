@@ -17,3 +17,4 @@
 [submodule "vendor/premake/premake-core"]
 	path = vendor/premake/premake-core
 	url = https://github.com/premake/premake-core.git
+	branch = release-5.0-alpha14
