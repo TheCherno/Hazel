@@ -30,8 +30,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		Hazel::Ref<Hazel::IndexBuffer> indexBuffer = Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		m_SquareVA.reset(Hazel::VertexArray::Create());
@@ -51,8 +50,7 @@ public:
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Hazel::Ref<Hazel::IndexBuffer> squareIB;
-		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Hazel::Ref<Hazel::IndexBuffer> squareIB = Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSrc = R"(
