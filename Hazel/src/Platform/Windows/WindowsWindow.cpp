@@ -175,7 +175,6 @@ namespace Hazel {
 	{
 		return m_Data.VSync;
 	}
-
 	void WindowsWindow::SetIcon(const std::string& path)
 	{
 		int width, height, channels;
@@ -188,5 +187,6 @@ namespace Hazel {
 		images[0].height = height;
 		images[0].pixels = data;
 		glfwSetWindowIcon(m_Window, 1, images);
+		stbi_image_free(data);
 	}
 }
