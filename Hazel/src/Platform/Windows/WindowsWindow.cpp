@@ -7,6 +7,8 @@
 
 #include "Platform/OpenGL/OpenGLContext.h"
 
+#include "stb_image.h"
+
 namespace Hazel {
 	
 	static bool s_GLFWInitialized = false;
@@ -174,4 +176,17 @@ namespace Hazel {
 		return m_Data.VSync;
 	}
 
+	void WindowsWindow::SetIcon(const std::string& path)
+	{
+		int width, height, channels;
+		stbi_set_flip_vertically_on_load(1);
+		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 4);
+		HZ_ASSERT(channels == 4, "Icon must be RGBA!");
+
+		GLFWimage images[1];
+		images[0].width = width;
+		images[0].height = height;
+		images[0].pixels = data;
+		glfwSetWindowIcon(m_Window, 1, images);
+	}
 }

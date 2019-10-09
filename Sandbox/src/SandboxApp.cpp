@@ -207,6 +207,8 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
+
+		Hazel::Application::Get().GetWindow().SetIcon("assets/textures/ChernoLogo.png");
 	}
 
 	~Sandbox()
