@@ -175,6 +175,7 @@ namespace Hazel {
 	{
 		return m_Data.VSync;
 	}
+
 	void WindowsWindow::SetIcon(const std::string& path)
 	{
 		int width, height, channels;
