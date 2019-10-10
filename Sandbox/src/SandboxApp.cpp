@@ -1,3 +1,6 @@
+// The __MAIN_FILE__ Macro should be only defined in the file which handles
+// the Application creation (in other words, the file which contains the 'CreateApplication' function)
+#define __MAIN_FILE__
 #include <Hazel.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
