@@ -28,5 +28,7 @@
 // -----------------------------------
 
 // ---Entry Point---------------------
-#include "Hazel/Core/EntryPoint.h"
+#ifdef __MAIN_FILE__
+  #include "Hazel/Core/EntryPoint.h"
+#endif
 // -----------------------------------
