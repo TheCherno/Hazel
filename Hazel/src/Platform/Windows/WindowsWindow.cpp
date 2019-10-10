@@ -48,7 +48,7 @@ namespace Hazel {
 			s_GLFWInitialized = true;
 		}
 
-		#ifdef HZ_ENABLE_RENDERER_LOG
+		#ifdef HZ_DEBUG
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 		#endif	
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
