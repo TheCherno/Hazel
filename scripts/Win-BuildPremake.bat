@@ -1,6 +1,6 @@
 @echo off
 
-rem Navigate to premake vendor folder
+rem Navigate to premake vendor submodule folder
 pushd ..\vendor\premake
 
 rem Premake already build, no need to continue
@@ -11,17 +11,15 @@ if exist bin\premake5.exe (
 )
 
 rem Check if premake submodule is present
-if not exist premake-core\Bootstrap.mak (
+if not exist Bootstrap.mak (
 	echo Premake submodule not found. Downloading...
-	pushd premake-core
-		git submodule init
-		git submodule update --recursive
-	popd
+	git submodule init
+	git submodule update --recursive
 	echo.
 )
 
 rem Check if premake has been build already
-if not exist premake-core\bin\release\premake5.exe (
+if not exist bin\release\premake5.exe (
 	echo Inspecting Visual Studio install...
 	rem This option only works on VS2017 and higher
 	rem More info:
@@ -101,21 +99,19 @@ if not exist premake-core\bin\release\premake5.exe (
 	popd
 
 	:CompilePremake
-	pushd premake-core
-		echo Compiling premake...
-		rem Make sure there is no build file in the bin yet
-		if exist bin\release\premake5.exe (
-			echo Removing old binaries...
-			del bin\release\premake5.exe
-		)
+	echo Compiling premake...
+	rem Make sure there is no build file in the bin yet
+	if exist bin\release\premake5.exe (
+		echo Removing old binaries...
+		del bin\release\premake5.exe
+	)
 
-		rem Create new binaries
-		echo Compiling...
-		nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
-	popd
+	rem Create new binaries
+	echo Compiling...
+	nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
 
 	rem Check if build was succesfull
-	if not exist premake-core\bin\release\premake5.exe (
+	if not exist bin\release\premake5.exe (
 		choice /m "Build failed! Do you want to retry?"
 		if errorlevel 2 (
 			exit
@@ -129,7 +125,7 @@ if not exist premake-core\bin\release\premake5.exe (
 )
 
 echo Moving 'Premake5.exe' to bin location...
-xcopy premake-core\bin\release\premake5.exe bin\
+xcopy bin\release\premake5.exe bin\
 echo.
 
 echo Premake is generated and ready to use!

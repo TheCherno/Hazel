@@ -14,7 +14,7 @@
 	path = Hazel/vendor/glm
 	url = https://github.com/g-truc/glm
 	branch = master
-[submodule "vendor/premake/premake-core"]
-	path = vendor/premake/premake-core
+[submodule "vendor/premake"]
+	path = vendor/premake
 	url = https://github.com/premake/premake-core.git
 	branch = release-5.0-alpha14
