@@ -123,5 +123,3 @@ xcopy bin\release\premake5.exe bin\
 echo.
 
 echo Premake is generated and ready to use!
-pause
-exit
