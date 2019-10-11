@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 rem Navigate to premake vendor submodule folder
 pushd ..\vendor\premake
@@ -30,47 +31,40 @@ if not exist bin\release\premake5.exe (
 	for /f "usebackq tokens=*" %%i in (`
 		call "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
 	`) do (
-		setlocal
 		set InstallDir=%%i
 	)
-	if "%InstallVersionVS%"=="" (
+	if "!InstallDir!"=="" (
 		echo No visual studio installation detected!
 		pause
 		exit
 	) else (
-		echo Install directory: %InstallDir%
+		echo Install directory: !InstallDir!
 	)
 
 	rem Extract install version
 	for /f "usebackq tokens=*" %%j in (`
 		call "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationVersion
 	`) do (
-		setlocal
 		set InstallVersion=%%j
 	)
-	if "%InstallVersionVS%"=="" (
+	if "!InstallVersion!"=="" (
 		echo No visual studio installation version detected!
 		pause
 		exit
 	) else (
-		echo Installed version: %InstallVersion%
+		echo Installed version: !InstallVersion!
 	)
 
 	rem extract release version (year)
-	setlocal
-	set InstallVersionVS=None
-	for /f "tokens=1 delims=." %%v in ("%InstallVersion%") do (
-		echo %%v
+	for /f "tokens=1 delims=." %%v in ("!InstallVersion!") do (
 		if %%v==15 (
-			setlocal
 			set InstallVersionVS=2017
 		)
 		if %%v==16 (
-			setlocal
 			set InstallVersionVS=2019
 		)
 	)
-	if "%InstallVersionVS%"=="None" (
+	if "!InstallVersionVS!"=="" (
 		echo Unsupported version detected!
 		pause
 		exit
@@ -79,7 +73,7 @@ if not exist bin\release\premake5.exe (
 	echo.
 	echo Starting the compiler...
 	rem Go to the install folder of the Visual Studio instance
-	pushd "%InstallDir%\VC\Auxiliary\build"
+	pushd "!InstallDir!\VC\Auxiliary\build"
 		rem Depending on the architecture, call the correct file to get access to nmake
 		if "%programfiles%"=="C:\Program Files" (
 			rem This is a 64-bit cmd.exe shell
@@ -108,7 +102,7 @@ if not exist bin\release\premake5.exe (
 
 	rem Create new binaries
 	echo Compiling...
-	nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
+	nmake -f Bootstrap.mak MSDEV=vs!InstallVersionVS! windows-msbuild
 
 	rem Check if build was succesfull
 	if not exist bin\release\premake5.exe (
