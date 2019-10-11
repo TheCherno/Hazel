@@ -1,40 +1,27 @@
 @echo off
+
+rem Navigate to premake vendor folder
 pushd ..\vendor\premake
-goto CheckPremakeSubmodule
 
-rem Check the premake submodule.
-:CheckPremakeSubmodule
-	echo Checking out the premake repository...
+rem Premake already build, no need to continue
+if exist bin\premake5.exe (
+	echo Premake already build!
+	pause
+	exit
+)
 
-	if exist bin\premake5.exe (
-		goto FinishedProgram
-	) else (
-		if exist premake-core\Bootstrap.mak (
-			echo.
-			if exist premake-core\bin\release\premake5.exe (
-				goto MovePremakeBinary
-			) else (
-				goto CheckVisualStudio
-			)	
-		) else (
-			goto InstallPremakeSubmodule
-		)
-	)
-
-rem The premake submodule was not found, so we download it from github.
-:InstallPremakeSubmodule
-	echo Repository not found. Downloading...
-
+rem Check if premake submodule is present
+if not exist premake-core\Bootstrap.mak (
+	echo Premake submodule not found. Downloading...
 	pushd premake-core
 		git submodule init
 		git submodule update --recursive
 	popd
-
 	echo.
-	goto CheckPremakeSubmodule
+)
 
-rem Extract info about our Visual Studio install we will require.
-:CheckVisualStudio
+rem Check if premake has been build already
+if not exist premake-core\bin\release\premake5.exe (
 	echo Inspecting Visual Studio install...
 	rem This option only works on VS2017 and higher
 	rem More info:
@@ -48,7 +35,13 @@ rem Extract info about our Visual Studio install we will require.
 		setlocal
 		set InstallDir=%%i
 	)
-	echo Install directory: %InstallDir%
+	if "%InstallVersionVS%"=="" (
+		echo No visual studio installation detected!
+		pause
+		exit
+	) else (
+		echo Install directory: %InstallDir%
+	)
 
 	rem Extract install version
 	for /f "usebackq tokens=*" %%j in (`
@@ -57,12 +50,19 @@ rem Extract info about our Visual Studio install we will require.
 		setlocal
 		set InstallVersion=%%j
 	)
-	echo Installed version: %InstallVersion%
+	if "%InstallVersionVS%"=="" (
+		echo No visual studio installation version detected!
+		pause
+		exit
+	) else (
+		echo Installed version: %InstallVersion%
+	)
 
 	rem extract release version (year)
+	setlocal
+	set InstallVersionVS=None
 	for /f "tokens=1 delims=." %%v in ("%InstallVersion%") do (
-		setlocal
-		set InstallVersionVS="None"
+		echo %%v
 		if %%v==15 (
 			setlocal
 			set InstallVersionVS=2017
@@ -72,20 +72,14 @@ rem Extract info about our Visual Studio install we will require.
 			set InstallVersionVS=2019
 		)
 	)
-	if %InstallVersionVS%=="None" (
-		echo Unsupported installed version detected!
+	if "%InstallVersionVS%"=="None" (
+		echo Unsupported version detected!
 		pause
-		goto ExitProgram
+		exit
 	)
-	echo Detected VS%InstallVersionVS%
 
 	echo.
-	goto CheckCompiler
-
-rem Before we start compiling, we check the compiler.
-:CheckCompiler
 	echo Starting the compiler...
-
 	rem Go to the install folder of the Visual Studio instance
 	pushd "%InstallDir%\VC\Auxiliary\build"
 		rem Depending on the architecture, call the correct file to get access to nmake
@@ -100,62 +94,44 @@ rem Before we start compiling, we check the compiler.
 		rem Let us check if nmake is registered now...
 		where nmake >nul 2>nul
 		if %errorlevel% neq 0 (
-			echo nmake not found!
+			echo compiler nmake not found!
 			pause
-			goto ExitProgram
+			exit
 		)
 	popd
 
-	echo.
-	goto CompilePremake
-
-
-rem The premake submodule is installed, now we can compile premake.
-:CompilePremake
-	echo Creating premake binary...
-
+	:CompilePremake
 	pushd premake-core
+		echo Compiling premake...
 		rem Make sure there is no build file in the bin yet
 		if exist bin\release\premake5.exe (
-			echo Removing old binary...
+			echo Removing old binaries...
 			del bin\release\premake5.exe
 		)
 
-		rem Create premake5.exe
+		rem Create new binaries
 		echo Compiling...
 		nmake -f Bootstrap.mak MSDEV=vs%InstallVersionVS% windows-msbuild
 	popd
-	
-	if exist premake-core\bin\release\premake5.exe (
-		echo Premake binary build succesfully!
-		echo.
-		goto MovePremakeBinary
-	) else (
-		goto CompilePremakeFailed
-	)
 
-rem Failed to compile premake
-:CompilePremakeFailed
-	choice /m "Build failed! Do you want to retry?"
-	if errorlevel 2 (
-		goto ExitProgram
+	rem Check if build was succesfull
+	if not exist premake-core\bin\release\premake5.exe (
+		choice /m "Build failed! Do you want to retry?"
+		if errorlevel 2 (
+			exit
+		)
+		if errorlevel 1 (
+			goto CompilePremake
+		)
 	)
-	if errorlevel 1 (
-		goto CompilePremake
-	)
-
-rem After compilation, copy the binary to the correct directory.
-:MovePremakeBinary
-	echo Moving Premake5.exe to bin location...
-	xcopy premake-core\bin\release\premake5.exe bin\
+	echo Premake binary build succesfully!
 	echo.
-	goto FinishedProgram
-	
-:FinishedProgram
-	echo Premake is generated.
-	pause
-	goto ExitProgram
+)
 
-:ExitProgram
-	popd
-	exit
+echo Moving 'Premake5.exe' to bin location...
+xcopy premake-core\bin\release\premake5.exe bin\
+echo.
+
+echo Premake is generated and ready to use!
+pause
+exit
