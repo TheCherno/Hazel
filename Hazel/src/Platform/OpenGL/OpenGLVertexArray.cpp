@@ -4,8 +4,8 @@
 
 #include <glad/glad.h>
 
-
 namespace Hazel {
+
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
 	{
 		switch (type)
@@ -51,19 +51,9 @@ namespace Hazel {
 	{
 		HZ_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
-		//glBindVertexArray(m_RendererID);
-		//vertexBuffer->Bind();
-
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			//glEnableVertexAttribArray(m_VertexBufferIndex);
-			//glVertexAttribPointer(m_VertexBufferIndex,
-			//	element.GetComponentCount(),
-			//	ShaderDataTypeToOpenGLBaseType(element.Type),
-			//	element.Normalized ? GL_TRUE : GL_FALSE,
-			//	layout.GetStride(),
-			//	(const void*)(intptr_t)element.Offset);
 			glEnableVertexArrayAttrib(m_RendererID, m_VertexBufferIndex);
 			glVertexArrayVertexBuffer(m_RendererID, m_VertexBufferIndex, 
 				std::dynamic_pointer_cast<OpenGLVertexBuffer>(vertexBuffer)->m_RendererID,

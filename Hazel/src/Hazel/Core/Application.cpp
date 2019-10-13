@@ -29,7 +29,6 @@ namespace Hazel {
 		PushOverlay(m_ImGuiLayer);
 	}
 
-
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
