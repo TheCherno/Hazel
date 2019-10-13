@@ -1,6 +1,6 @@
 ---
 name: 'Pull Request'
-about: Propose a fix implementation for a (small) issue in Hazel
+about: Propose a fix for a (small) issue in Hazel
 
 ---
 
