@@ -57,7 +57,7 @@ namespace Hazel {
 	{
 		while (m_Running)
 		{
-			float time = (float)glfwGetTime();
+			float_t time = (float_t)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 

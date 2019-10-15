@@ -5,17 +5,17 @@ namespace Hazel {
 	class Timestep
 	{
 	public:
-		Timestep(float time = 0.0f)
+		Timestep(float_t time = 0.0f)
 			: m_Time(time)
 		{
 		}
 
-		operator float() const { return m_Time; }
+		operator float_t() const { return m_Time; }
 
-		float GetSeconds() const { return m_Time; }
-		float GetMilliseconds() const { return m_Time * 1000.0f; }
+		float_t GetSeconds() const { return m_Time; }
+		float_t GetMilliseconds() const { return m_Time * 1000.0f; }
 	private:
-		float m_Time;
+		float_t m_Time;
 	};
 
 }

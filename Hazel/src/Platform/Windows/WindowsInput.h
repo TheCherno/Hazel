@@ -7,12 +7,12 @@ namespace Hazel {
 	class WindowsInput : public Input
 	{
 	protected:
-		virtual bool IsKeyPressedImpl(int keycode) override;
+		virtual bool IsKeyPressedImpl(int32_t keycode) override;
 
-		virtual bool IsMouseButtonPressedImpl(int button) override;
-		virtual std::pair<float, float> GetMousePositionImpl() override;
-		virtual float GetMouseXImpl() override;
-		virtual float GetMouseYImpl() override;
+		virtual bool IsMouseButtonPressedImpl(int32_t button) override;
+		virtual std::pair<float_t, float_t> GetMousePositionImpl() override;
+		virtual float_t GetMouseXImpl() override;
+		virtual float_t GetMouseYImpl() override;
 	};
 
 }
