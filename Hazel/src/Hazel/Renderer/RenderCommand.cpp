@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "RenderCommand.h"
+#include "Hazel/Renderer/RenderCommand.h"
 
 namespace Hazel {
 

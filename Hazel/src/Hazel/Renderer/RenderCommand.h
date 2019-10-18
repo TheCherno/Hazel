@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RendererAPI.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 namespace Hazel {
 
