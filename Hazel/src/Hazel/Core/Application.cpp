@@ -82,7 +82,7 @@ namespace Hazel {
 		return true;
 	}
 
-	bool Application::OnWindowResize(WindowResizeEvent& e)
+	bool Application::OnWindowResize(WindowResizedEvent& e)
 	{
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{

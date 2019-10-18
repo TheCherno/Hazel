@@ -23,7 +23,7 @@ namespace Hazel {
 		void SetZoomLevel(float level) { m_ZoomLevel = level; }
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
-		bool OnWindowResized(WindowResizeEvent& e);
+		bool OnWindowResized(WindowResizedEvent& e);
 	private:
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
