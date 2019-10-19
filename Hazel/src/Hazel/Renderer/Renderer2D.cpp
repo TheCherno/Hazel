@@ -22,23 +22,21 @@ namespace Hazel {
 		s_Data = new Renderer2DStorage();
 		s_Data->QuadVertexArray = VertexArray::Create();
 
-		float squareVertices[5 * 4] = {
+		float squareVertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
 
-		Ref<VertexBuffer> squareVB;
-		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVB->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" }
 		});
 		s_Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Ref<IndexBuffer> squareIB;
-		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
 		s_Data->FlatColorShader = Shader::Create("assets/shaders/FlatColor.glsl");
@@ -69,7 +67,7 @@ namespace Hazel {
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		std::dynamic_pointer_cast<OpenGLShader>(s_Data->FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(s_Data->FlatColorShader)->UploadUniformFloat4("u_Color", color);
+		std::dynamic_pointer_cast<OpenGLShader>(s_Data->FlatColorShader)->UploadUniformFloat4("u_Color", color);
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
