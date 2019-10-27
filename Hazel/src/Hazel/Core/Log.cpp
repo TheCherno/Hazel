@@ -1,7 +1,7 @@
 #include "hzpch.h"
 #include "Hazel/Core/Log.h"
 
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace Hazel {
 
