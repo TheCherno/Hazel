@@ -215,7 +215,7 @@ public:
 	}
 };
 
-Hazel::Scope<Hazel::Application> Hazel::CreateApplication()
+Hazel::Application* Hazel::CreateApplication()
 {
-	return Hazel::CreateScope<Sandbox>();
+	return new Sandbox();
 }
