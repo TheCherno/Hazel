@@ -1,4 +1,4 @@
-#include "Sandbox3D.h"
+#include "ExampleLayer.h"
 #include "imgui/imgui.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
@@ -6,8 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Sandbox3D::Sandbox3D() 
-	: Layer("Sandbox3D"), m_CameraController(1280.0f / 720.0f)
+ExampleLayer::ExampleLayer() 
+	: Layer("ExampleLayer"), m_CameraController(1280.0f / 720.0f)
 {
 	m_VertexArray = Hazel::VertexArray::Create();
 
@@ -133,17 +133,15 @@ Sandbox3D::Sandbox3D()
 	std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 }
 
-void Sandbox3D::OnAttach()
+void ExampleLayer::OnAttach()
 {
-
 }
 
-void Sandbox3D::OnDetach()
+void ExampleLayer::OnDetach()
 {
-
 }
 
-void Sandbox3D::OnUpdate(Hazel::Timestep ts) 
+void ExampleLayer::OnUpdate(Hazel::Timestep ts) 
 {
 	// Update
 	m_CameraController.OnUpdate(ts);
@@ -182,14 +180,14 @@ void Sandbox3D::OnUpdate(Hazel::Timestep ts)
 	Hazel::Renderer::EndScene();
 }
 
-void Sandbox3D::OnImGuiRender() 
+void ExampleLayer::OnImGuiRender() 
 {
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 	ImGui::End();
 }
 
-void Sandbox3D::OnEvent(Hazel::Event& e) 
+void ExampleLayer::OnEvent(Hazel::Event& e) 
 {
 	m_CameraController.OnEvent(e);
 }

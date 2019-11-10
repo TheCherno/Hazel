@@ -2,11 +2,11 @@
 
 #include "Hazel.h"
 
-class Sandbox3D : public Hazel::Layer
+class ExampleLayer : public Hazel::Layer
 {
 public:
-	Sandbox3D();
-	virtual ~Sandbox3D() = default;
+	ExampleLayer();
+	virtual ~ExampleLayer() = default;
 
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
