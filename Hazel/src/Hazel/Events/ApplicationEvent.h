@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Event.h"
+#include "Hazel/Events/Event.h"
 
 namespace Hazel {
 
-	class HAZEL_API WindowMovedEvent : public Event
+	class WindowMovedEvent : public Event
 	{
 	public:
 		WindowMovedEvent(int xPos, int yPos)
@@ -26,7 +26,7 @@ namespace Hazel {
 		int m_XPos, m_YPos;
 	};
 	
-	class HAZEL_API WindowResizedEvent : public Event
+	class WindowResizedEvent : public Event
 	{
 	public:
 		WindowResizedEvent(unsigned int width, unsigned int height)
@@ -48,7 +48,7 @@ namespace Hazel {
 		unsigned int m_Width, m_Height;
 	};
 
-	class HAZEL_API WindowClosedEvent : public Event
+	class WindowClosedEvent : public Event
 	{
 	public:
 		WindowClosedEvent() {}
@@ -57,7 +57,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API WindowFocusedEvent : public Event
+	class WindowFocusedEvent : public Event
 	{
 	public:
 		WindowFocusedEvent() {}
@@ -66,7 +66,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API WindowFocusLostEvent : public Event
+	class WindowFocusLostEvent : public Event
 	{
 	public:
 		WindowFocusLostEvent() {}
@@ -75,7 +75,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API AppTickedEvent : public Event
+	class AppTickedEvent : public Event
 	{
 	public:
 		AppTickedEvent() {}
@@ -84,7 +84,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API AppUpdatedEvent : public Event
+	class AppUpdatedEvent : public Event
 	{
 	public:
 		AppUpdatedEvent() {}
@@ -93,7 +93,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class HAZEL_API AppRenderedEvent : public Event
+	class AppRenderedEvent : public Event
 	{
 	public:
 		AppRenderedEvent() {}
