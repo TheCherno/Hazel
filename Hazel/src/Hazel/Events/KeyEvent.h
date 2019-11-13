@@ -2,6 +2,8 @@
 
 #include "Hazel/Events/Event.h"
 
+#include "Hazel/Core/Input.h"
+
 namespace Hazel {
 
 	class KeyEvent : public Event
@@ -20,8 +22,8 @@ namespace Hazel {
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount)
-			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+		KeyPressedEvent(int keycode)
+			: KeyEvent(keycode), m_RepeatCount(Input::IncrementKeyRepeatCount(keycode)) {}
 
 		//The Repeat Count is number of times the key event has repeated. So on the third time the event triggers it has repeated twice.
 		inline int GetRepeatCount() const { return m_RepeatCount; }
@@ -42,7 +44,10 @@ namespace Hazel {
 	{
 	public:
 		KeyReleasedEvent(int keycode)
-			: KeyEvent(keycode) {}
+			: KeyEvent(keycode)
+		{
+			Input::ResetKeyRepeatCount(keycode);
+		}
 
 		std::string ToString() const override
 		{

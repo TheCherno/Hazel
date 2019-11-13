@@ -10,7 +10,6 @@
 namespace Hazel {
 	
 	static uint8_t s_GLFWWindowCount = 0;
-	static std::unordered_map<int16_t, unsigned int> s_KeyRepeatCounts;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
@@ -82,22 +81,19 @@ namespace Hazel {
 			{
 				case GLFW_PRESS:
 				{
-					s_KeyRepeatCounts[key] = 0;
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(key);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					s_KeyRepeatCounts.erase(key);
 					KeyReleasedEvent event(key);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					s_KeyRepeatCounts[key]++;
-					KeyPressedEvent event(key, s_KeyRepeatCounts[key]);
+					KeyPressedEvent event(key);
 					data.EventCallback(event);
 					break;
 				}
@@ -152,8 +148,6 @@ namespace Hazel {
 
 	void WindowsWindow::Shutdown()
 	{
-		s_KeyRepeatCounts.clear();
-		
 		glfwDestroyWindow(m_Window);
 		--s_GLFWWindowCount;
 
