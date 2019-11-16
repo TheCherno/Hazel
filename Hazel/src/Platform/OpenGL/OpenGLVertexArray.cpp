@@ -1,5 +1,6 @@
 #include "hzpch.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
 
 
 #include <glad/glad.h>
@@ -56,7 +57,7 @@ namespace Hazel {
 		{
 			glEnableVertexArrayAttrib(m_RendererID, m_VertexBufferIndex);
 			glVertexArrayVertexBuffer(m_RendererID, m_VertexBufferIndex, 
-				std::dynamic_pointer_cast<OpenGLVertexBuffer>(vertexBuffer)->m_RendererID,
+				std::static_pointer_cast<OpenGLVertexBuffer>(vertexBuffer)->m_RendererID,
 				element.Offset, layout.GetStride());
 			glVertexArrayAttribFormat(m_RendererID, m_VertexBufferIndex, 
 				element.GetComponentCount(),
@@ -74,7 +75,7 @@ namespace Hazel {
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		glVertexArrayElementBuffer(m_RendererID,
-			std::dynamic_pointer_cast<OpenGLIndexBuffer>(indexBuffer)->m_RendererID);
+			std::static_pointer_cast<OpenGLIndexBuffer>(indexBuffer)->m_RendererID);
 
 		m_IndexBuffer = indexBuffer;
 	}
