@@ -6,6 +6,8 @@
 
 #include <chrono>
 
+#include <Hazel\Core\Input.h>
+
 template<typename Fn>
 class Timer
 {
@@ -51,6 +53,22 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::OnAttach()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+
+	// Now we can map input key;
+	/* Note that those 4 keys are pre-mapped inside CameraController's constructor.
+	 * Remapping them here will overwrite the old mapping.
+	 */
+	Hazel::Input::Remap("camera_move_left", Hazel::KeyAlternative(Hazel::Keys::Left));
+	Hazel::Input::Remap("camera_move_right", Hazel::KeyAlternative(Hazel::Keys::Right));
+	Hazel::Input::Remap("camera_move_up", Hazel::KeyAlternative(Hazel::Keys::Up));
+	Hazel::Input::Remap("camera_move_down", Hazel::KeyAlternative(Hazel::Keys::Down));
+
+	// Now we can enable/disable rotation on user level (layer);
+	m_CameraController.SetEnableRotation(true);
+
+	// Now we can set zoom level manually (note that it can override min/max zoom level);
+	//m_CameraController.SetZoomLevel(0.5f);
+
 }
 
 void Sandbox2D::OnDetach()

@@ -12,6 +12,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <variant>
 
 #include "Hazel/Core/Log.h"
 
