@@ -26,9 +26,11 @@ namespace Hazel {
 		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
 		int m_ProfileCount;
+		std::mutex m_LastTimeStartMutex;
+		long long m_LastTimeStart;
 	public:
 		Instrumentor()
-			: m_CurrentSession(nullptr), m_ProfileCount(0)
+			: m_CurrentSession(nullptr), m_ProfileCount(0), m_LastTimeStart(0)
 		{
 		}
 
@@ -81,6 +83,16 @@ namespace Hazel {
 			m_OutputStream.flush();
 		}
 
+		long long GetNextValidStartTime(long long desiredStartTime)
+		{
+			std::scoped_lock lock(m_LastTimeStartMutex);
+			if (desiredStartTime <= m_LastTimeStart)
+				desiredStartTime = ++m_LastTimeStart;
+			else
+				m_LastTimeStart = desiredStartTime;
+			return desiredStartTime;
+		}
+
 		static Instrumentor& Get()
 		{
 			static Instrumentor instance;
@@ -94,7 +106,9 @@ namespace Hazel {
 		InstrumentationTimer(const char* name)
 			: m_Name(name), m_Stopped(false)
 		{
-			m_StartTimepoint = std::chrono::high_resolution_clock::now();
+			auto startTimepoint = std::chrono::high_resolution_clock::now();
+			long long desiredStartTime = std::chrono::time_point_cast<std::chrono::microseconds>(startTimepoint).time_since_epoch().count();
+			m_StartTimepoint = Instrumentor::Get().GetNextValidStartTime(desiredStartTime);
 		}
 
 		~InstrumentationTimer()
@@ -107,30 +121,29 @@ namespace Hazel {
 		{
 			auto endTimepoint = std::chrono::high_resolution_clock::now();
 
-			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
 			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
 			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-			Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
+			Instrumentor::Get().WriteProfile({ m_Name, m_StartTimepoint, end, threadID });
 
 			m_Stopped = true;
 		}
 	private:
 		const char* m_Name;
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
+		long long m_StartTimepoint;
 		bool m_Stopped;
 	};
 }
 
 #define HZ_PROFILE 1
 #if HZ_PROFILE
-	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
-	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
-	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(__FUNCSIG__)
+#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
+#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
+#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
+#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(__FUNCSIG__)
 #else
-	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
-	#define HZ_PROFILE_END_SESSION()
-	#define HZ_PROFILE_SCOPE(name)
-	#define HZ_PROFILE_FUNCTION()
+#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
+#define HZ_PROFILE_END_SESSION()
+#define HZ_PROFILE_SCOPE(name)
+#define HZ_PROFILE_FUNCTION()
 #endif
