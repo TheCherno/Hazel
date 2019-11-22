@@ -137,13 +137,13 @@ namespace Hazel {
 
 #define HZ_PROFILE 1
 #if HZ_PROFILE
-#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
-#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
-#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(__FUNCSIG__)
+	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
+	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
+	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
+	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(__FUNCSIG__)
 #else
-#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
-#define HZ_PROFILE_END_SESSION()
-#define HZ_PROFILE_SCOPE(name)
-#define HZ_PROFILE_FUNCTION()
+	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
+	#define HZ_PROFILE_END_SESSION()
+	#define HZ_PROFILE_SCOPE(name)
+	#define HZ_PROFILE_FUNCTION()
 #endif
