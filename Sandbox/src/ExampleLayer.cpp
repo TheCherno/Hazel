@@ -186,13 +186,3 @@ void ExampleLayer::OnEvent(Hazel::Event& e)
 {
 	m_CameraController.OnEvent(e);
 }
-
-
-
-
-
-
-
-
-
-
