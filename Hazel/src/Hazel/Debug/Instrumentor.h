@@ -26,11 +26,10 @@ namespace Hazel {
 		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
 		int m_ProfileCount;
-		std::mutex m_LastTimeStartMutex;
-		long long m_LastTimeStart;
+		static thread_local long long s_LastTimeStart;
 	public:
 		Instrumentor()
-			: m_CurrentSession(nullptr), m_ProfileCount(0), m_LastTimeStart(0)
+			: m_CurrentSession(nullptr), m_ProfileCount(0)
 		{
 		}
 
@@ -85,11 +84,11 @@ namespace Hazel {
 
 		long long GetNextValidStartTime(long long desiredStartTime)
 		{
-			std::scoped_lock lock(m_LastTimeStartMutex);
-			if (desiredStartTime <= m_LastTimeStart)
-				desiredStartTime = ++m_LastTimeStart;
+	
+			if (desiredStartTime <= s_LastTimeStart)
+				desiredStartTime = ++s_LastTimeStart;
 			else
-				m_LastTimeStart = desiredStartTime;
+				s_LastTimeStart = desiredStartTime;
 			return desiredStartTime;
 		}
 
