@@ -29,14 +29,10 @@ namespace Hazel {
 			if (Input::IsKeyPressed(HZ_KEY_Q)) ChangeRotation(0, dRotationSpeed);
 			if (Input::IsKeyPressed(HZ_KEY_E)) ChangeRotation(1, dRotationSpeed);
 
-			if (m_CameraRotation  >= 360)
-			{
-				cm_CameraRotation = 0;
-			}
-			else if (m_CameraRotation  <= -360)
-			{
-				m_CameraRotation  = 0;
-			}
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
 
 			camera.setRotation(m_CameraRotation);
 		}
