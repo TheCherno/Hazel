@@ -19,15 +19,15 @@ namespace Hazel {
 		float dX = cos(glm::radians(theta));
 		float dY = sin(glm::radians(theta));
 
-		if (Input::IsKeyPressed(HZ_KEY_A)) ChangePosition(0, dX * dTranslationSpeed, dY * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_D)) ChangePosition(1, dX * dTranslationSpeed, dY * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_W)) ChangePosition(1, -dY * dTranslationSpeed, dX * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_S)) ChangePosition(0, -dY * dTranslationSpeed, dX * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_A)) ChangePosition(-(dX * dTranslationSpeed), -(dY * dTranslationSpeed));
+		if (Input::IsKeyPressed(HZ_KEY_D)) ChangePosition(dX * dTranslationSpeed, dY * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_W)) ChangePosition(-dY * dTranslationSpeed, dX * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_S)) ChangePosition(-(-dY * dTranslationSpeed), -(dX * dTranslationSpeed));
 		
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(HZ_KEY_Q)) ChangeRotation(0, dRotationSpeed);
-			if (Input::IsKeyPressed(HZ_KEY_E)) ChangeRotation(1, dRotationSpeed);
+			if (Input::IsKeyPressed(HZ_KEY_Q)) ChangeRotation(-dRotationSpeed);
+			if (Input::IsKeyPressed(HZ_KEY_E)) ChangeRotation(dRotationSpeed);
 
 			if (m_CameraRotation > 180.0f)
 				m_CameraRotation -= 360.0f;
