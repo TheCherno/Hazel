@@ -13,21 +13,21 @@ namespace Hazel {
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
-		float dTranslationSpeed = m_CameraTranslationSpeed * delta;
-		float dRotationRot      = m_CameraRotationSpeed * delta;
+		float dTranslationSpeed = m_CameraTranslationSpeed * ts;
+		float dRotationSpeed    = m_CameraRotationSpeed * ts;
 		float theta = m_CameraRotation;
 		float dX = cos(glm::radians(theta));
 		float dY = sin(glm::radians(theta));
 
-		if (Input::IsKeyPressed(HZ_KEY_A)) decreasePosition(dX * dTranslationSpeed, dY * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_D)) increasePosition(dX * dTranslationSpeed, dY * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_W)) increasePosition(-dY * dTranslationSpeed, dX * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_S)) decreasePosition(-dY * dTranslationSpeed, dX * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_A)) ChangePosition(0, dX * dTranslationSpeed, dY * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_D)) ChangePosition(1, dX * dTranslationSpeed, dY * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_W)) ChangePosition(1, -dY * dTranslationSpeed, dX * dTranslationSpeed);
+		if (Input::IsKeyPressed(HZ_KEY_S)) ChangePosition(0, -dY * dTranslationSpeed, dX * dTranslationSpeed);
 		
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(HZ_KEY_Q)) decreateRotation(dRotationRot);
-			if (Input::IsKeyPressed(HZ_KEY_E)) increateRotation(dRotationRot);
+			if (Input::IsKeyPressed(HZ_KEY_Q)) ChangeRotation(0, dRotationSpeed);
+			if (Input::IsKeyPressed(HZ_KEY_E)) ChangeRotation(1, dRotationSpeed);
 
 			if (m_CameraRotation  >= 360)
 			{
