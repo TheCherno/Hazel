@@ -34,7 +34,7 @@ namespace Hazel {
 			else if (m_CameraRotation <= -180.0f)
 				m_CameraRotation += 360.0f;
 
-			m_camera.setRotation(m_CameraRotation);
+			m_Camera.SetRotation(m_CameraRotation);
 		}
 
 		m_Camera.SetPosition(m_CameraPosition);
