@@ -22,10 +22,17 @@ namespace Hazel {
 		float GetZoomLevel() const { return m_ZoomLevel; }
 		void SetZoomLevel(float level) { m_ZoomLevel = level; }
 		
-		const void increasePosition(float x, float y) { m_CameraPosition.x += x; m_CameraPosition.y += y; }
-		const void decreasePosition(float x, float y) { m_CameraPosition.x -= x; m_CameraPosition.y -= y; }
-		const void increaseRotation(float rotation) { m_Rotation += rotation; }
-		const void decreaseRotation(float rotation) { m_Rotation -= rotation; }
+		const void ChangePosition(float action, float x, float y) 
+		{ 
+			if(action) { m_CameraPosition.x += x; m_CameraPosition.y += y; }
+			if(!action) { m_CameraPosition.x -= x; m_CameraPosition.y -= y; }
+		}
+		
+		const void ChangeRotation(float action, float rotation) 
+		{ 
+			if(action) m_CameraRotation += rotation; 
+			if(!action) m_CameraRotation -= rotation; 
+		}
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);
