@@ -19,7 +19,7 @@ namespace Hazel {
 	class Instrumentor
 	{
 	private:
-      std::mutex m_mutex;
+		std::mutex m_mutex;
 		std::ofstream m_OutputStream;
 		int m_ProfileCount;
 	public:
@@ -30,23 +30,23 @@ namespace Hazel {
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
-         std::lock_guard lock(m_mutex);
-         m_OutputStream.open(filepath);
+			std::lock_guard lock(m_mutex);
+			m_OutputStream.open(filepath);
 			WriteHeader();
 		}
 
 		void EndSession()
 		{
-         std::lock_guard lock(m_mutex);
-         WriteFooter();
+			std::lock_guard lock(m_mutex);
+			WriteFooter();
 			m_OutputStream.close();
 			m_ProfileCount = 0;
 		}
 
 		void WriteProfile(const ProfileResult& result)
 		{
-         std::lock_guard lock(m_mutex);
-         if (m_ProfileCount++ > 0)
+			std::lock_guard lock(m_mutex);
+			if (m_ProfileCount++ > 0)
 				m_OutputStream << ",";
 
 			std::string name = result.Name;
