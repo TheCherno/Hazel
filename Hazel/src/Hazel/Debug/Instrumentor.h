@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <fstream>
 
-#include <mutex>
 #include <thread>
 
 namespace Hazel {
@@ -16,15 +15,21 @@ namespace Hazel {
 		std::thread::id ThreadID;
 	};
 
+	struct InstrumentationSession
+	{
+		std::string Name;
+	};
+
 	class Instrumentor
 	{
 	private:
-		std::mutex m_mutex;
+      std::mutex m_mutex;
+      InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
 		int m_ProfileCount;
 	public:
 		Instrumentor()
-			: m_ProfileCount(0)
+			: m_CurrentSession(nullptr), m_ProfileCount(0)
 		{
 		}
 
@@ -33,6 +38,7 @@ namespace Hazel {
 			std::lock_guard lock(m_mutex);
 			m_OutputStream.open(filepath);
 			WriteHeader();
+			m_CurrentSession = new InstrumentationSession{ name };
 		}
 
 		void EndSession()
@@ -40,6 +46,8 @@ namespace Hazel {
 			std::lock_guard lock(m_mutex);
 			WriteFooter();
 			m_OutputStream.close();
+			delete m_CurrentSession;
+			m_CurrentSession = nullptr;
 			m_ProfileCount = 0;
 		}
 
