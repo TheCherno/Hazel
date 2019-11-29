@@ -12,7 +12,7 @@ namespace Hazel {
 	{
 		std::string Name;
 		long long Start, End;
-		uint32_t ThreadID;
+		std::thread::id ThreadID;
 	};
 
 	struct InstrumentationSession
@@ -110,8 +110,7 @@ namespace Hazel {
 			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
 			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-			Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
+			Instrumentor::Get().WriteProfile({ m_Name, start, end, std::this_thread::get_id()});
 
 			m_Stopped = true;
 		}
