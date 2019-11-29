@@ -23,8 +23,8 @@ namespace Hazel {
 	class Instrumentor
 	{
 	private:
-      std::mutex m_mutex;
-      InstrumentationSession* m_CurrentSession;
+		std::mutex m_Mutex;
+		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
 		int m_ProfileCount;
 	public:
@@ -35,44 +35,68 @@ namespace Hazel {
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
-			std::lock_guard lock(m_mutex);
+			if (m_CurrentSession) {
+				// If there is already a current session, then close it before beginning new one.
+				// Subsequent profiling output meant for the original session will end up in the
+				// newly opened session instead.  That's better than having badly formatted
+				// profiling output.
+				if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+					HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
+				}
+				EndSession();
+			}
+			std::lock_guard lock(m_Mutex);
 			m_OutputStream.open(filepath);
-			WriteHeader();
-			m_CurrentSession = new InstrumentationSession{ name };
+			if (m_OutputStream.is_open()) {
+				m_CurrentSession = new InstrumentationSession({name});
+				WriteHeader();
+			} else {
+				HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+			}
 		}
 
 		void EndSession()
 		{
-			std::lock_guard lock(m_mutex);
-			WriteFooter();
-			m_OutputStream.close();
-			delete m_CurrentSession;
-			m_CurrentSession = nullptr;
-			m_ProfileCount = 0;
+			std::lock_guard lock(m_Mutex);
+			if (m_CurrentSession) {
+				WriteFooter();
+				m_OutputStream.close();
+				delete m_CurrentSession;
+				m_CurrentSession = nullptr;
+				m_ProfileCount = 0;
+			}
 		}
 
 		void WriteProfile(const ProfileResult& result)
 		{
-			std::lock_guard lock(m_mutex);
-			if (m_ProfileCount++ > 0)
-				m_OutputStream << ",";
+			std::lock_guard lock(m_Mutex);
+			if (m_CurrentSession) {
+				if (m_ProfileCount++ > 0)
+					m_OutputStream << ",";
 
-			std::string name = result.Name;
-			std::replace(name.begin(), name.end(), '"', '\'');
+				std::string name = result.Name;
+				std::replace(name.begin(), name.end(), '"', '\'');
 
-			m_OutputStream << "{";
-			m_OutputStream << "\"cat\":\"function\",";
-			m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
-			m_OutputStream << "\"name\":\"" << name << "\",";
-			m_OutputStream << "\"ph\":\"X\",";
-			m_OutputStream << "\"pid\":0,";
-			m_OutputStream << "\"tid\":" << result.ThreadID << ",";
-			m_OutputStream << "\"ts\":" << result.Start;
-			m_OutputStream << "}";
+				m_OutputStream << "{";
+				m_OutputStream << "\"cat\":\"function\",";
+				m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
+				m_OutputStream << "\"name\":\"" << name << "\",";
+				m_OutputStream << "\"ph\":\"X\",";
+				m_OutputStream << "\"pid\":0,";
+				m_OutputStream << "\"tid\":" << result.ThreadID << ",";
+				m_OutputStream << "\"ts\":" << result.Start;
+				m_OutputStream << "}";
 
-			m_OutputStream.flush();
+				m_OutputStream.flush();
+			}
 		}
 
+		static Instrumentor& Get() {
+			static Instrumentor instance;
+			return instance;
+		}
+
+	private:
 		void WriteHeader()
 		{
 			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
@@ -85,11 +109,6 @@ namespace Hazel {
 			m_OutputStream.flush();
 		}
 
-		static Instrumentor& Get()
-		{
-			static Instrumentor instance;
-			return instance;
-		}
 	};
 
 	class InstrumentationTimer
