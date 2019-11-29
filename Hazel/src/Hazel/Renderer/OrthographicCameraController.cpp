@@ -63,5 +63,20 @@ namespace Hazel {
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
 	}
+	
+	void OrthographicCameraController::ChangePosition(float x, float y) 
+	{ 
+		m_CameraPosition.x += deltaX;
+		m_CameraPosition.y += deltaY;
+
+		m_Camera.SetPosition(m_CameraPosition);
+	}
+		
+	void OrthographicCameraController::ChangeRotation(float rotation) 
+	{ 
+		m_CameraRotation += rotation;
+
+		m_Camera.SetRotation(m_CameraRotation);
+	}
 
 }
