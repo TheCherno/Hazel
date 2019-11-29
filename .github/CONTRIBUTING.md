@@ -50,11 +50,15 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 - Limit your changes to only what is required to implement the fix or feature. In particular, avoid style or formatting tools that may modify the formatting of other areas of the code.
 
+- Make sure the code you submit compiles and runs without issues. When we set up unit tests and code integration we also expect that the pull request should pass all tests.
+
 - Follow our coding conventions, which we've intentionally kept quite minimal.
 
 ### Coding Conventions
 
-- For variables we use readable camel case: `doSomethingCool`. If they are class members use the 'm_' prefix: `m_DoSomethingCool`. When they are static use the 's_' prefix: `s_DoSomethingCool`.
+- For variables we use readable camel case: `variableName`. If they are class members use Hungarian notation (the 'm_' prefix): `m_ClassMemberVariableName`. When they are static use the 's_' prefix: `s_ClassStaticVariableName`. For class names we use Pascal case: `ClassName`. For functions we also use Pascal case: `FunctionName`, and we use camel case for parameters: `parameterName`.
+
+- For macros we use snake case: `MACRO_NAME` and if it is specifically related to Hazel we add the prefix 'HZ_' to it: `HZ_MACRO_NAME`.
 
 - Use tabs for indentation, not spaces.
 
