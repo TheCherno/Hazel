@@ -50,7 +50,7 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 - Limit your changes to only what is required to implement the fix or feature. In particular, avoid style or formatting tools that may modify the formatting of other areas of the code.
 
-- Make sure the code you submit compiles and runs without issues. When we set up unit tests and code integration we also expect that the pull request should pass all tests.
+- Make sure the code you submit compiles and runs without issues. When we set up unit tests and continuous integration we also expect that the pull request should pass all tests.
 
 - Follow our coding conventions, which we've intentionally kept quite minimal.
 
