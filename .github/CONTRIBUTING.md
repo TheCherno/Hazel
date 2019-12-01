@@ -56,9 +56,19 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 ### Coding Conventions
 
-- For variables we use readable camel case: `variableName`. If they are class members use Hungarian notation (the 'm_' prefix): `m_ClassMemberVariableName`. When they are static use the 's_' prefix: `s_ClassStaticVariableName`. For class names we use Pascal case: `ClassName`. For functions we also use Pascal case: `FunctionName`, and we use camel case for parameters: `parameterName`.
+- Naming convention:
+  - For functions we use pascal case: **`FunctionName`**.
+  - For (scoped) variables and function parameters we use camel case: **`variableName`** and **`parameterName`**.
 
-- For macros we use snake case: `MACRO_NAME` and if it is specifically related to Hazel we add the prefix 'HZ_' to it: `HZ_MACRO_NAME`.
+  - For class names we use pascal case: **`ClassName`**.
+
+  - For class variables we use the Hungarian notation:
+    - Class member variables get the 'm_' prefix: **`m_ClassMemberVariableName`**.
+    - Class static variables get the 's_' prefix: **`s_ClassStaticVariableName`**.
+
+  - For macros we use snake case: **`MACRO_NAME`**.
+    - If it is specifically related to Hazel, we add the 'HZ_' prefix: **`HZ_MACRO_NAME`**.
+    - If there is a macro for the application and for the engine, we add an additional 'CORE_' prefix to the engine macro:  **`HZ_CORE_MACRO_NAME`**.
 
 - Use tabs for indentation, not spaces.
 
