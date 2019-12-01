@@ -35,6 +35,7 @@ namespace Hazel {
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
+			std::lock_guard lock(m_Mutex);
 			if (m_CurrentSession) {
 				// If there is already a current session, then close it before beginning new one.
 				// Subsequent profiling output meant for the original session will end up in the
@@ -43,9 +44,8 @@ namespace Hazel {
 				if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
 					HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
 				}
-				EndSession();
+				InternalEndSession();
 			}
-			std::lock_guard lock(m_Mutex);
 			m_OutputStream.open(filepath);
 			if (m_OutputStream.is_open()) {
 				m_CurrentSession = new InstrumentationSession({name});
@@ -58,13 +58,7 @@ namespace Hazel {
 		void EndSession()
 		{
 			std::lock_guard lock(m_Mutex);
-			if (m_CurrentSession) {
-				WriteFooter();
-				m_OutputStream.close();
-				delete m_CurrentSession;
-				m_CurrentSession = nullptr;
-				m_ProfileCount = 0;
-			}
+			InternalEndSession();
 		}
 
 		void WriteProfile(const ProfileResult& result)
@@ -97,6 +91,7 @@ namespace Hazel {
 		}
 
 	private:
+
 		void WriteHeader()
 		{
 			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
@@ -107,6 +102,18 @@ namespace Hazel {
 		{
 			m_OutputStream << "]}";
 			m_OutputStream.flush();
+		}
+
+		// Note: you must already own lock on m_Mutex before
+		// calling InternalEndSession()
+		void InternalEndSession() {
+			if (m_CurrentSession) {
+				WriteFooter();
+				m_OutputStream.close();
+				delete m_CurrentSession;
+				m_CurrentSession = nullptr;
+				m_ProfileCount = 0;
+			}
 		}
 
 	};
