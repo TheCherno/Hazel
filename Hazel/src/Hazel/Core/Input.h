@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Hazel/Core.h"
-#include "Hazel/KeyCodes.h"
-#include "Hazel/MouseButtonCodes.h"
+#include "Hazel/Core/Core.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Core/MouseButtonCodes.h"
 
 namespace Hazel {
 
-	class HAZEL_API Input
+	class Input
 	{
 	protected:
 		Input() = default;
@@ -28,7 +28,6 @@ namespace Hazel {
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
 	private:
-		static Input* s_Instance;
+		static Scope<Input> s_Instance;
 	};
-
 }
