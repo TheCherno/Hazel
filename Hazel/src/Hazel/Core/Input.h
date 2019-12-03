@@ -2,7 +2,7 @@
 
 #include "Hazel/Core/Core.h"
 #include "Hazel/Core/KeyCodes.h"
-#include "Hazel/Core/MouseButtonCodes.h"
+#include "Hazel/Core/MouseCodes.h"
 
 namespace Hazel {
 
