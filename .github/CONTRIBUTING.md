@@ -52,7 +52,7 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 - Make sure the code you submit compiles and runs without issues. When we set up unit tests and continuous integration we also expect that the pull request should pass all tests.
 
-- Use [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords)  in the appropriate section of our Pull Request template where applicable.
+- Use [closing keywords](https://help.github.com/en/articles/closing-issues-using-keywords) in the appropriate section of our Pull Request template where applicable.
 
 - Follow our coding conventions, which we've intentionally kept quite minimal.
 
