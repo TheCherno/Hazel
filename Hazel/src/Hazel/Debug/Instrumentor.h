@@ -27,10 +27,9 @@ namespace Hazel {
 		std::atomic<bool> m_HasSession;
 		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
-		int m_ProfileCount;
 	public:
 		Instrumentor()
-			: m_CurrentSession(nullptr), m_ProfileCount(0)
+			: m_HasSession(false), m_CurrentSession(nullptr)
 		{
 		}
 
@@ -67,13 +66,11 @@ namespace Hazel {
 		{
 			if (m_HasSession) {
 				std::stringstream json;
-				if (m_ProfileCount++ > 0)
-					json << ",";
 
 				std::string name = result.Name;
 				std::replace(name.begin(), name.end(), '"', '\'');
 
-				json << "{";
+				json << ",{";
 				json << "\"cat\":\"function\",";
 				json << "\"dur\":" << (result.End - result.Start) << ',';
 				json << "\"name\":\"" << name << "\",";
@@ -98,7 +95,7 @@ namespace Hazel {
 
 		void WriteHeader()
 		{
-			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
+			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[{}";
 			m_OutputStream.flush();
 		}
 
@@ -116,8 +113,7 @@ namespace Hazel {
 				m_OutputStream.close();
 				delete m_CurrentSession;
 				m_CurrentSession = nullptr;
-				m_HasSession = 0;
-				m_ProfileCount = 0;
+				m_HasSession = false;
 			}
 		}
 
