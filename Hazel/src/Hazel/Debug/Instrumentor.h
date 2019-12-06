@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <atomic>
 #include <chrono>
 #include <fstream>
 #include <string>
@@ -24,19 +23,18 @@ namespace Hazel {
 	{
 	private:
 		std::mutex m_Mutex;
-		std::atomic<bool> m_HasSession;
 		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
 	public:
 		Instrumentor()
-			: m_HasSession(false), m_CurrentSession(nullptr)
+			: m_CurrentSession(nullptr)
 		{
 		}
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
 			std::lock_guard lock(m_Mutex);
-			if (m_HasSession) {
+			if (m_CurrentSession) {
 				// If there is already a current session, then close it before beginning new one.
 				// Subsequent profiling output meant for the original session will end up in the
 				// newly opened session instead.  That's better than having badly formatted
@@ -48,7 +46,6 @@ namespace Hazel {
 			}
 			m_OutputStream.open(filepath);
 			if (m_OutputStream.is_open()) {
-				m_HasSession = true;
 				m_CurrentSession = new InstrumentationSession({name});
 				WriteHeader();
 			} else {
@@ -64,23 +61,23 @@ namespace Hazel {
 
 		void WriteProfile(const ProfileResult& result)
 		{
-			if (m_HasSession) {
-				std::stringstream json;
+			std::stringstream json;
 
-				std::string name = result.Name;
-				std::replace(name.begin(), name.end(), '"', '\'');
+			std::string name = result.Name;
+			std::replace(name.begin(), name.end(), '"', '\'');
 
-				json << ",{";
-				json << "\"cat\":\"function\",";
-				json << "\"dur\":" << (result.End - result.Start) << ',';
-				json << "\"name\":\"" << name << "\",";
-				json << "\"ph\":\"X\",";
-				json << "\"pid\":0,";
-				json << "\"tid\":" << result.ThreadID << ",";
-				json << "\"ts\":" << result.Start;
-				json << "}";
+			json << ",{";
+			json << "\"cat\":\"function\",";
+			json << "\"dur\":" << (result.End - result.Start) << ',';
+			json << "\"name\":\"" << name << "\",";
+			json << "\"ph\":\"X\",";
+			json << "\"pid\":0,";
+			json << "\"tid\":" << result.ThreadID << ",";
+			json << "\"ts\":" << result.Start;
+			json << "}";
 
-				std::lock_guard lock(m_Mutex);
+			std::lock_guard lock(m_Mutex);
+			if (m_CurrentSession) {
 				m_OutputStream << json.str();
 				m_OutputStream.flush();
 			}
@@ -113,7 +110,6 @@ namespace Hazel {
 				m_OutputStream.close();
 				delete m_CurrentSession;
 				m_CurrentSession = nullptr;
-				m_HasSession = false;
 			}
 		}
 
