@@ -49,7 +49,9 @@ namespace Hazel {
 				m_CurrentSession = new InstrumentationSession({name});
 				WriteHeader();
 			} else {
-				HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+				if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+					HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+				}
 			}
 		}
 
