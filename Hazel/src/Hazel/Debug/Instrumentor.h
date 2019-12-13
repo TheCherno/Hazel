@@ -4,6 +4,7 @@
 #include <chrono>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 #include <thread>
 
@@ -11,7 +12,7 @@ namespace Hazel {
 	struct ProfileResult
 	{
 		std::string Name;
-		long long Start, End;
+		long double Start, End;
 		uint32_t ThreadID;
 	};
 
@@ -35,6 +36,7 @@ namespace Hazel {
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
 			m_OutputStream.open(filepath);
+			m_OutputStream << std::setprecision(3) << std::fixed;
 			WriteHeader();
 			m_CurrentSession = new InstrumentationSession{ name };
 		}
@@ -107,8 +109,8 @@ namespace Hazel {
 		{
 			auto endTimepoint = std::chrono::high_resolution_clock::now();
 
-			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+			long double start = static_cast<long double>(std::chrono::time_point_cast<std::chrono::nanoseconds>(m_StartTimepoint).time_since_epoch().count()) / 1000;
+			long double end = static_cast<long double>(std::chrono::time_point_cast<std::chrono::nanoseconds>(endTimepoint).time_since_epoch().count()) / 1000;
 
 			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
 			Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
