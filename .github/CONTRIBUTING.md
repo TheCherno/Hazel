@@ -42,7 +42,7 @@ You've created a new fix or feature for Hazel. Awesome!
 
 4. Give us a moment. Hazel is maintained by only a few people, all of whom are doing this on their limited free time, so it may take us a bit to review your request. Bug fixes should be merged in directly, while features usually require Cherno's approval with or without it mentioned in one (or more) videos.
 
-If you're not sure what any of that means, check out Thinkful's [GitHub Pull Request Tutorial](https://www.thinkful.com/learn/github-pull-request-tutorial/) for a complete walkthrough of the process.
+If you're not sure what any of that means, check out Thinkful's [GitHub Pull Request Tutorial][thinkful-pr-tutorial] for a complete walkthrough of the process.
 
 ### Writing a Good Pull Request
 
@@ -50,11 +50,29 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 
 - Limit your changes to only what is required to implement the fix or feature. In particular, avoid style or formatting tools that may modify the formatting of other areas of the code.
 
+- Use descriptive commit titles/messages. "Implemented \<feature\>" or "Fixed \<problem\> is better than "Updated \<file\>".
+
+- Make sure the code you submit compiles and runs without issues. When we set up unit tests and continuous integration we also expect that the pull request should pass all tests.
+
+- Use [closing keywords][github-help-closing-keywords] in the appropriate section of our Pull Request template where applicable.
+
 - Follow our coding conventions, which we've intentionally kept quite minimal.
 
 ### Coding Conventions
 
-- For variables we use readable camel case: `doSomethingCool`. If they are class members use the 'm_' prefix: `m_DoSomethingCool`. When they are static use the 's_' prefix: `s_DoSomethingCool`.
+- Naming convention:
+  - For functions we use pascal case: **`FunctionName`**.
+  - For (scoped) variables and function parameters we use camel case: **`variableName`** and **`parameterName`**.
+
+  - For class names we use pascal case: **`ClassName`**.
+
+  - For class variables we use the Hungarian notation:
+    - Class member variables get the 'm_' prefix: **`m_ClassMemberVariableName`**.
+    - Class static variables get the 's_' prefix: **`s_ClassStaticVariableName`**.
+
+  - For macros we use snake case: **`MACRO_NAME`**.
+    - If it is specifically related to Hazel, we add the 'HZ_' prefix: **`HZ_MACRO_NAME`**.
+    - If there is a macro for the application and for the engine, we add an additional 'CORE_' prefix to the engine macro:  **`HZ_CORE_MACRO_NAME`**.
 
 - Use tabs for indentation, not spaces.
 
@@ -66,3 +84,5 @@ If you're not sure what any of that means, check out Thinkful's [GitHub Pull Req
 [how-to-ask]: https://stackoverflow.com/help/how-to-ask
 [issue-tracker]: https://github.com/TheCherno/Hazel/issues
 [submit-pr]: https://github.com/TheCherno/Hazel/pulls
+[thinkful-pr-tutorial]: https://www.thinkful.com/learn/github-pull-request-tutorial/
+[github-help-closing-keywords]: https://help.github.com/en/articles/closing-issues-using-keywords
