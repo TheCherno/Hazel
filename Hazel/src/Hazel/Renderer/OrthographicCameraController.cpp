@@ -9,29 +9,42 @@ namespace Hazel {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
 		: m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
 	{
+		/* Those remaps can be done (and should be done) at user-level layers or 
+		 * apps). However, since this CameraController is using those Key Inputs
+		 * initially, if user forgot to map those key, camera will not react to
+		 * inputs, so we pre-map at least those keys here.
+		 */
+		//Input::Remap("camera_move_left", Hazel::InputKey(HZ_KEY_A)); // this also works;
+		Input::Remap(InputName::CameraMoveLeft, Hazel::InputKey(Hazel::KeyCode::A));
+		Input::Remap(InputName::CameraMoveRight, Hazel::InputKey(Hazel::KeyCode::D));
+		Input::Remap(InputName::CameraMoveUp, Hazel::InputKey(Hazel::KeyCode::W));
+		Input::Remap(InputName::CameraMoveDown, Hazel::InputKey(Hazel::KeyCode::S));
+
+		Input::Remap(InputName::CameraRotateClockwise, Hazel::InputKey(Hazel::KeyCode::E));
+		Input::Remap(InputName::CameraRotateAntiClockwise, Hazel::InputKey(Hazel::KeyCode::Q));
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		HZ_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(HZ_KEY_A))
+		if (Input::IsInputPressed(InputName::CameraMoveLeft))
 		{
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_D))
+		else if (Input::IsInputPressed(InputName::CameraMoveRight))
 		{
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		if (Input::IsKeyPressed(HZ_KEY_W))
+		if (Input::IsInputPressed(InputName::CameraMoveUp))
 		{
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_S))
+		else if (Input::IsInputPressed(InputName::CameraMoveDown))
 		{
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
@@ -39,9 +52,9 @@ namespace Hazel {
 
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(HZ_KEY_Q))
+			if (Input::IsInputPressed(InputName::CameraRotateClockwise))
 				m_CameraRotation += m_CameraRotationSpeed * ts;
-			if (Input::IsKeyPressed(HZ_KEY_E))
+			if (Input::IsInputPressed(InputName::CameraRotateAntiClockwise))
 				m_CameraRotation -= m_CameraRotationSpeed * ts;
 
 			if (m_CameraRotation > 180.0f)
