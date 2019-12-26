@@ -96,11 +96,11 @@ namespace Hazel {
 
 			auto check_path = std::filesystem::path(".") / m_BaseDirectory / path;	//Subdirectory of project
 			if (std::filesystem::exists(check_path))
-				return check_path;
+				return check_path.string();
 
 			check_path = std::filesystem::path("../../..") / m_BaseDirectory / path;	//Decend to project directory from executable's directory
 			if (std::filesystem::exists(check_path))
-				return check_path;
+				return check_path.string();
 		#endif
 
 		return path;
