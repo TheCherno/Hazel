@@ -9,10 +9,14 @@
 #include <thread>
 
 namespace Hazel {
+
+	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
+
 	struct ProfileResult
 	{
 		std::string Name;
-		long double Start, End;
+		FloatingPointMicroseconds Start;
+		std::chrono::microseconds ElapsedTime;
 		uint32_t ThreadID;
 	};
 
@@ -60,15 +64,15 @@ namespace Hazel {
 
 			m_OutputStream << "{";
 			m_OutputStream << "\"cat\":\"function\",";
-			m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
+			m_OutputStream << "\"dur\":" << (result.ElapsedTime.count()) << ',';
 			m_OutputStream << "\"name\":\"" << name << "\",";
 			m_OutputStream << "\"ph\":\"X\",";
 			m_OutputStream << "\"pid\":0,";
 			m_OutputStream << "\"tid\":" << result.ThreadID << ",";
-			m_OutputStream << "\"ts\":" << result.Start;
+			m_OutputStream << "\"ts\":" << result.Start.count();
 			m_OutputStream << "}";
 
-			m_OutputStream.flush();
+			m_OutputStream << std::endl;
 		}
 
 		void WriteHeader()
@@ -96,7 +100,7 @@ namespace Hazel {
 		InstrumentationTimer(const char* name)
 			: m_Name(name), m_Stopped(false)
 		{
-			m_StartTimepoint = std::chrono::high_resolution_clock::now();
+			m_StartTimepoint = std::chrono::steady_clock::now();
 		}
 
 		~InstrumentationTimer()
@@ -107,19 +111,18 @@ namespace Hazel {
 
 		void Stop()
 		{
-			auto endTimepoint = std::chrono::high_resolution_clock::now();
-
-			long double start = static_cast<long double>(std::chrono::time_point_cast<std::chrono::nanoseconds>(m_StartTimepoint).time_since_epoch().count()) / 1000;
-			long double end = static_cast<long double>(std::chrono::time_point_cast<std::chrono::nanoseconds>(endTimepoint).time_since_epoch().count()) / 1000;
-
+			auto endTimepoint = std::chrono::steady_clock::now();
+			auto highResStart = FloatingPointMicroseconds{ m_StartTimepoint.time_since_epoch() };
+			auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch();
 			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-			Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
+
+			Instrumentor::Get().WriteProfile({ m_Name, highResStart, elapsedTime, threadID });
 
 			m_Stopped = true;
 		}
 	private:
 		const char* m_Name;
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
+		std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
 		bool m_Stopped;
 	};
 }
