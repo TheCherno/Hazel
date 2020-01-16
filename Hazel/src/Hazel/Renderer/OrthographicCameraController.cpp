@@ -59,7 +59,7 @@ namespace Hazel {
 
 	void OrthographicCameraController::SetZoomLevel(float level)
 	{
-		HZ_CORE_ASSERT(level > 0.0f, "Zoom Level have to be bigger than 0.0f!");
+		HZ_CORE_ASSERT(level > 0.0f, "Zoom Level has to be higher than 0.0f!");
 
 		// translation speed should scale relative to the zoom level changes;
 		float diff = level / m_ZoomLevel; // zoom in -> fast translation, zoom out -> slow translation;
