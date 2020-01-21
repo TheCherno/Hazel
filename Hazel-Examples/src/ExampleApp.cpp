@@ -3,20 +3,20 @@
 
 #include "ExampleLayer.h"
 
-class Sandbox : public Hazel::Application
+class ExampleApp : public Hazel::Application
 {
 public:
-	Sandbox()
+	ExampleApp()
 	{
 		PushLayer(new ExampleLayer());
 	}
 
-	~Sandbox()
+	~ExampleApp()
 	{
 	}
 };
 
 Hazel::Application* Hazel::CreateApplication()
 {
-	return new Sandbox();
+	return new ExampleApp();
 }
