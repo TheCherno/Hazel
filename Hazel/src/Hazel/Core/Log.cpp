@@ -1,5 +1,5 @@
 #include "hzpch.h"
-//#include "Hazel/Core/Log.h"		included in hzpch.h already
+#include "Hazel/Core/Log.h"
 
 #include <spdlog/sinks/basic_file_sink.h>
 
@@ -14,11 +14,11 @@ namespace Hazel {
 		s_ConsoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 
 		std::vector<spdlog::sink_ptr> coreSinks;
-		coreSinks.emplace_back(s_ConsoleSink); // VS debug console
+		coreSinks.emplace_back(s_ConsoleSink);
 		coreSinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Hazel-Core.log", true));
 
 		std::vector<spdlog::sink_ptr> clientSinks;
-		clientSinks.emplace_back(s_ConsoleSink); // VS debug console
+		clientSinks.emplace_back(s_ConsoleSink);
 		clientSinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Hazel-Client.log", true));
 
 		s_CoreLogger = std::make_shared<spdlog::logger>("HAZEL", begin(coreSinks), end(coreSinks));
