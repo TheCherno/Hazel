@@ -25,7 +25,6 @@ namespace Hazel {
 		s_ClientLogger = std::make_shared<spdlog::logger>("APP", begin(logSinks), end(logSinks));
 		spdlog::register_logger(s_ClientLogger);
 		s_ClientLogger->set_level(spdlog::level::trace);
-
 	}
 
 }
