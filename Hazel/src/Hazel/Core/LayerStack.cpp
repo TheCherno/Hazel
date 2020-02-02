@@ -30,6 +30,7 @@ namespace Hazel {
 		{
 			layer->OnDetach();
 			m_Layers.erase(it);
+			delete layer;
 			m_LayerInsertIndex--;
 		}
 	}
@@ -40,6 +41,7 @@ namespace Hazel {
 		if (it != m_Layers.end())
 		{
 			overlay->OnDetach();
+			delete overlay;
 			m_Layers.erase(it);
 		}
 	}
