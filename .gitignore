@@ -3,6 +3,9 @@
 !vendor/bin/premake/
 bin-int/
 
+# ImGUI files
+imgui.ini
+
 # Hazel files
 *.log
 
