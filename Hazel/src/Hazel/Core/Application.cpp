@@ -9,6 +9,8 @@
 
 #include <glfw/glfw3.h>
 
+#include <imgui.h>
+
 namespace Hazel {
 
 	Application* Application::s_Instance = nullptr;
@@ -58,6 +60,12 @@ namespace Hazel {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
+
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.WantCaptureMouse)
+		{
+			e.Handled = true;
+		}
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
