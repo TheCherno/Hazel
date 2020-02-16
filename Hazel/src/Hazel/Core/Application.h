@@ -18,7 +18,7 @@ namespace Hazel {
 	class Application
 	{
 	public:
-		Application();
+		Application(const WindowProps& props);
 		virtual ~Application();
 
 		void OnEvent(Event& e);

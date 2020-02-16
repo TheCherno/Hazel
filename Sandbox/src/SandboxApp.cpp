@@ -7,7 +7,8 @@
 class Sandbox : public Hazel::Application
 {
 public:
-	Sandbox()
+	Sandbox(const Hazel::WindowProps& props)
+		:Application(props)
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
@@ -20,5 +21,5 @@ public:
 
 Hazel::Application* Hazel::CreateApplication()
 {
-	return new Sandbox();
+	return new Sandbox({ "Sandbox - Hazel" });
 }
