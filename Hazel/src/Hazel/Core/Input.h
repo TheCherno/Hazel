@@ -14,7 +14,7 @@ namespace Hazel {
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
-		static bool IsKeyPressed(KeyCode keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
+		static bool IsKeyPressed(KeyCode key) { return s_Instance->IsKeyPressedImpl(key); }
 
 		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
