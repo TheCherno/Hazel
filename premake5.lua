@@ -84,7 +84,6 @@ project "Hazel"
 
 		defines
 		{
-			"HZ_BUILD_DLL"
 		}
 
 	filter "configurations:Debug"
