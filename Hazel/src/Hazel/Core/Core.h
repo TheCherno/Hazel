@@ -44,8 +44,11 @@
 #endif // End of platform detection
 
 #ifdef HZ_DEBUG
-	#ifdef HZ_PLATFORM_WINDOWS
+	#if defined(HZ_PLATFORM_WINDOWS)
 		#define HZ_DEBUGBREAK() __debugbreak()
+	#elif defined(HZ_PLATFORM_LINUX)
+		#include <signal.h>
+		#define HZ_DEBUGBREAK() raise(SIGTRAP)
 	#else
 		#error "Platform doesn't support debugbreak yet!"
 	#endif
