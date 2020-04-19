@@ -50,6 +50,8 @@
 		#error "Platform doesn't support debugbreak yet!"
 	#endif
 	#define HZ_ENABLE_ASSERTS
+#else
+	#define HZ_DEBUGBREAK()
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
