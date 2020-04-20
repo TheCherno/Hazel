@@ -153,7 +153,7 @@ namespace Hazel {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		constexpr float tex_coords[] =
+		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
 			1.0f, 0.0f,
@@ -161,13 +161,13 @@ namespace Hazel {
 			0.0f, 1.0f
 		};
 
-		constexpr size_t vertex_count = 4;
+		constexpr size_t quadVertexCount = 4;
 
-		for (size_t i = 0; i < vertex_count; i++)
+		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = { tex_coords[i * 2], tex_coords[i * 2 + 1] };
+			s_Data.QuadVertexBufferPtr->TexCoord = { textureCoords[i * 2], textureCoords[i * 2 + 1] };
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr++;
@@ -207,7 +207,7 @@ namespace Hazel {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		constexpr float tex_coords[] =
+		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
 			1.0f, 0.0f,
@@ -215,13 +215,13 @@ namespace Hazel {
 			0.0f, 1.0f
 		};
 
-		constexpr size_t vertex_count = 4;
+		constexpr size_t quadVertexCount = 4;
 
-		for (size_t i = 0; i < vertex_count; i++)
+		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = { tex_coords[i * 2], tex_coords[i * 2 + 1] };
+			s_Data.QuadVertexBufferPtr->TexCoord = { textureCoords[i * 2], textureCoords[i * 2 + 1] };
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr++;
@@ -246,7 +246,7 @@ namespace Hazel {
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		constexpr float tex_coords[] =
+		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
 			1.0f, 0.0f,
@@ -254,13 +254,13 @@ namespace Hazel {
 			0.0f, 1.0f
 		};
 
-		constexpr size_t vertex_count = 4;
+		constexpr size_t quadVertexCount = 4;
 
-		for (size_t i = 0; i < vertex_count; i++)
+		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = { tex_coords[i * 2], tex_coords[i * 2 + 1] };
+			s_Data.QuadVertexBufferPtr->TexCoord = { textureCoords[i * 2], textureCoords[i * 2 + 1] };
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr++;
@@ -301,7 +301,7 @@ namespace Hazel {
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		constexpr float tex_coords[] =
+		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
 			1.0f, 0.0f,
@@ -309,13 +309,13 @@ namespace Hazel {
 			0.0f, 1.0f
 		};
 
-		constexpr size_t vertex_count = 4;
+		constexpr size_t quadVertexCount = 4;
 
-		for (size_t i = 0; i < vertex_count; i++)
+		for (size_t i = 0; i < quadVertexCount; i++)
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = { tex_coords[i * 2], tex_coords[i * 2 + 1] };
+			s_Data.QuadVertexBufferPtr->TexCoord = { textureCoords[i * 2], textureCoords[i * 2 + 1] };
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 			s_Data.QuadVertexBufferPtr++;
