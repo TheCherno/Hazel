@@ -147,12 +147,8 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		constexpr size_t quadVertexCount = 4;
 		const float textureIndex = 0.0f; // White Texture
-		const float tilingFactor = 1.0f;
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
 		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
@@ -160,8 +156,10 @@ namespace Hazel {
 			1.0f, 1.0f,
 			0.0f, 1.0f
 		};
+		const float tilingFactor = 1.0f;
 
-		constexpr size_t quadVertexCount = 4;
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -185,7 +183,15 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		constexpr float textureCoords[] =
+		{
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f
+		};
 
 		float textureIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
@@ -206,16 +212,6 @@ namespace Hazel {
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
-		constexpr float textureCoords[] =
-		{
-			0.0f, 0.0f,
-			1.0f, 0.0f,
-			1.0f, 1.0f,
-			0.0f, 1.0f
-		};
-
-		constexpr size_t quadVertexCount = 4;
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -239,13 +235,8 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		constexpr size_t quadVertexCount = 4;
 		const float textureIndex = 0.0f; // White Texture
-		const float tilingFactor = 1.0f;
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
 		constexpr float textureCoords[] =
 		{
 			0.0f, 0.0f,
@@ -253,8 +244,11 @@ namespace Hazel {
 			1.0f, 1.0f,
 			0.0f, 1.0f
 		};
+		const float tilingFactor = 1.0f;
 
-		constexpr size_t quadVertexCount = 4;
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -278,7 +272,15 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		constexpr float textureCoords[] =
+		{
+			0.0f, 0.0f,
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f
+		};
 
 		float textureIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
@@ -300,16 +302,6 @@ namespace Hazel {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
-		constexpr float textureCoords[] =
-		{
-			0.0f, 0.0f,
-			1.0f, 0.0f,
-			1.0f, 1.0f,
-			0.0f, 1.0f
-		};
-
-		constexpr size_t quadVertexCount = 4;
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
