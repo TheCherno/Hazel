@@ -14,7 +14,7 @@ namespace Hazel {
 		{
 			HZ_CORE_ASSERT(min < max, "min is > max");
 			std::uniform_real_distribution<T> dist(min, max);
-			auto& mt = Random::GetEngine();
+			auto& mt = GetEngine();
 			return dist(mt);
 		}
 
@@ -42,7 +42,7 @@ namespace Hazel {
 		}
 
 	private:
-		static std::mt19937& Random::GetEngine()
+		static inline std::mt19937& Random::GetEngine()
 		{
 			static std::random_device seed_gen;
 			static std::mt19937 engine(seed_gen());
