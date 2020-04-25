@@ -10,7 +10,7 @@ namespace Hazel {
 		* Returns a Random Real between min and max
 		*/
 		template<typename T>
-		static inline T Real(T min, T max)
+		static T Real(T min, T max)
 		{
 			HZ_CORE_ASSERT(min < max, "min is > max");
 			std::uniform_real_distribution<T> dist(min, max);
@@ -22,7 +22,7 @@ namespace Hazel {
 		* Returns a Random Integer between min and max
 		*/
 		template<typename T>
-		static inline T Int(T min, T max)
+		static T Int(T min, T max)
 		{
 			HZ_CORE_ASSERT(min < max, "min is > max");
 			std::uniform_int_distribution<T> dist(min, max);
@@ -33,7 +33,7 @@ namespace Hazel {
 		/*
 		* Returns a Random bool value, either 'true' or 'false'
 		*/
-		static inline bool Bool()
+		static bool Bool()
 		{
 			//fifty fifty chance
 			std::bernoulli_distribution dist(0.5);
@@ -42,7 +42,7 @@ namespace Hazel {
 		}
 
 	private:
-		static inline std::mt19937& Random::GetEngine()
+		static std::mt19937& Random::GetEngine()
 		{
 			static std::random_device seed_gen;
 			static std::mt19937 engine(seed_gen());
