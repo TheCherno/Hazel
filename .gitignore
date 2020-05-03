@@ -12,3 +12,9 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+# Cmake
+cmake-build-*
+
+# CLion
+.idea/
