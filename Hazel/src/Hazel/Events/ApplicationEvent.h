@@ -4,16 +4,16 @@
 
 namespace Hazel {
 
-	class WindowResizeEvent : public Event
+	class WindowResizeEvent final : public Event
 	{
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height)
+		explicit WindowResizeEvent(unsigned int width, unsigned int height)
 			: m_Width(width), m_Height(height) {}
 
-		unsigned int GetWidth() const { return m_Width; }
-		unsigned int GetHeight() const { return m_Height; }
+		[[nodiscard]] unsigned int GetWidth() const { return m_Width; }
+		[[nodiscard]] unsigned int GetHeight() const { return m_Height; }
 
-		std::string ToString() const override
+		[[nodiscard]] std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;

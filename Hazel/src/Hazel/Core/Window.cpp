@@ -8,7 +8,7 @@
 namespace Hazel
 {
 
-	Scope<Window> Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const Window::Props& props)
 	{
 	#if defined(HZ_PLATFORM_WINDOWS) || defined(HZ_PLATFORM_LINUX)
 		return CreateScope<WindowsWindow>(props);

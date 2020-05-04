@@ -20,7 +20,7 @@ namespace Hazel {
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	WindowsWindow::WindowsWindow(const WindowProps& props)
+	WindowsWindow::WindowsWindow(const Window::Props& props)
 	{
 		HZ_PROFILE_FUNCTION();
 
@@ -34,7 +34,7 @@ namespace Hazel {
 		Shutdown();
 	}
 
-	void WindowsWindow::Init(const WindowProps& props)
+	void WindowsWindow::Init(const Window::Props& props)
 	{
 		HZ_PROFILE_FUNCTION();
 
@@ -110,6 +110,9 @@ namespace Hazel {
 					data.EventCallback(event);
 					break;
 				}
+
+                default:
+                    HZ_CRITICAL("Unexpected action value.");
 			}
 		});
 
@@ -139,6 +142,9 @@ namespace Hazel {
 					data.EventCallback(event);
 					break;
 				}
+
+                default:
+                    HZ_CRITICAL("Unexpected action value.");
 			}
 		});
 

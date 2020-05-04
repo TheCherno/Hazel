@@ -6,7 +6,7 @@
 
 namespace Hazel {
 
-	Ref<Shader> Shader::Create(const std::string& filepath)
+	Ref<Shader> Shader::Create(std::string_view filepath)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -18,7 +18,7 @@ namespace Hazel {
 		return nullptr;
 	}
 
-	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+	Ref<Shader> Shader::Create(std::string_view name, std::string_view vertexSrc, std::string_view fragmentSrc)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -30,41 +30,41 @@ namespace Hazel {
 		return nullptr;
 	}
 
-	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
+	void ShaderLibrary::Add(std::string_view name, const Ref<Shader>& shader)
 	{
 		HZ_CORE_ASSERT(!Exists(name), "Shader already exists!");
-		m_Shaders[name] = shader;
+		m_Shaders[name.data()] = shader;
 	}
 
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
-		auto& name = shader->GetName();
+		auto name = shader->GetName();
 		Add(name, shader);
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
+	Ref<Shader> ShaderLibrary::Load(std::string_view filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	Ref<Shader> ShaderLibrary::Load(std::string_view name, std::string_view filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(name, shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	Ref<Shader> ShaderLibrary::Get(std::string_view name)
 	{
 		HZ_CORE_ASSERT(Exists(name), "Shader not found!");
-		return m_Shaders[name];
+		return m_Shaders[name.data()];
 	}
 
-	bool ShaderLibrary::Exists(const std::string& name) const
+	bool ShaderLibrary::Exists(std::string_view name) const
 	{
-		return m_Shaders.find(name) != m_Shaders.end();
+		return m_Shaders.find(name.data()) != m_Shaders.end();
 	}
 
 }

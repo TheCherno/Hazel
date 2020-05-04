@@ -11,7 +11,7 @@ namespace Hazel {
 	{
 	}
 
-	void OrthographicCameraController::OnUpdate(Timestep ts)
+	void OrthographicCameraController::OnUpdate(const Timestep& ts)
 	{
 		HZ_PROFILE_FUNCTION();
 

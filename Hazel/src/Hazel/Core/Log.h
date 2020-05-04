@@ -33,4 +33,4 @@ namespace Hazel {
 #define HZ_INFO(...)          ::Hazel::Log::GetClientLogger()->info(__VA_ARGS__)
 #define HZ_WARN(...)          ::Hazel::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define HZ_ERROR(...)         ::Hazel::Log::GetClientLogger()->error(__VA_ARGS__)
-#define HZ_CRITICAL(...)      ::Hazel::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define HZ_CRITICAL(...)      ::Hazel::Log::GetClientLogger()->critical(__VA_ARGS__); throw std::runtime_error("Fatal error.");

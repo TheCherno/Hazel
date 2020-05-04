@@ -23,12 +23,12 @@ namespace Hazel {
 
 		static Scope<Input> Create();
 	protected:
-		virtual bool IsKeyPressedImpl(KeyCode key) = 0;
+        [[nodiscard]] virtual bool IsKeyPressedImpl(KeyCode key) const = 0;
 
-		virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;
-		virtual std::pair<float, float> GetMousePositionImpl() = 0;
-		virtual float GetMouseXImpl() = 0;
-		virtual float GetMouseYImpl() = 0;
+        [[nodiscard]] virtual bool IsMouseButtonPressedImpl(MouseCode button) const = 0;
+        [[nodiscard]] virtual std::pair<float, float> GetMousePositionImpl() const = 0;
+        [[nodiscard]] virtual float GetMouseXImpl() const = 0;
+        [[nodiscard]] virtual float GetMouseYImpl() const = 0;
 	private:
 		static Scope<Input> s_Instance;
 	};

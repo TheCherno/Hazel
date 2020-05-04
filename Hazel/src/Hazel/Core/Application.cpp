@@ -76,7 +76,7 @@ namespace Hazel {
 			HZ_PROFILE_SCOPE("RunLoop");
 
 			float time = (float)glfwGetTime();
-			Timestep timestep = time - m_LastFrameTime;
+			auto timestep = Timestep{ time - m_LastFrameTime };
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)

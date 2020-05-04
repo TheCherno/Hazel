@@ -21,7 +21,7 @@ void Sandbox2D::OnDetach()
 	HZ_PROFILE_FUNCTION();
 }
 
-void Sandbox2D::OnUpdate(Hazel::Timestep ts)
+void Sandbox2D::OnUpdate(const Hazel::Timestep& ts)
 {
 	HZ_PROFILE_FUNCTION();
 

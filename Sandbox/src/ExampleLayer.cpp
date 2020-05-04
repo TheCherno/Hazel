@@ -136,7 +136,7 @@ void ExampleLayer::OnDetach()
 {
 }
 
-void ExampleLayer::OnUpdate(Hazel::Timestep ts) 
+void ExampleLayer::OnUpdate(const Hazel::Timestep& ts)
 {
 	// Update
 	m_CameraController.OnUpdate(ts);
