@@ -10,13 +10,13 @@
 namespace Hazel {
 
 	template <size_t N>
-	struct fixed_string {
+	struct Fixed_String {
 		char data[N];
 	};
 
 	template <size_t N>
-	constexpr auto clean_expression(const char(&expr)[N]) {
-		fixed_string<N> result = {};
+	constexpr auto Clean_Expression(const char(&expr)[N]) {
+		Fixed_String<N> result = {};
 
 		int src_idx = 0;
 		int dst_idx = 0;
@@ -213,7 +213,7 @@ namespace Hazel {
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
 	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::clean_expression(HZ_FUNC_SIG).data)
+	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::Clean_Expression(HZ_FUNC_SIG).data)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
 	#define HZ_PROFILE_END_SESSION()
