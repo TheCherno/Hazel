@@ -12,7 +12,6 @@ namespace Hazel {
 	template <size_t N>
 	struct fixed_string {
 		char data[N];
-//		size_t size;
 	};
 
 	template <size_t N>
@@ -37,7 +36,6 @@ namespace Hazel {
 		}
 		result.data[dst_idx++] = expr[N - 2];
 		result.data[dst_idx++] = expr[N - 1];
-//		result.size = dst_idx;
 		return result;
 	}
 
