@@ -4,7 +4,8 @@
 #include "Hazel/Core/KeyCodes.h"
 #include "Hazel/Core/MouseCodes.h"
 
-namespace Hazel {
+namespace Hazel
+{
 
 	// TODO: If this enum class grows too big, we will move it to another .h file;
 	/* Hold the name for an input to be mapped. */
