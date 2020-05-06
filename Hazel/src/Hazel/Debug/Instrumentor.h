@@ -9,6 +9,38 @@
 
 namespace Hazel {
 
+	template <size_t N>
+	struct fixed_string {
+		char data[N];
+//		size_t size;
+	};
+
+	template <size_t N>
+	constexpr auto clean_expression(const char(&expr)[N]) {
+		fixed_string<N> result = {};
+
+		int src_idx = 0;
+		int dst_idx = 0;
+		while (src_idx < N - 2) {
+			if (expr[src_idx]     == '_' &&
+				expr[src_idx + 1] == '_' &&
+				expr[src_idx + 2] == 'c' &&
+				expr[src_idx + 3] == 'd' &&
+				expr[src_idx + 4] == 'e' &&
+				expr[src_idx + 5] == 'c' &&
+				expr[src_idx + 6] == 'l' &&
+				expr[src_idx + 7] == ' ')
+			{
+				src_idx += 8;
+			}
+			result.data[dst_idx++] = expr[src_idx++];
+		}
+		result.data[dst_idx++] = expr[N - 2];
+		result.data[dst_idx++] = expr[N - 1];
+//		result.size = dst_idx;
+		return result;
+	}
+
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
 
 	struct ProfileResult
@@ -157,7 +189,7 @@ namespace Hazel {
 	};
 }
 
-#define HZ_PROFILE 0
+#define HZ_PROFILE 1
 #if HZ_PROFILE
 	// Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting
@@ -166,7 +198,7 @@ namespace Hazel {
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
-	#elif defined(__FUNCSIG__)
+	#elif defined(_MSC_VER)
 		#define HZ_FUNC_SIG __FUNCSIG__
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define HZ_FUNC_SIG __FUNCTION__
@@ -183,7 +215,7 @@ namespace Hazel {
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
 	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
+	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::clean_expression(HZ_FUNC_SIG).data)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
 	#define HZ_PROFILE_END_SESSION()
