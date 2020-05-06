@@ -5,7 +5,7 @@
 #include "Hazel/Core/MouseCodes.h"
 
 namespace Hazel {
-	
+
 	// TODO: If this enum class grows too big, we will move it to another .h file;
 	/* Hold the name for an input to be mapped. */
 	enum class InputName : uint16_t
@@ -69,6 +69,8 @@ namespace Hazel {
 		/* Map a Key/Mouse Button to an InputKey, and overwrite the old value if existed. */
 		template <typename T>
 		static void Remap(T name, InputKey inputKey) { s_Instance->m_Mapping[static_cast<uint16_t>(name)] = inputKey; }
+
+		static Scope<Input> Create();
 	protected:
 		virtual bool IsKeyPressedImpl(KeyCode key) = 0;
 
