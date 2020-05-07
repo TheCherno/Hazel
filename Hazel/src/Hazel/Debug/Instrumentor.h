@@ -210,7 +210,7 @@ namespace Hazel {
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
 	#elif (defined(__FUNCSIG__) || (_MSC_VER))
-		#define HZ_FUNC_SIG __FUNCSIG__
+		#define HZ_FUNC_SIG ::Hazel::CleanExpression(__FUNCSIG__).Data
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define HZ_FUNC_SIG __FUNCTION__
 	#elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
@@ -226,7 +226,7 @@ namespace Hazel {
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
 	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::CleanExpression(HZ_FUNC_SIG).Data)
+	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
 	#define HZ_PROFILE_END_SESSION()
