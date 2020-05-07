@@ -10,32 +10,34 @@
 namespace Hazel {
 
 	template <size_t N>
-	struct Fixed_String {
-		char data[N];
+	struct CleanExpressionResult
+	{
+		char Data[N];
 	};
 
 	template <size_t N>
-	constexpr auto Clean_Expression(const char(&expr)[N]) {
-		Fixed_String<N> result = {};
+	constexpr auto CleanExpression(const char(&expr)[N])
+	{
+		CleanExpressionResult<N> result = {};
 
-		int src_idx = 0;
-		int dst_idx = 0;
-		while (src_idx < N - 2) {
-			if (expr[src_idx]     == '_' &&
-				expr[src_idx + 1] == '_' &&
-				expr[src_idx + 2] == 'c' &&
-				expr[src_idx + 3] == 'd' &&
-				expr[src_idx + 4] == 'e' &&
-				expr[src_idx + 5] == 'c' &&
-				expr[src_idx + 6] == 'l' &&
-				expr[src_idx + 7] == ' ')
+		size_t srcIndex = 0;
+		size_t dstIndex = 0;
+		while (srcIndex < N - 2) {
+			if (expr[srcIndex]     == '_' &&
+				expr[srcIndex + 1] == '_' &&
+				expr[srcIndex + 2] == 'c' &&
+				expr[srcIndex + 3] == 'd' &&
+				expr[srcIndex + 4] == 'e' &&
+				expr[srcIndex + 5] == 'c' &&
+				expr[srcIndex + 6] == 'l' &&
+				expr[srcIndex + 7] == ' ')
 			{
-				src_idx += 8;
+				srcIndex += 8;
 			}
-			result.data[dst_idx++] = expr[src_idx++];
+			result.Data[dstIndex++] = expr[srcIndex++];
 		}
-		result.data[dst_idx++] = expr[N - 2];
-		result.data[dst_idx++] = expr[N - 1];
+		result.Data[dstIndex++] = expr[N - 2];
+		result.Data[dstIndex++] = expr[N - 1];
 		return result;
 	}
 
@@ -64,29 +66,34 @@ namespace Hazel {
 	public:
 		Instrumentor()
 			: m_CurrentSession(nullptr)
-		{
-		}
+		{}
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
 			std::lock_guard lock(m_Mutex);
-			if (m_CurrentSession) {
+			if (m_CurrentSession)
+			{
 				// If there is already a current session, then close it before beginning new one.
 				// Subsequent profiling output meant for the original session will end up in the
 				// newly opened session instead.  That's better than having badly formatted
 				// profiling output.
-				if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+				if (Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
+				{
 					HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
 				}
 				InternalEndSession();
 			}
 			m_OutputStream.open(filepath);
 
-			if (m_OutputStream.is_open()) {
+			if (m_OutputStream.is_open())
+			{
 				m_CurrentSession = new InstrumentationSession({name});
 				WriteHeader();
-			} else {
-				if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+			}
+			else
+			{
+				if (Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
+				{
 					HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
 				}
 			}
@@ -117,13 +124,15 @@ namespace Hazel {
 			json << "}";
 
 			std::lock_guard lock(m_Mutex);
-			if (m_CurrentSession) {
+			if (m_CurrentSession)
+			{
 				m_OutputStream << json.str();
 				m_OutputStream.flush();
 			}
 		}
 
-		static Instrumentor& Get() {
+		static Instrumentor& Get()
+		{
 			static Instrumentor instance;
 			return instance;
 		}
@@ -144,8 +153,10 @@ namespace Hazel {
 
 		// Note: you must already own lock on m_Mutex before
 		// calling InternalEndSession()
-		void InternalEndSession() {
-			if (m_CurrentSession) {
+		void InternalEndSession()
+		{
+			if (m_CurrentSession)
+			{
 				WriteFooter();
 				m_OutputStream.close();
 				delete m_CurrentSession;
@@ -167,7 +178,9 @@ namespace Hazel {
 		~InstrumentationTimer()
 		{
 			if (!m_Stopped)
+			{
 				Stop();
+			}
 		}
 
 		void Stop()
@@ -187,7 +200,7 @@ namespace Hazel {
 	};
 }
 
-#define HZ_PROFILE 1
+#define HZ_PROFILE 0
 #if HZ_PROFILE
 	// Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting
@@ -196,7 +209,7 @@ namespace Hazel {
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
-	#elif defined(_MSC_VER)
+	#elif (defined(__FUNCSIG__) || (_MSC_VER))
 		#define HZ_FUNC_SIG __FUNCSIG__
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define HZ_FUNC_SIG __FUNCTION__
@@ -213,7 +226,7 @@ namespace Hazel {
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
 	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
-	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::Clean_Expression(HZ_FUNC_SIG).data)
+	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(::Hazel::CleanExpression(HZ_FUNC_SIG).Data)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
 	#define HZ_PROFILE_END_SESSION()
