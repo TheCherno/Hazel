@@ -20,11 +20,12 @@ namespace Hazel {
 		template <size_t N>
 		constexpr auto RemoveCdecl(const char(&expr)[N])
 		{
-			ChangeResult<N> result = {};
+			ChangeResult<N> result;
 
 			size_t srcIndex = 0;
 			size_t dstIndex = 0;
-			while (srcIndex < N - 2) {
+			while (srcIndex < N - 2)
+			{
 				if (expr[srcIndex]     == '_' &&
 					expr[srcIndex + 1] == '_' &&
 					expr[srcIndex + 2] == 'c' &&
@@ -46,20 +47,14 @@ namespace Hazel {
 		template <size_t N>
 		constexpr auto ReplaceQuotes(const char(&expr)[N])
 		{
-			ChangeResult<N> result = {};
+			ChangeResult<N> result;
 
 			size_t srcIndex = 0;
 			size_t dstIndex = 0;
-			while (srcIndex < N - 2) {
-				if (expr[srcIndex] == '"')
-				{
-					result.Data[dstIndex++] = '\'';
-					srcIndex++;
-				}
-				else
-				{
-					result.Data[dstIndex++] = expr[srcIndex++];
-				}
+			while (srcIndex < N - 2)
+			{
+				result.Data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
+				srcIndex++;
 			}
 			result.Data[dstIndex++] = expr[N - 2];
 			result.Data[dstIndex++] = expr[N - 1];
@@ -136,14 +131,11 @@ namespace Hazel {
 		{
 			std::stringstream json;
 
-			std::string name = result.Name;
-			std::replace(name.begin(), name.end(), '"', '\'');
-
 			json << std::setprecision(3) << std::fixed;
 			json << ",{";
 			json << "\"cat\":\"function\",";
 			json << "\"dur\":" << (result.ElapsedTime.count()) << ',';
-			json << "\"name\":\"" << name << "\",";
+			json << "\"name\":\"" << result.Name << "\",";
 			json << "\"ph\":\"X\",";
 			json << "\"pid\":0,";
 			json << "\"tid\":" << result.ThreadID << ",";
