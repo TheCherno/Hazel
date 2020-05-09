@@ -42,7 +42,7 @@ namespace Hazel {
 		}
 
 	private:
-		static std::mt19937& Random::GetEngine()
+		static std::mt19937& GetEngine()
 		{
 			static std::random_device seed_gen;
 			static std::mt19937 engine(seed_gen());
