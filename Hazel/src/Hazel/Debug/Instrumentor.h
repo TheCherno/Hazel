@@ -9,36 +9,62 @@
 
 namespace Hazel {
 
-	template <size_t N>
-	struct CleanExpressionResult
-	{
-		char Data[N];
-	};
+	namespace InstrumentorUtils {
 
-	template <size_t N>
-	constexpr auto CleanExpression(const char(&expr)[N])
-	{
-		CleanExpressionResult<N> result = {};
+		template <size_t N>
+		struct ChangeResult
+		{
+			char Data[N];
+		};
 
-		size_t srcIndex = 0;
-		size_t dstIndex = 0;
-		while (srcIndex < N - 2) {
-			if (expr[srcIndex]     == '_' &&
-				expr[srcIndex + 1] == '_' &&
-				expr[srcIndex + 2] == 'c' &&
-				expr[srcIndex + 3] == 'd' &&
-				expr[srcIndex + 4] == 'e' &&
-				expr[srcIndex + 5] == 'c' &&
-				expr[srcIndex + 6] == 'l' &&
-				expr[srcIndex + 7] == ' ')
-			{
-				srcIndex += 8;
+		template <size_t N>
+		constexpr auto RemoveCdecl(const char(&expr)[N])
+		{
+			ChangeResult<N> result = {};
+
+			size_t srcIndex = 0;
+			size_t dstIndex = 0;
+			while (srcIndex < N - 2) {
+				if (expr[srcIndex]     == '_' &&
+					expr[srcIndex + 1] == '_' &&
+					expr[srcIndex + 2] == 'c' &&
+					expr[srcIndex + 3] == 'd' &&
+					expr[srcIndex + 4] == 'e' &&
+					expr[srcIndex + 5] == 'c' &&
+					expr[srcIndex + 6] == 'l' &&
+					expr[srcIndex + 7] == ' ')
+				{
+					srcIndex += 8;
+				}
+				result.Data[dstIndex++] = expr[srcIndex++];
 			}
-			result.Data[dstIndex++] = expr[srcIndex++];
+			result.Data[dstIndex++] = expr[N - 2];
+			result.Data[dstIndex++] = expr[N - 1];
+			return result;
 		}
-		result.Data[dstIndex++] = expr[N - 2];
-		result.Data[dstIndex++] = expr[N - 1];
-		return result;
+
+		template <size_t N>
+		constexpr auto ReplaceQuotes(const char(&expr)[N])
+		{
+			ChangeResult<N> result = {};
+
+			size_t srcIndex = 0;
+			size_t dstIndex = 0;
+			while (srcIndex < N - 2) {
+				if (expr[srcIndex] == '"')
+				{
+					result.Data[dstIndex++] = '\'';
+					srcIndex++;
+				}
+				else
+				{
+					result.Data[dstIndex++] = expr[srcIndex++];
+				}
+			}
+			result.Data[dstIndex++] = expr[N - 2];
+			result.Data[dstIndex++] = expr[N - 1];
+			return result;
+		}
 	}
 
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
@@ -211,7 +237,7 @@ namespace Hazel {
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
 	#elif (defined(__FUNCSIG__) || (_MSC_VER))
-		#define HZ_FUNC_SIG ::Hazel::CleanExpression(__FUNCSIG__).Data
+		#define HZ_FUNC_SIG ::Hazel::InstrumentorUtils::RemoveCdecl(__FUNCSIG__).Data
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define HZ_FUNC_SIG __FUNCTION__
 	#elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
@@ -226,7 +252,7 @@ namespace Hazel {
 
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
-	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(name);
+	#define HZ_PROFILE_SCOPE(name) ::Hazel::InstrumentationTimer timer##__LINE__(::Hazel::InstrumentorUtils::ReplaceQuotes(name).Data);
 	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
