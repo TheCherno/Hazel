@@ -66,7 +66,8 @@ namespace Hazel {
 	public:
 		Instrumentor()
 			: m_CurrentSession(nullptr)
-		{}
+		{
+		}
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
