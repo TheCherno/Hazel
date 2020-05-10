@@ -197,13 +197,11 @@ namespace Hazel {
 
 			size_t srcIndex = 0;
 			size_t dstIndex = 0;
-			while (srcIndex < N - 2)
+			while (srcIndex < N)
 			{
 				result.Data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
 				srcIndex++;
 			}
-			result.Data[dstIndex++] = expr[N - 2];
-			result.Data[dstIndex++] = expr[N - 1];
 			return result;
 		}
 	}
