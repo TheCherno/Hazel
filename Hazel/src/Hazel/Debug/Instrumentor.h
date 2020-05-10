@@ -178,7 +178,7 @@ namespace Hazel {
 
 			size_t srcIndex = 0;
 			size_t dstIndex = 0;
-			while (srcIndex < N - 2)
+			while (srcIndex < N)
 			{
 				size_t matchIndex = 0;
 				while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
@@ -187,8 +187,6 @@ namespace Hazel {
 					srcIndex += matchIndex;
 				result.Data[dstIndex++] = expr[srcIndex++];
 			}
-			result.Data[dstIndex++] = expr[N - 2];
-			result.Data[dstIndex++] = expr[N - 1];
 			return result;
 		}
 
