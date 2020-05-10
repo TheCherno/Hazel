@@ -144,9 +144,7 @@ namespace Hazel {
 		~InstrumentationTimer()
 		{
 			if (!m_Stopped)
-			{
 				Stop();
-			}
 		}
 
 		void Stop()
@@ -173,26 +171,20 @@ namespace Hazel {
 			char Data[N];
 		};
 
-		template <size_t N>
-		constexpr auto RemoveCdecl(const char(&expr)[N])
+		template <size_t N, size_t K>
+		constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
 		{
-			ChangeResult<N> result;
+			ChangeResult<N> result = {};
 
 			size_t srcIndex = 0;
 			size_t dstIndex = 0;
 			while (srcIndex < N - 2)
 			{
-				if (expr[srcIndex] == '_' &&
-					expr[srcIndex + 1] == '_' &&
-					expr[srcIndex + 2] == 'c' &&
-					expr[srcIndex + 3] == 'd' &&
-					expr[srcIndex + 4] == 'e' &&
-					expr[srcIndex + 5] == 'c' &&
-					expr[srcIndex + 6] == 'l' &&
-					expr[srcIndex + 7] == ' ')
-				{
-					srcIndex += 8;
-				}
+				size_t matchIndex = 0;
+				while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+					matchIndex++;
+				if (matchIndex == K - 1)
+					srcIndex += matchIndex;
 				result.Data[dstIndex++] = expr[srcIndex++];
 			}
 			result.Data[dstIndex++] = expr[N - 2];
@@ -219,7 +211,7 @@ namespace Hazel {
 	}
 }
 
-#define HZ_PROFILE 0
+#define HZ_PROFILE 1
 #if HZ_PROFILE
 	// Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting
@@ -229,7 +221,7 @@ namespace Hazel {
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
 		#define HZ_FUNC_SIG __PRETTY_FUNCTION__
 	#elif (defined(__FUNCSIG__) || (_MSC_VER))
-		#define HZ_FUNC_SIG ::Hazel::InstrumentorUtils::RemoveCdecl(__FUNCSIG__).Data
+		#define HZ_FUNC_SIG ::Hazel::InstrumentorUtils::CleanupOutputString(__FUNCSIG__, "__cdecl ").Data
 	#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
 		#define HZ_FUNC_SIG __FUNCTION__
 	#elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
