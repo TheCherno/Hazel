@@ -5,9 +5,6 @@ bin-int/
 
 # Hazel files
 *.log
-HazelProfile-Startup.json
-HazelProfile-Runtime.json
-HazelProfile-Shutdown.json
 
 # Visual Studio files and folder
 .vs/
