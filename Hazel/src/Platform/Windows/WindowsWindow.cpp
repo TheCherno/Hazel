@@ -72,6 +72,7 @@ namespace Hazel {
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 			data.Width = width;
 			data.Height = height;
 
@@ -82,6 +83,8 @@ namespace Hazel {
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
+
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
@@ -89,6 +92,7 @@ namespace Hazel {
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 
 			switch (action)
 			{
@@ -116,6 +120,7 @@ namespace Hazel {
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 
 			KeyTypedEvent event(static_cast<KeyCode>(keycode));
 			data.EventCallback(event);
@@ -124,6 +129,7 @@ namespace Hazel {
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 
 			switch (action)
 			{
@@ -145,6 +151,7 @@ namespace Hazel {
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 
 			MouseScrolledEvent event((float)xOffset, (float)yOffset);
 			data.EventCallback(event);
@@ -153,6 +160,7 @@ namespace Hazel {
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			HZ_CORE_ASSERT(data.EventCallback != nullptr, "Callback is uninitialized!");
 
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			data.EventCallback(event);
