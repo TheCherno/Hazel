@@ -218,8 +218,8 @@ namespace Hazel {
 
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::Hazel::Instrumentor::Get().BeginSession(name, filepath)
 	#define HZ_PROFILE_END_SESSION() ::Hazel::Instrumentor::Get().EndSession()
-	#define HZ_PROFILE_SCOPE(name) constexpr auto fixedname = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
-									::Hazel::InstrumentationTimer timer##__LINE__(fixedname.Data);
+	#define HZ_PROFILE_SCOPE(name) constexpr auto fixedName = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+									::Hazel::InstrumentationTimer timer##__LINE__(fixedName.Data);
 	#define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
 #else
 	#define HZ_PROFILE_BEGIN_SESSION(name, filepath)
