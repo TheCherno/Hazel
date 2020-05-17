@@ -63,8 +63,7 @@ namespace Hazel {
 		{
 			if (e.Handled) 
 				break;
-			else
-				(*it)->OnEvent(e);
+			(*it)->OnEvent(e);
 		}
 	}
 
