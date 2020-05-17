@@ -21,10 +21,6 @@ namespace Hazel {
 
 		float GetZoomLevel() const { return m_ZoomLevel; }
 		void SetZoomLevel(float level) { m_ZoomLevel = level; }
-		
-		void ChangePosition(float x, float y);
-		void ChangeRotation(float rotation);
-		
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizeEvent& e);

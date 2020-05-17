@@ -15,21 +15,40 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 		
-		float dTranslationSpeed = m_CameraTranslationSpeed * ts;
-		float dRotationSpeed    = m_CameraRotationSpeed * ts;
-		float theta = m_CameraRotation;
-		float dX = cos(glm::radians(theta));
-		float dY = sin(glm::radians(theta));
+		const float dTranslation = m_CameraTranslationSpeed * ts;
+		const float dCos = dTranslation * cos(glm::radians(m_CameraRotation));
+		const float dSin = dTranslation * sin(glm::radians(m_CameraRotation));
 
-		if (Input::IsKeyPressed(HZ_KEY_A)) ChangePosition(-(dX * dTranslationSpeed), -(dY * dTranslationSpeed));
-		if (Input::IsKeyPressed(HZ_KEY_D)) ChangePosition(dX * dTranslationSpeed, dY * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_W)) ChangePosition(-dY * dTranslationSpeed, dX * dTranslationSpeed);
-		if (Input::IsKeyPressed(HZ_KEY_S)) ChangePosition(-(-dY * dTranslationSpeed), -(dX * dTranslationSpeed));
-		
+		if (Input::IsKeyPressed(HZ_KEY_A))
+		{
+			m_CameraPosition.x -= dCos;
+			m_CameraPosition.y -= dSin;
+		}
+		if (Input::IsKeyPressed(HZ_KEY_D))
+		{
+			m_CameraPosition.x += dCos;
+			m_CameraPosition.y += dSin;
+		}
+		if (Input::IsKeyPressed(HZ_KEY_W))
+		{
+			m_CameraPosition.x += dSin;
+			m_CameraPosition.y += dCos;
+		}
+		if (Input::IsKeyPressed(HZ_KEY_S))
+		{
+			m_CameraPosition.x -= dSin;
+			m_CameraPosition.y -= dCos;
+		}
+		m_Camera.SetPosition(m_CameraPosition);
+
 		if (m_Rotation)
 		{
-			if (Input::IsKeyPressed(HZ_KEY_Q)) ChangeRotation(-dRotationSpeed);
-			if (Input::IsKeyPressed(HZ_KEY_E)) ChangeRotation(dRotationSpeed);
+			const float dRotation = m_CameraRotationSpeed * ts;
+
+			if (Input::IsKeyPressed(HZ_KEY_Q))
+				m_CameraRotation += dRotation;
+			if (Input::IsKeyPressed(HZ_KEY_E))
+				m_CameraRotation -= dRotation;
 
 			if (m_CameraRotation > 180.0f)
 				m_CameraRotation -= 360.0f;
@@ -38,8 +57,6 @@ namespace Hazel {
 
 			m_Camera.SetRotation(m_CameraRotation);
 		}
-
-		m_Camera.SetPosition(m_CameraPosition);
 
 		m_CameraTranslationSpeed = m_ZoomLevel;
 	}
@@ -72,19 +89,4 @@ namespace Hazel {
 		return false;
 	}
 	
-	void OrthographicCameraController::ChangePosition(float deltaX, float deltaY)
-	{ 
-		m_CameraPosition.x += deltaX;
-		m_CameraPosition.y += deltaY;
-
-		m_Camera.SetPosition(m_CameraPosition);
-	}
-		
-	void OrthographicCameraController::ChangeRotation(float rotation) 
-	{ 
-		m_CameraRotation += rotation;
-
-		m_Camera.SetRotation(m_CameraRotation);
-	}
-
 }
