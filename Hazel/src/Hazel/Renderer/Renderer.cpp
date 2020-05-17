@@ -40,7 +40,7 @@ namespace Hazel {
 		shader->SetMat4("u_Transform", transform);
 
 		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());
+		RenderCommand::DrawIndexed(vertexArray);
 	}
 
 }
