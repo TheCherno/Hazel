@@ -72,7 +72,7 @@ namespace Hazel {
 		return false;
 	}
 	
-	void OrthographicCameraController::ChangePosition(float x, float y) 
+	void OrthographicCameraController::ChangePosition(float deltaX, float deltaY)
 	{ 
 		m_CameraPosition.x += deltaX;
 		m_CameraPosition.y += deltaY;
