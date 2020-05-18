@@ -12,7 +12,7 @@ namespace Hazel {
 		template<typename T>
 		static T Real(T min, T max)
 		{
-			HZ_CORE_ASSERT(min < max, "min is > max");
+			HZ_CORE_ASSERT(min < max, "min is >= max");
 			std::uniform_real_distribution<T> dist(min, max);
 			auto& mt = GetEngine();
 			return dist(mt);
@@ -24,7 +24,7 @@ namespace Hazel {
 		template<typename T>
 		static T Int(T min, T max)
 		{
-			HZ_CORE_ASSERT(min < max, "min is > max");
+			HZ_CORE_ASSERT(min < max, "min is >= max");
 			std::uniform_int_distribution<T> dist(min, max);
 			auto& mt = GetEngine();
 			return dist(mt);
