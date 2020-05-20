@@ -15,7 +15,7 @@ namespace Hazel {
 		if (type == "fragment" || type == "pixel")
 			return GL_FRAGMENT_SHADER;
 
-		HZ_CORE_ASSERT(false, "Unknown shader type!");
+		HZ_ASSERT(false, "Unknown shader type!");
 		return 0;
 	}
 
@@ -72,12 +72,12 @@ namespace Hazel {
 			}
 			else
 			{
-				HZ_CORE_ERROR("Could not read from file '{0}'", filepath);
+				HZ_LOG_ERROR("Could not read from file '{0}'", filepath);
 			}
 		}
 		else
 		{
-			HZ_CORE_ERROR("Could not open file '{0}'", filepath);
+			HZ_LOG_ERROR("Could not open file '{0}'", filepath);
 		}
 
 		return result;
@@ -95,13 +95,13 @@ namespace Hazel {
 		while (pos != std::string::npos)
 		{
 			size_t eol = source.find_first_of("\r\n", pos); //End of shader type declaration line
-			HZ_CORE_ASSERT(eol != std::string::npos, "Syntax error");
+			HZ_ASSERT(eol != std::string::npos, "Syntax error");
 			size_t begin = pos + typeTokenLength + 1; //Start of shader type name (after "#type " keyword)
 			std::string type = source.substr(begin, eol - begin);
-			HZ_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+			HZ_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
 			size_t nextLinePos = source.find_first_not_of("\r\n", eol); //Start of shader code after shader type declaration line
-			HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
+			HZ_ASSERT(nextLinePos != std::string::npos, "Syntax error");
 			pos = source.find(typeToken, nextLinePos); //Start of next shader type declaration line
 
 			shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
@@ -115,7 +115,7 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		GLuint program = glCreateProgram();
-		HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+		HZ_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
 		std::array<GLenum, 2> glShaderIDs;
 		int glShaderIDIndex = 0;
 		for (auto& kv : shaderSources)
@@ -142,8 +142,8 @@ namespace Hazel {
 
 				glDeleteShader(shader);
 
-				HZ_CORE_ERROR("{0}", infoLog.data());
-				HZ_CORE_ASSERT(false, "Shader compilation failure!");
+				HZ_LOG_ERROR("{0}", infoLog.data());
+				HZ_ASSERT(false, "Shader compilation failure!");
 				break;
 			}
 
@@ -174,8 +174,8 @@ namespace Hazel {
 			for (auto id : glShaderIDs)
 				glDeleteShader(id);
 
-			HZ_CORE_ERROR("{0}", infoLog.data());
-			HZ_CORE_ASSERT(false, "Shader link failure!");
+			HZ_LOG_ERROR("{0}", infoLog.data());
+			HZ_ASSERT(false, "Shader link failure!");
 			return;
 		}
 

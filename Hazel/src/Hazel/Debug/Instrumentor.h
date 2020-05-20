@@ -48,7 +48,7 @@ namespace Hazel {
 				// profiling output.
 				if (Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
 				{
-					HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
+					HZ_LOG_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
 				}
 				InternalEndSession();
 			}
@@ -63,7 +63,7 @@ namespace Hazel {
 			{
 				if (Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
 				{
-					HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+					HZ_LOG_ERROR("Instrumentor could not open results file '{0}'.", filepath);
 				}
 			}
 		}

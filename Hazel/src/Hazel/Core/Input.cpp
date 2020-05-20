@@ -14,7 +14,7 @@ namespace Hazel {
 	#ifdef HZ_PLATFORM_WINDOWS
 		return CreateScope<WindowsInput>();
 	#else
-		HZ_CORE_ASSERT(false, "Unknown platform!");
+		HZ_ASSERT(false, "Unknown platform!");
 		return nullptr;
 	#endif
 	}

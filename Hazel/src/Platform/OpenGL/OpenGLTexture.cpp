@@ -35,7 +35,7 @@ namespace Hazel {
 			HZ_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std:string&)");
 			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		}
-		HZ_CORE_ASSERT(data, "Failed to load image!");
+		HZ_ASSERT(data, "Failed to load image!");
 		m_Width = width;
 		m_Height = height;
 
@@ -54,7 +54,7 @@ namespace Hazel {
 		m_InternalFormat = internalFormat;
 		m_DataFormat = dataFormat;
 
-		HZ_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+		HZ_ASSERT(internalFormat & dataFormat, "Format not supported!");
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
@@ -82,7 +82,7 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
-		HZ_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
+		HZ_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
