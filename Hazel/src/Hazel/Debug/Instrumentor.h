@@ -95,6 +95,10 @@ namespace Hazel {
 				m_OutputStream << json.str();
 				m_OutputStream.flush();
 			}
+			else if (Log::GetCoreLogger()) // Edge case: WriteProfile() might be before Log::Init()
+			{
+				HZ_CORE_ERROR("Could not write ProfileResult, Instrumentor is not in session.");
+			}
 		}
 
 		static Instrumentor& Get()
@@ -127,6 +131,10 @@ namespace Hazel {
 				m_OutputStream.close();
 				delete m_CurrentSession;
 				m_CurrentSession = nullptr;
+			}
+			else if (Log::GetCoreLogger()) // Edge case: InternalEndSession() might be before Log::Init()
+			{
+				HZ_CORE_ERROR("Could not end session, Instrumentor is not in session.");
 			}
 		}
 
