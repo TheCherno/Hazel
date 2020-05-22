@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "Hazel/Debug/DebugBreak.h"
 
 // Platform detection using predefined macros
 #ifdef _WIN32
@@ -44,17 +45,7 @@
 #endif // End of platform detection
 
 #ifdef HZ_DEBUG
-	#if defined(HZ_PLATFORM_WINDOWS)
-		#define HZ_DEBUGBREAK() __debugbreak()
-	#elif defined(HZ_PLATFORM_LINUX)
-		#include <signal.h>
-		#define HZ_DEBUGBREAK() raise(SIGTRAP)
-	#else
-		#error "Platform doesn't support debugbreak yet!"
-	#endif
 	#define HZ_ENABLE_ASSERTS
-#else
-	#define HZ_DEBUGBREAK()
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
