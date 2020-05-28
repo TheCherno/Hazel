@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 
 #ifdef HZ_PLATFORM_LINUX
 	HZ_CORE_WARN("Linux is not fully supported!");
-	HZ_CORE_WARN("Hazel for Linux currently uses Hazel::WindowsInput!");
+	HZ_CORE_WARN("Hazel for Linux currently uses Hazel::WindowsInput!"); // See Input::Create()
 #endif
 
 	HZ_PROFILE_BEGIN_SESSION("Startup", "HazelProfile-Startup.json");
