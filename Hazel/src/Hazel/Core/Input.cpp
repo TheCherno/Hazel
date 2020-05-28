@@ -1,9 +1,7 @@
 #include "hzpch.h"
 #include "Hazel/Core/Input.h"
 
-#ifdef HZ_PLATFORM_WINDOWS
-	#include "Platform/Windows/WindowsInput.h"
-#endif
+#include "Platform/Windows/WindowsInput.h"
 
 namespace Hazel {
 
@@ -11,11 +9,6 @@ namespace Hazel {
 
 	Scope<Input> Input::Create()
 	{
-	#ifdef HZ_PLATFORM_WINDOWS
 		return CreateScope<WindowsInput>();
-	#else
-		HZ_CORE_ASSERT(false, "Unknown platform!");
-		return nullptr;
-	#endif
 	}
 } 

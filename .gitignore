@@ -12,3 +12,6 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+# Linux makefiles
+Makefile

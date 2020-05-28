@@ -75,15 +75,30 @@ project "Hazel"
 	{ 
 		"GLFW",
 		"Glad",
-		"ImGui",
-		"opengl32.lib"
+		"ImGui"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
 
-		defines
+		links
 		{
+			"opengl32.lib"
+		}
+
+	filter "system:linux"
+		pic "on"
+
+		links
+		{
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11",
+			"pthread",
+			"dl"
 		}
 
 	filter "configurations:Debug"
@@ -127,11 +142,28 @@ project "Sandbox"
 
 	links
 	{
-		"Hazel"
+		"Hazel",
+		"GLFW",
+		"Glad",
+		"ImGui"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
+	
+	filter "system:linux"
+
+		links
+		{
+			"Xrandr",
+			"Xi",
+			"GLEW",
+			"GLU",
+			"GL",
+			"X11",
+			"pthread",
+			"dl"
+		}
 		
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
