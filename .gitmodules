@@ -2,7 +2,6 @@
 	path = Hazel/vendor/spdlog
 	url = https://github.com/gabime/spdlog
 	branch = v1.x
-	ignore = dirty
 [submodule "Hazel/vendor/GLFW"]
 	path = Hazel/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
@@ -17,4 +16,3 @@
 	path = Hazel/vendor/glm
 	url = https://github.com/g-truc/glm
 	branch = master
-	ignore = dirty
