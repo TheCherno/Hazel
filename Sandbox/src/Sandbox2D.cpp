@@ -67,7 +67,7 @@ void Sandbox2D::OnImGuiRender()
 	HZ_PROFILE_FUNCTION();
 
 	// Note: Switch this to true to enable dockspace
-	static bool dockingEnabled = false;
+	static bool dockingEnabled = true;
 	if (dockingEnabled)
 	{
 		static bool dockspaceOpen = true;
@@ -123,6 +123,7 @@ void Sandbox2D::OnImGuiRender()
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
 				if (ImGui::MenuItem("Exit")) Hazel::Application::Get().Close();
+				if (ImGui::MenuItem("Exit Docking Mode")) dockingEnabled = false; 
 				ImGui::EndMenu();
 			}
 
