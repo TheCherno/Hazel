@@ -129,40 +129,23 @@ void Sandbox2D::OnImGuiRender()
 			ImGui::EndMenuBar();
 		}
 
-		ImGui::Begin("Settings");
-
-		auto stats = Hazel::Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
-
-		uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
-		ImGui::End();
-
 		ImGui::End();
 	}
-	else
-	{
-		ImGui::Begin("Settings");
 
-		auto stats = Hazel::Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+	ImGui::Begin("Settings");
 
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	auto stats = Hazel::Renderer2D::GetStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+	ImGui::Text("Quads: %d", stats.QuadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-		uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
-		ImGui::End();
-	}
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+	uint32_t textureID = m_CheckerboardTexture->GetRendererID();
+	ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
+	ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Hazel::Event& e)
