@@ -90,6 +90,12 @@ namespace Hazel {
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+			//Adapting to non-QWERTY keyboards (like AZERTY or QWERTZ)
+			if (key >= GLFW_KEY_A && key <= GLFW_KEY_Z) {
+				const std::string keyName = glfwGetKeyName(key, scancode);
+				key = GLFW_KEY_A + (std::toupper(keyName[0]) - 'A'); //this way, we ensure that no matter the code that GLFW uses, the keycode will be correct
+			}
+
 			switch (action)
 			{
 				case GLFW_PRESS:
