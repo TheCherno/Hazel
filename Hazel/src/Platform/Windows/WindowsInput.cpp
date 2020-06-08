@@ -10,14 +10,21 @@ namespace Hazel {
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
-		//Adapting to non-QWERTY keyboards (like AZERTY or QWERTZ)
-		if (key >= HZ_KEY_A && key <= HZ_KEY_Z) {
-			const std::string keyName = glfwGetKeyName(int(key), glfwGetKeyScancode(int(key)));
-			key = Key(int(HZ_KEY_A) + (std::toupper(keyName[0]) - 'A')); //Way to ensure that no matter the code that Hazel uses, the keycode will be correct
-		}
+		key = Input::GetCrossLayoutKey(key);
 
 		auto state = glfwGetKey(window, static_cast<int32_t>(key));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
+	}
+
+	KeyCode WindowsInput::GetCrossLayoutKeyImpl(KeyCode key) {
+
+		//Check if the key is concerned by keyboards layout (letters)
+		if (key >= KeyCode::A && key <= KeyCode::Z) {
+			const std::string keyName = glfwGetKeyName(int(key), glfwGetKeyScancode(int(key)));
+			return Key(int(KeyCode::A) + (std::toupper(keyName[0]) - 'A')); //Way to ensure that no matter the code that Hazel uses, the keycode will be correct
+		}
+
+		return key;
 	}
 
 	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)

@@ -15,6 +15,7 @@ namespace Hazel {
 		Input& operator=(const Input&) = delete;
 
 		static bool IsKeyPressed(KeyCode key) { return s_Instance->IsKeyPressedImpl(key); }
+		static KeyCode GetCrossLayoutKey(KeyCode key) { return s_Instance->GetCrossLayoutKeyImpl(key); }
 
 		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
@@ -24,6 +25,7 @@ namespace Hazel {
 		static Scope<Input> Create();
 	protected:
 		virtual bool IsKeyPressedImpl(KeyCode key) = 0;
+		virtual KeyCode GetCrossLayoutKeyImpl(KeyCode key) = 0;
 
 		virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;
 		virtual std::pair<float, float> GetMousePositionImpl() = 0;
