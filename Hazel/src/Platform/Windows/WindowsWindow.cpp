@@ -92,11 +92,7 @@ namespace Hazel {
 
 			//Adapting to non-QWERTY keyboards (like AZERTY or QWERTZ)
 			key = int(Input::GetCrossLayoutKey(KeyCode(key)));
-			HZ_CORE_WARN("Event : {0}", char(key));
-			if (Hazel::Input::IsKeyPressed(HZ_KEY_Q)) {
-				HZ_CORE_INFO("Polling : Q key is pressed !");
-			}
-
+			
 			switch (action)
 			{
 				case GLFW_PRESS:
