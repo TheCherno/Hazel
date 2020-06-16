@@ -14,6 +14,8 @@ namespace Hazel {
 		Input(const Input&) = delete;
 		Input& operator=(const Input&) = delete;
 
+		virtual ~Input() = default;
+
 		static bool IsKeyPressed(KeyCode key) { return s_Instance->IsKeyPressedImpl(key); }
 
 		static bool IsMouseButtonPressed(MouseCode button) { return s_Instance->IsMouseButtonPressedImpl(button); }
