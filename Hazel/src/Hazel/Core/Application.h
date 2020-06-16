@@ -18,7 +18,7 @@ namespace Hazel {
 	class Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Hazel App");
 		virtual ~Application();
 
 		void OnEvent(Event& e);
