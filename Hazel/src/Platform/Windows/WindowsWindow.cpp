@@ -90,6 +90,9 @@ namespace Hazel {
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+			//Adapting to non-QWERTY keyboards (like AZERTY or QWERTZ)
+			key = int(Input::GetCrossLayoutKey(KeyCode(key)));
+			
 			switch (action)
 			{
 				case GLFW_PRESS:

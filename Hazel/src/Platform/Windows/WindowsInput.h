@@ -8,6 +8,7 @@ namespace Hazel {
 	{
 	protected:
 		virtual bool IsKeyPressedImpl(KeyCode key) override;
+		virtual KeyCode GetCrossLayoutKeyImpl(KeyCode key) override;
 
 		virtual bool IsMouseButtonPressedImpl(MouseCode button) override;
 		virtual std::pair<float, float> GetMousePositionImpl() override;

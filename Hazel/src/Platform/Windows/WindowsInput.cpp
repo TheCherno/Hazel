@@ -9,8 +9,37 @@ namespace Hazel {
 	bool WindowsInput::IsKeyPressedImpl(KeyCode key)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+
+		key = Input::GetCrossLayoutKey(key);
+
 		auto state = glfwGetKey(window, static_cast<int32_t>(key));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
+	}
+
+	KeyCode WindowsInput::GetCrossLayoutKeyImpl(KeyCode key) {
+
+		const char* keyName = glfwGetKeyName(int(key), glfwGetKeyScancode(int(key)));
+
+		//Check if the key is concerned by keyboards layout (letters)
+		if (key >= KeyCode::A && key <= KeyCode::Z) {
+			return Key(int(KeyCode::A) + (std::toupper(keyName[0]) - 'A')); //Way to ensure that no matter the code that Hazel uses, the keycode will be correct
+		}
+		//Digit
+		else if ((key >= KeyCode::D0 && key <= KeyCode::D9) || (key >= KeyCode::KP0 && key <= KeyCode::KP9)) {
+			return key; //We treat digit as they are (regardless of the layout...)
+		}
+		//Other keys (mostly punctuation)
+		else if (key > KeyCode::Space && key <= KeyCode::World2) {
+
+			//Safety check for eventual gaps in Key codes
+			if (keyName != NULL) { 
+				return Key(int(KeyCode::Space) + (std::toupper(keyName[0]) - ' '));
+			}
+
+		}
+		
+		//the other keys are independant of the layout (like 'Space' 'Shift' etc.)
+		return key;
 	}
 
 	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
