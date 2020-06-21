@@ -21,8 +21,8 @@ namespace Hazel {
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(KeyCode keycode, int repeatCount)
-			: KeyEvent(keycode), m_Repeated(repeatCount) {}
+		KeyPressedEvent(KeyCode keycode, bool repeated)
+			: KeyEvent(keycode), m_Repeated(repeated) {}
 
 		bool GetRepeatCount() const { return m_Repeated; }
 
