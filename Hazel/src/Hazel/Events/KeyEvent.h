@@ -22,20 +22,20 @@ namespace Hazel {
 	{
 	public:
 		KeyPressedEvent(KeyCode keycode, int repeatCount)
-			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+			: KeyEvent(keycode), m_Repeated(repeatCount) {}
 
-		int GetRepeatCount() const { return m_RepeatCount; }
+		bool GetRepeatCount() const { return m_Repeated; }
 
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
+			ss << "KeyPressedEvent: " << m_KeyCode << " (" << "Repeated: " << m_Repeated << ")";
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
-		int m_RepeatCount;
+		bool m_Repeated;
 	};
 
 	class KeyReleasedEvent : public KeyEvent
