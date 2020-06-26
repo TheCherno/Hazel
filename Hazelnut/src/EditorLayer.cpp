@@ -154,7 +154,8 @@ namespace Hazel {
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+		io.WantCaptureMouse &= !m_ViewportFocused || !m_ViewportHovered;
+		io.WantCaptureKeyboard &= !m_ViewportFocused || !m_ViewportHovered;
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
