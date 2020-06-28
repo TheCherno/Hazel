@@ -7,7 +7,7 @@ bin-int/
 *.log
 
 # ImGui status
-imgui.ini
+**/imgui.ini
 
 # Visual Studio files and folder
 .vs/
