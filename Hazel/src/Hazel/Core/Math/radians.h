@@ -25,18 +25,18 @@ namespace Hazel
         constexpr Radians( void ) noexcept = default;
         ~Radians( void ) noexcept = default;
 
-        constexpr Radians( const Radians& other ) noexcept : accumulated_( other.accumulated_ ) {}
-        explicit Radians( const Degrees& degs ) noexcept;
-        Radians( Radians&& other ) noexcept { std::swap( this->accumulated_, other.accumulated_ ); }
-        explicit constexpr Radians( float angle ) noexcept : accumulated_( angle ) {}
-        explicit constexpr Radians( double angle ) noexcept : accumulated_( static_cast<float>( angle ) ) {}
-        explicit constexpr Radians( long double angle ) noexcept : accumulated_( static_cast<float>( angle ) ) {}
+        constexpr Radians( const Radians& other ) noexcept : m_Angle( other.m_Angle ) {}
+        explicit Radians( const Degrees& degrees ) noexcept;
+        Radians( Radians&& other ) noexcept { std::swap( this->m_Angle, other.m_Angle ); }
+        explicit constexpr Radians( float angle ) noexcept : m_Angle( angle ) {}
+        explicit constexpr Radians( double angle ) noexcept : m_Angle( static_cast<float>( angle ) ) {}
+        explicit constexpr Radians( long double angle ) noexcept : m_Angle( static_cast<float>( angle ) ) {}
 
 
 
         constexpr Radians& operator=( const Radians& other ) noexcept
         {
-            accumulated_ = other.accumulated_;
+            m_Angle = other.m_Angle;
             return *this;
         }
 
@@ -46,7 +46,7 @@ namespace Hazel
         {
             if( *this != other )
             {
-                std::swap( this->accumulated_, other.accumulated_ );
+                std::swap( this->m_Angle, other.m_Angle );
             }
             return *this;
         }
@@ -54,9 +54,9 @@ namespace Hazel
 
         // Boolean
         //  Radians
-        [[nodiscard]] friend constexpr bool operator==( Radians lhs, const Radians& rhs ) noexcept { return lhs.accumulated_ == rhs.accumulated_; }
+        [[nodiscard]] friend constexpr bool operator==( Radians lhs, const Radians& rhs ) noexcept { return lhs.m_Angle == rhs.m_Angle; }
         [[nodiscard]] friend constexpr bool operator!=( Radians lhs, const Radians& rhs ) noexcept { return !( lhs == rhs ); }
-        [[nodiscard]] friend constexpr bool operator<( Radians lhs, const Radians& rhs ) noexcept { return lhs.accumulated_ < rhs.accumulated_; }
+        [[nodiscard]] friend constexpr bool operator<( Radians lhs, const Radians& rhs ) noexcept { return lhs.m_Angle < rhs.m_Angle; }
         [[nodiscard]] friend constexpr bool operator>( Radians lhs, const Radians& rhs ) noexcept { return ( lhs >= rhs ) && ( lhs != rhs ); }
         [[nodiscard]] friend constexpr bool operator<=( Radians lhs, const Radians& rhs ) noexcept { return !( lhs > rhs ); }
         [[nodiscard]] friend constexpr bool operator>=( Radians lhs, const Radians& rhs ) noexcept { return !( lhs < rhs ); }
@@ -69,25 +69,25 @@ namespace Hazel
         friend constexpr bool operator>=( Radians lhs, const Degrees& rhs ) noexcept;
 
         // Arithmetic
-        [[nodiscard]] friend constexpr Radians operator+( const Radians& lhs, const Radians rhs ) noexcept { return Radians( lhs.accumulated_ + rhs.accumulated_ ); }
-        [[nodiscard]] friend constexpr Radians operator-( const Radians& lhs, const Radians rhs ) noexcept { return Radians( lhs.accumulated_ - rhs.accumulated_ ); }
-        [[nodiscard]] friend constexpr Radians operator*( const Radians& lhs, const float rhs ) noexcept { return Radians( lhs.accumulated_ * rhs ); }
-        [[nodiscard]] friend constexpr Radians operator/( const Radians& lhs, const float rhs ) noexcept { return Radians( lhs.accumulated_ / rhs ); }
+        [[nodiscard]] friend constexpr Radians operator+( const Radians& lhs, const Radians rhs ) noexcept { return Radians( lhs.m_Angle + rhs.m_Angle ); }
+        [[nodiscard]] friend constexpr Radians operator-( const Radians& lhs, const Radians rhs ) noexcept { return Radians( lhs.m_Angle - rhs.m_Angle ); }
+        [[nodiscard]] friend constexpr Radians operator*( const Radians& lhs, const float rhs ) noexcept { return Radians( lhs.m_Angle * rhs ); }
+        [[nodiscard]] friend constexpr Radians operator/( const Radians& lhs, const float rhs ) noexcept { return Radians( lhs.m_Angle / rhs ); }
 
         // Arithmetic Assignment
-        friend constexpr Radians& operator+=( Radians& lhs, const Radians& rhs ) noexcept { lhs.accumulated_ += rhs.accumulated_; return lhs; }
-        friend constexpr Radians& operator-=( Radians& lhs, const Radians& rhs ) noexcept { lhs.accumulated_ -= rhs.accumulated_; return lhs; }
+        friend constexpr Radians& operator+=( Radians& lhs, const Radians& rhs ) noexcept { lhs.m_Angle += rhs.m_Angle; return lhs; }
+        friend constexpr Radians& operator-=( Radians& lhs, const Radians& rhs ) noexcept { lhs.m_Angle -= rhs.m_Angle; return lhs; }
         friend constexpr Radians& operator+=( Radians& lhs, const float& rhs ) noexcept { return lhs += Radians( rhs ); }
         friend constexpr Radians& operator-=( Radians& lhs, const float& rhs ) noexcept { return lhs -= Radians( rhs ); }
-        constexpr Radians& operator*=( const float& rhs ) noexcept { accumulated_ *= rhs; return *this; }
-        constexpr Radians& operator/=( const float& rhs ) noexcept { accumulated_ /= rhs; return *this; }
+        constexpr Radians& operator*=( const float& rhs ) noexcept { m_Angle *= rhs; return *this; }
+        constexpr Radians& operator/=( const float& rhs ) noexcept { m_Angle /= rhs; return *this; }
 
         // Explicit conversions.
         //  I don't really see any great use cases for converstions to integral types,
         // but those can be trivially added or done by casting to fp-type then int-type.
-        [[nodiscard]] explicit constexpr operator float( void ) const noexcept { return accumulated_; }
-        [[nodiscard]] explicit constexpr operator double( void ) const noexcept { return static_cast<double>( accumulated_ ); }
-        [[nodiscard]] explicit constexpr operator long double( void ) const noexcept { return static_cast<long double>( accumulated_ ); }
+        [[nodiscard]] explicit constexpr operator float( void ) const noexcept { return m_Angle; }
+        [[nodiscard]] explicit constexpr operator double( void ) const noexcept { return static_cast<double>( m_Angle ); }
+        [[nodiscard]] explicit constexpr operator long double( void ) const noexcept { return static_cast<long double>( m_Angle ); }
         [[nodiscard]] explicit constexpr operator Degrees( void ) const noexcept;
 
         [[nodiscard]] constexpr Radians reduced( void ) const noexcept;
@@ -98,13 +98,16 @@ namespace Hazel
         static constexpr const float MIN_ANGLE{ -PI };
 
     private:
-        [[nodiscard]] constexpr float rad_to_deg( float rad ) const noexcept;
-        [[nodiscard]] constexpr float deg_to_rad( float deg ) const noexcept;
+        [[nodiscard]] constexpr float radiansToDegrees( float radians ) const noexcept;
+        [[nodiscard]] constexpr float degreesToRadians( float degrees ) const noexcept;
 
     private:
-        float accumulated_{ 0.0f };
+        float m_Angle{ 0.0f };
     };
 
+
+
+    // These use the same parameter name(s) as the standard library versions.
     float sin( const Hazel::Radians& theta );
     float cos( const Hazel::Radians& theta );
     float tan( const Hazel::Radians& theta );

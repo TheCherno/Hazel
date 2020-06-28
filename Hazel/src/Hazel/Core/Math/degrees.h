@@ -23,18 +23,18 @@ namespace Hazel
         constexpr Degrees( void ) noexcept = default;
         ~Degrees( void ) noexcept = default;
 
-        constexpr Degrees( const Degrees& other ) noexcept : accumulated_( other.accumulated_ ) {}
-        explicit Degrees( const Radians& rads ) noexcept;
-        Degrees( Degrees&& other ) noexcept { std::swap( this->accumulated_, other.accumulated_ ); }
-        explicit constexpr Degrees( float angle ) noexcept : accumulated_( angle ) {}
-        explicit constexpr Degrees( double angle ) noexcept : accumulated_( static_cast<float>( angle ) ) {}
-        explicit constexpr Degrees( long double angle ) noexcept : accumulated_( static_cast<float>( angle ) ) {}
+        constexpr Degrees( const Degrees& other ) noexcept : m_Angle( other.m_Angle ) {}
+        explicit Degrees( const Radians& radians ) noexcept;
+        Degrees( Degrees&& other ) noexcept { std::swap( this->m_Angle, other.m_Angle ); }
+        explicit constexpr Degrees( float angle ) noexcept : m_Angle( angle ) {}
+        explicit constexpr Degrees( double angle ) noexcept : m_Angle( static_cast<float>( angle ) ) {}
+        explicit constexpr Degrees( long double angle ) noexcept : m_Angle( static_cast<float>( angle ) ) {}
 
 
 
         constexpr Degrees& operator=( const Degrees& other ) noexcept
         {
-            accumulated_ = other.accumulated_;
+            m_Angle = other.m_Angle;
             return *this;
         }
 
@@ -44,7 +44,7 @@ namespace Hazel
         {
             if( *this != other )
             {
-                std::swap( this->accumulated_, other.accumulated_ );
+                std::swap( this->m_Angle, other.m_Angle );
             }
             return *this;
         }
@@ -53,33 +53,33 @@ namespace Hazel
 
         // Boolean
         //   Degrees
-        [[nodiscard]] constexpr bool operator==( const Degrees& rhs ) const noexcept { return accumulated_ == rhs.accumulated_; }
+        [[nodiscard]] constexpr bool operator==( const Degrees& rhs ) const noexcept { return m_Angle == rhs.m_Angle; }
         [[nodiscard]] constexpr bool operator!=( const Degrees& rhs ) const noexcept { return !( *this == rhs ); }
-        [[nodiscard]] constexpr bool operator<( const Degrees& rhs ) const noexcept { return accumulated_ < rhs.accumulated_; }
+        [[nodiscard]] constexpr bool operator<( const Degrees& rhs ) const noexcept { return m_Angle < rhs.m_Angle; }
         [[nodiscard]] constexpr bool operator>( const Degrees& rhs ) const noexcept { return ( *this >= rhs ) && ( *this != rhs ); }
         [[nodiscard]] constexpr bool operator<=( const Degrees& rhs ) const noexcept { return !( *this > rhs ); }
         [[nodiscard]] constexpr bool operator>=( const Degrees& rhs ) const noexcept { return !( *this < rhs ); }
 
         // Arithmetic
-        [[nodiscard]] friend constexpr Degrees operator+( const Degrees& lhs, const Degrees rhs ) noexcept { return Degrees( lhs.accumulated_ + rhs.accumulated_ ); }
-        [[nodiscard]] friend constexpr Degrees operator-( const Degrees& lhs, const Degrees rhs ) noexcept { return Degrees( lhs.accumulated_ - rhs.accumulated_ ); }
-        [[nodiscard]] friend constexpr Degrees operator*( const Degrees& lhs, const float rhs ) noexcept { return Degrees( lhs.accumulated_ * rhs ); }
-        [[nodiscard]] friend constexpr Degrees operator/( const Degrees& lhs, const float rhs ) noexcept { return Degrees( lhs.accumulated_ / rhs ); }
+        [[nodiscard]] friend constexpr Degrees operator+( const Degrees& lhs, const Degrees rhs ) noexcept { return Degrees( lhs.m_Angle + rhs.m_Angle ); }
+        [[nodiscard]] friend constexpr Degrees operator-( const Degrees& lhs, const Degrees rhs ) noexcept { return Degrees( lhs.m_Angle - rhs.m_Angle ); }
+        [[nodiscard]] friend constexpr Degrees operator*( const Degrees& lhs, const float rhs ) noexcept { return Degrees( lhs.m_Angle * rhs ); }
+        [[nodiscard]] friend constexpr Degrees operator/( const Degrees& lhs, const float rhs ) noexcept { return Degrees( lhs.m_Angle / rhs ); }
 
         // Arithmetic Assignment
-        friend constexpr Degrees& operator+=( Degrees& lhs, const Degrees& rhs ) noexcept { lhs.accumulated_ += rhs.accumulated_; return lhs; }
-        friend constexpr Degrees& operator-=( Degrees& lhs, const Degrees& rhs ) noexcept { lhs.accumulated_ -= rhs.accumulated_; return lhs; }
+        friend constexpr Degrees& operator+=( Degrees& lhs, const Degrees& rhs ) noexcept { lhs.m_Angle += rhs.m_Angle; return lhs; }
+        friend constexpr Degrees& operator-=( Degrees& lhs, const Degrees& rhs ) noexcept { lhs.m_Angle -= rhs.m_Angle; return lhs; }
         friend constexpr Degrees& operator+=( Degrees& lhs, const float& rhs ) noexcept { return lhs += Degrees( rhs ); }
         friend constexpr Degrees& operator-=( Degrees& lhs, const float& rhs ) noexcept { return lhs -= Degrees( rhs ); }
-        constexpr Degrees& operator*=( const float& rhs ) noexcept { accumulated_ *= rhs; return *this; }
-        constexpr Degrees& operator/=( const float& rhs ) noexcept { accumulated_ /= rhs; return *this; }
+        constexpr Degrees& operator*=( const float& rhs ) noexcept { m_Angle *= rhs; return *this; }
+        constexpr Degrees& operator/=( const float& rhs ) noexcept { m_Angle /= rhs; return *this; }
 
         // Explicit conversions.
         //  I don't really see any great use cases for converstions to integral types,
         // but those can be trivially added or done by casting to fp-type then int-type.
-        [[nodiscard]] explicit constexpr operator float( void ) const noexcept { return accumulated_; }
-        [[nodiscard]] explicit constexpr operator double( void ) const noexcept { return static_cast<double>( accumulated_ ); }
-        [[nodiscard]] explicit constexpr operator long double( void ) const noexcept { return static_cast<long double>( accumulated_ ); }
+        [[nodiscard]] explicit constexpr operator float( void ) const noexcept { return m_Angle; }
+        [[nodiscard]] explicit constexpr operator double( void ) const noexcept { return static_cast<double>( m_Angle ); }
+        [[nodiscard]] explicit constexpr operator long double( void ) const noexcept { return static_cast<long double>( m_Angle ); }
         [[nodiscard]] explicit constexpr operator Radians( void ) const noexcept;
 
         [[nodiscard]] constexpr Degrees reduced( void ) const noexcept;
@@ -91,12 +91,13 @@ namespace Hazel
 
 
     private:
-        constexpr float deg_to_rad( float deg ) const noexcept;
-        constexpr float rad_to_deg( float rad ) const noexcept;
+        constexpr float degreesToRadians( float degrees ) const noexcept;
+        constexpr float radiansToDegrees( float radians ) const noexcept;
 
     private:
-        float accumulated_{ 0.0f };
+        float m_Angle{ 0.0f };
     };
+
 
 
     float sin( const Degrees& theta );

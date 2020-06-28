@@ -10,9 +10,9 @@
 
 namespace Hazel
 {
-    Radians::Radians( const Degrees& degs ) noexcept
+    Radians::Radians( const Degrees& degrees ) noexcept
         :
-        accumulated_( deg_to_rad( static_cast<float>( degs ) ) )
+        m_Angle( degreesToRadians( static_cast<float>( degrees ) ) )
     {}
 
 
@@ -20,7 +20,7 @@ namespace Hazel
     [[nodiscard]]
     constexpr Radians::operator Degrees( void ) const noexcept
     {
-        return Degrees( rad_to_deg( accumulated_ ) );
+        return Degrees( radiansToDegrees( m_Angle ) );
     }
 
 
@@ -28,7 +28,7 @@ namespace Hazel
     [[nodiscard]]
     constexpr Radians Radians::reduced( void ) const noexcept
     {
-        auto angle = accumulated_;
+        auto angle = m_Angle;
         while( angle > MAX_ANGLE )
         {
             angle -= ONE_FULL_ROTATION;
@@ -43,19 +43,19 @@ namespace Hazel
 
 
     [[nodiscard]]
-    constexpr float Radians::rad_to_deg( float rad ) const noexcept
+    constexpr float Radians::radiansToDegrees( float radians ) const noexcept
     {
         constexpr float CONVERSION{ 180.0f / PI };
-        return rad * CONVERSION;
+        return radians * CONVERSION;
     }
 
 
 
     [[nodiscard]]
-    constexpr float Radians::deg_to_rad( float deg ) const noexcept
+    constexpr float Radians::degreesToRadians( float degrees ) const noexcept
     {
         constexpr float CONVERSION{ PI / 180.0f };
-        return deg * CONVERSION;
+        return degrees * CONVERSION;
     }
 
 
