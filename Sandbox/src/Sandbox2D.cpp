@@ -37,12 +37,13 @@ void Sandbox2D::OnUpdate(Hazel::Timestep ts)
 	}
 
 	{
-		static float rotation = 0.0f;
-		rotation += ts * 50.0f;
+		static Hazel::Radians rotation{ 0.0f };
+		Hazel::Radians angle_delta( ts * 50.0f );
+		rotation += angle_delta;
 
 		HZ_PROFILE_SCOPE("Renderer Draw");
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
-		Hazel::Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, -45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
+		Hazel::Renderer2D::DrawRotatedQuad( { 1.0f, 0.0f }, { 0.8f, 0.8f }, Hazel::Radians( -Hazel::PI / 8.0f ), { 0.8f, 0.2f, 0.3f, 1.0f } );
 		Hazel::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 		Hazel::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, m_SquareColor);
 		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);

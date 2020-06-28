@@ -87,4 +87,12 @@ namespace Hazel {
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
 
+#if defined(M_PI)
+	constexpr float PI{ static_cast<float>( M_PI ) };
+#else
+	// This value of pi is exactly the same value M_PI would canonically be defined as, this is just allowing the compiler
+	//to decide how to best cast it to a float.
+	constexpr float PI{ static_cast<float>( 3.14159265358979323846264338327950288L ) };
+#endif
+
 }
