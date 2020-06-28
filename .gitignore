@@ -6,6 +6,9 @@ bin-int/
 # Hazel files
 *.log
 
+# ImGui status
+imgui.ini
+
 # Visual Studio files and folder
 .vs/
 **.sln
