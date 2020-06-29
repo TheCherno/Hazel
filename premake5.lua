@@ -55,7 +55,8 @@ project "Hazel"
 
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE"
 	}
 
 	includedirs
@@ -83,7 +84,6 @@ project "Hazel"
 		{ 
 			"Xrandr",
 			"Xi",
-			"GLEW",
 			"GLU",
 			"GL",
 			"X11"
@@ -92,8 +92,6 @@ project "Hazel"
 		defines
 		{
 			"HZ_PLATFORM_LINUX",
-			"HZ_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "system:windows"
@@ -107,8 +105,6 @@ project "Hazel"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug"
@@ -163,7 +159,6 @@ project "Sandbox"
 			"ImGui",
 			"Xrandr",
 			"Xi",
-			"GLEW",
 			"GLU",
 			"GL",
 			"X11",

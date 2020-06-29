@@ -81,7 +81,6 @@ Hazel has extra development dependencies needed for Linux. The following package
 - `libxrandr`
 - `libxinerama`
 - `libxi`
-- `libglew`
 
 Hazel is configured and compiled with:
 
@@ -94,10 +93,10 @@ make
 
 On Arch and Arch derivative distributions, install the additional dependencies by running:
 
-`sudo pacman -S libxcursor libxrandr libxinerama libxi glew`
+`sudo pacman -S libxcursor libxrandr libxinerama libxi`
 
 #### 3.2.2 Debian
 
 On Debian and Debian derivative distributions, install the additional dependencies by running:
 
-`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev`
+`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglu1-mesa-dev`
