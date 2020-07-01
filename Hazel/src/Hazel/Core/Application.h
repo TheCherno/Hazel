@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 
 #include "Hazel/Core/Window.h"
 #include "Hazel/Core/LayerStack.h"
@@ -11,26 +11,31 @@
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+int main(int argc, char** argv);
+
 namespace Hazel {
 
 	class Application
 	{
 	public:
-		Application(std::string);
+		Application(std::string, const std::string& name = "Hazel App");
 		virtual ~Application();
-
-		void Run();
 
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() { return *m_Window; }
+		Window& GetWindow() { return *m_Window; }
 
-		inline static Application& Get() { return *s_Instance; }
+		void Close();
+
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+
+		static Application& Get() { return *s_Instance; }
 		std::string CorrectFilePath(const std::string&);
 	private:
+		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 	private:
@@ -43,6 +48,7 @@ namespace Hazel {
 	private:
 		static Application* s_Instance;
 		std::string m_BaseDirectory;
+		friend int ::main(int argc, char** argv);
 	};
 
 	// To be defined in CLIENT

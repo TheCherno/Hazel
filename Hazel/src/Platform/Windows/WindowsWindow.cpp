@@ -20,11 +20,6 @@ namespace Hazel {
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		HZ_PROFILE_FUNCTION();
@@ -53,7 +48,7 @@ namespace Hazel {
 		{
 			HZ_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
-			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
+			HZ_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 

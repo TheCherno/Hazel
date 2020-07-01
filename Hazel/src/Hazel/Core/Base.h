@@ -38,34 +38,27 @@
 #endif
 
 // Debug settings
-#if defined HZ_DEBUG
-	#if defined HZ_PLATFORM_WINDOWS
+#ifdef HZ_DEBUG
+	#if defined(HZ_PLATFORM_WINDOWS)
 		#define HZ_DEBUGBREAK() __debugbreak()
-	#elif defined HZ_PLATFORM_LINUX
+	#elif defined(HZ_PLATFORM_LINUX)
 		#include <signal.h>
 		#define HZ_DEBUGBREAK() raise(SIGTRAP)
+	#else
+		#error "Platform doesn't support debugbreak yet!"
 	#endif
-
 	#define HZ_ENABLE_ASSERTS
-#endif // End of Debug settings
+#else
+	#define HZ_DEBUGBREAK()
+#endif
 
-// Assert statements
-// HZ_ASSERT      will assert the passed statement; if not HZ_ENABLE_ASSERTS will do nothing
-// HZ_ASSERT_CALL will assert the passed statement; if not HZ_ENABLE_ASSERTS will only call the statement
-#if defined HZ_ENABLE_ASSERTS
+#ifdef HZ_ENABLE_ASSERTS
 	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
 	#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
-
-	#define HZ_ASSERT_CALL(x, ...) HZ_ASSERT(x, __VA_ARGS__)
-	#define HZ_CORE_ASSERT_CALL(x, ...) HZ_CORE_ASSERT(x, __VA_ARGS__)
-
 #else
 	#define HZ_ASSERT(x, ...)
 	#define HZ_CORE_ASSERT(x, ...)
-
-	#define HZ_ASSERT_CALL(x, ...) x
-	#define HZ_CORE_ASSERT_CALL(x, ...) x
-#endif // End of Assert statements
+#endif
 
 #define BIT(x) (1 << x)
 

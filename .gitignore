@@ -11,7 +11,10 @@ Hazel.creator
 Hazel.files
 Hazel.includes
 
-# Visual Studio files
+# Hazel files
+*.log
+
+# Visual Studio files and folder
 .vs/
 *.sln
 **/**/*.vcxproj
