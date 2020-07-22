@@ -27,15 +27,10 @@ namespace Hazel {
 
 	class Instrumentor
 	{
-	private:
-		std::mutex m_Mutex;
-		InstrumentationSession* m_CurrentSession;
-		std::ofstream m_OutputStream;
+	
 	public:
-		Instrumentor()
-			: m_CurrentSession(nullptr)
-		{
-		}
+		Instrumentor(const Instrumentor&) = delete;
+		Instrumentor(Instrumentor&&) = delete;
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
@@ -105,6 +100,16 @@ namespace Hazel {
 
 	private:
 
+		Instrumentor()
+			: m_CurrentSession(nullptr)
+		{
+		}
+
+		~Instrumentor()
+		{
+			InternalEndSession();
+		}		
+
 		void WriteHeader()
 		{
 			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[{}";
@@ -129,6 +134,10 @@ namespace Hazel {
 				m_CurrentSession = nullptr;
 			}
 		}
+
+		std::mutex m_Mutex;
+		InstrumentationSession* m_CurrentSession;
+		std::ofstream m_OutputStream;
 
 	};
 
