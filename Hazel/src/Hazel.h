@@ -17,6 +17,9 @@
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+#include "Hazel/Scene/Scene.h"
+#include "Hazel/Scene/Components.h"
+
 // ---Renderer------------------------
 #include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Renderer/Renderer2D.h"
