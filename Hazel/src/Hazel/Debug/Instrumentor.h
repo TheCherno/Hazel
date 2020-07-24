@@ -107,7 +107,7 @@ namespace Hazel {
 
 		~Instrumentor()
 		{
-			InternalEndSession();
+			EndSession();
 		}		
 
 		void WriteHeader()
