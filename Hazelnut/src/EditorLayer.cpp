@@ -1,5 +1,6 @@
 #include "EditorLayer.h"
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -15,6 +16,11 @@ namespace Hazel {
 	void EditorLayer::OnAttach()
 	{
 		HZ_PROFILE_FUNCTION();
+
+		ImGui::LoadIniSettingsFromDisk(ImGui::GetIO().IniFilename);
+		if (!ImGui::GetCurrentContext()->SettingsLoaded) {
+			ImGui::LoadIniSettingsFromDisk("EditorImGui.ini");
+		}
 
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
