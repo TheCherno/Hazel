@@ -18,9 +18,8 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		ImGui::LoadIniSettingsFromDisk(ImGui::GetIO().IniFilename);
-		if (!ImGui::GetCurrentContext()->SettingsLoaded) {
+		if (!ImGui::GetCurrentContext()->SettingsLoaded)
 			ImGui::LoadIniSettingsFromDisk("EditorImGui.ini");
-		}
 
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
