@@ -27,7 +27,6 @@ namespace Hazel {
 
 	class Instrumentor
 	{
-	
 	public:
 		Instrumentor(const Instrumentor&) = delete;
 		Instrumentor(Instrumentor&&) = delete;
@@ -97,9 +96,7 @@ namespace Hazel {
 			static Instrumentor instance;
 			return instance;
 		}
-
 	private:
-
 		Instrumentor()
 			: m_CurrentSession(nullptr)
 		{
@@ -134,11 +131,10 @@ namespace Hazel {
 				m_CurrentSession = nullptr;
 			}
 		}
-
+	private:
 		std::mutex m_Mutex;
 		InstrumentationSession* m_CurrentSession;
 		std::ofstream m_OutputStream;
-
 	};
 
 	class InstrumentationTimer
