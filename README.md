@@ -29,3 +29,9 @@ Make sure that you do a `--recursive` clone to fetch all of the submodules!
 The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serve as an education tool for teaching game engine design and architecture. Because of this the development inside this repository is rather slow, since everything has to be taught and implemented on-camera. There is a much more advanced version of the engine in a private repository called `Hazel-dev`, accessible to supporters on [Patreon](https://patreon.com/thecherno). The plan for this project is to mostly take already implemented code from the `Hazel-dev` repository and integrate it into this one, done within videos and supported by explanations.
 
 This build is the same as the Game Engine series playlist.
+
+## Other links (Cherno's)
+Discord ► https://thecherno.com/discord
+Twitter ► https://twitter.com/thecherno
+Youtube ► youtube.com/thechernoproject
+Game Engine Series Playlist ► https://thecherno.com/engine
