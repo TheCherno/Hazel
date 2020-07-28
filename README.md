@@ -32,6 +32,12 @@ This build is the same as the Game Engine series playlist.
 
 ## Other links (Cherno's)
 Discord ► https://thecherno.com/discord
+
+
 Twitter ► https://twitter.com/thecherno
+
+
 Youtube ► youtube.com/thechernoproject
+
+
 Game Engine Series Playlist ► https://thecherno.com/engine
