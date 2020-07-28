@@ -31,13 +31,13 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 This build is the same as the Game Engine series playlist.
 
 ## Other links (Cherno's)
-Discord ► https://thecherno.com/discord
+Discord ► [https://thecherno.com/discord]
 
 
-Twitter ► https://twitter.com/thecherno
+Twitter ► [https://twitter.com/thecherno]
 
 
-Youtube ► youtube.com/thechernoproject
+Youtube ► [https://www.youtube.com/user/TheChernoProject]
 
 
-Game Engine Series Playlist ► https://thecherno.com/engine
+Game Engine Series Playlist ► [https://thecherno.com/engine]
