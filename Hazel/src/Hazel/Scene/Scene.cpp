@@ -74,14 +74,10 @@ namespace Hazel {
 
 					Renderer2D::BeginScene(camera.GetProjection(), transform);
 
-					auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-					for (auto entity : group)
-					{
-						auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-
-						Renderer2D::DrawQuad(transform, sprite.Color);
-					}
-
+					m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>).each(
+						[](const auto& transformComp, const auto& spriteComp) {
+						Renderer2D::DrawQuad(transformComp.Transform, spriteComp.Color);
+					});
 					Renderer2D::EndScene();
 				}
 			});
