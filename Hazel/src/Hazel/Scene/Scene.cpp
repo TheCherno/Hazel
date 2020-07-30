@@ -66,18 +66,15 @@ namespace Hazel {
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
-			auto group = m_Registry.view<TransformComponent, CameraComponent>();
-			for (auto entity : group)
-			{
-				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
-				
-				if (camera.Primary)
+			m_Registry.view<TransformComponent, CameraComponent>().each(
+				// cameraEntity can be avoided to be captured
+				[&mainCamera, &cameraTransform](const auto& cameraEntity, auto& transformComp, auto& cameraComp)
 				{
-					mainCamera = &camera.Camera;
-					cameraTransform = &transform.Transform;
-					break;
-				}
-			}
+						if (cameraComp.Primary) {
+							mainCamera = &cameraComp.Camera;
+							cameraTransform = &transformComp.Transform;
+						}
+				});
 		}
 
 		if (mainCamera)
