@@ -79,6 +79,7 @@ namespace Hazel {
 						Renderer2D::DrawQuad(transformComp.Transform, spriteComp.Color);
 					});
 					Renderer2D::EndScene();
+					return;
 				}
 			});
 	}
