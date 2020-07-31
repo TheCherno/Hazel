@@ -57,7 +57,8 @@ project "Hazel"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		"_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING"
 	}
 
 	includedirs
@@ -116,6 +117,10 @@ project "Sandbox"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
+	}
+
+	defines {
+		"_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING"
 	}
 
 	includedirs
