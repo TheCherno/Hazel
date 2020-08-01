@@ -82,15 +82,6 @@ project "Hazel"
 	filter "system:linux"
 --		pic "on"
 
-		links 
-		{ 
-			"Xrandr",
-			"Xi",
-			"GLU",
-			"GL",
-			"X11"
-		}
-
 		defines
 		{
 			"HZ_PLATFORM_LINUX",
