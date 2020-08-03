@@ -58,7 +58,7 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		std::string result;
-		std::ifstream in(filepath, std::ios::in | std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary); // ifstream closes itself due to RAII
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
@@ -73,8 +73,6 @@ namespace Hazel {
 			{
 				HZ_CORE_ERROR("Could not read from file '{0}'", filepath);
 			}
-
-			in.close();
 		}
 		else
 		{
