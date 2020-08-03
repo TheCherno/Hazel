@@ -68,12 +68,13 @@ namespace Hazel {
 				result.resize(size);
 				in.seekg(0, std::ios::beg);
 				in.read(&result[0], size);
-				in.close();
 			}
 			else
 			{
 				HZ_CORE_ERROR("Could not read from file '{0}'", filepath);
 			}
+
+			in.close();
 		}
 		else
 		{
