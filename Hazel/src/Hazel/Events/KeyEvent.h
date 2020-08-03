@@ -1,27 +1,27 @@
 #pragma once
 
 #include "Hazel/Events/Event.h"
-#include "Hazel/Core/Input.h"
+#include "Hazel/Core/KeyCodes.h"
 
 namespace Hazel {
 
 	class KeyEvent : public Event
 	{
 	public:
-		uint16_t GetKeyCode() const { return m_KeyCode; }
+		KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(const uint16_t keycode)
+		KeyEvent(const KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
-		uint16_t m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(const uint16_t keycode, const uint16_t repeatCount)
+		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
 		uint16_t GetRepeatCount() const { return m_RepeatCount; }
@@ -41,7 +41,7 @@ namespace Hazel {
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(const uint16_t keycode)
+		KeyReleasedEvent(const KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		std::string ToString() const override
@@ -57,7 +57,7 @@ namespace Hazel {
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(const uint16_t keycode)
+		KeyTypedEvent(const KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		std::string ToString() const override

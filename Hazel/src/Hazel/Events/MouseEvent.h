@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hazel/Events/Event.h"
+#include "Hazel/Core/MouseCodes.h"
 
 namespace Hazel {
 
@@ -51,20 +52,20 @@ namespace Hazel {
 	class MouseButtonEvent : public Event
 	{
 	public:
-		uint16_t GetMouseButton() const { return m_Button; }
+		MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(const uint16_t button)
+		MouseButtonEvent(const MouseCode button)
 			: m_Button(button) {}
 
-		uint16_t m_Button;
+		MouseCode m_Button;
 	};
 
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(const uint16_t button)
+		MouseButtonPressedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -80,7 +81,7 @@ namespace Hazel {
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(const uint16_t button)
+		MouseButtonReleasedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override

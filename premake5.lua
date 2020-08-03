@@ -119,7 +119,8 @@ project "Sandbox"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	defines {
+	defines
+	{
 		"_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING"
 	}
 
@@ -169,6 +170,11 @@ project "Hazelnut"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
+	}
+
+	defines
+	{
+		"_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING"
 	}
 
 	includedirs

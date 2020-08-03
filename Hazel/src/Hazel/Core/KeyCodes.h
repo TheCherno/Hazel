@@ -2,9 +2,11 @@
 
 namespace Hazel
 {
-	namespace KeyCode
+	using KeyCode = uint16_t;
+	
+	namespace Key
 	{
-		enum : uint16_t
+		enum : KeyCode
 		{
 			// From glfw3.h
 			Space               = 32,
@@ -139,133 +141,4 @@ namespace Hazel
 			Menu                = 348
 		};
 	}
-
-	namespace Key = KeyCode;
 }
-
-// From glfw3.h
-#define HZ_KEY_SPACE           ::Hazel::Key::Space
-#define HZ_KEY_APOSTROPHE      ::Hazel::Key::Apostrophe    /* ' */
-#define HZ_KEY_COMMA           ::Hazel::Key::Comma         /* , */
-#define HZ_KEY_MINUS           ::Hazel::Key::Minus         /* - */
-#define HZ_KEY_PERIOD          ::Hazel::Key::Period        /* . */
-#define HZ_KEY_SLASH           ::Hazel::Key::Slash         /* / */
-#define HZ_KEY_0               ::Hazel::Key::D0
-#define HZ_KEY_1               ::Hazel::Key::D1
-#define HZ_KEY_2               ::Hazel::Key::D2
-#define HZ_KEY_3               ::Hazel::Key::D3
-#define HZ_KEY_4               ::Hazel::Key::D4
-#define HZ_KEY_5               ::Hazel::Key::D5
-#define HZ_KEY_6               ::Hazel::Key::D6
-#define HZ_KEY_7               ::Hazel::Key::D7
-#define HZ_KEY_8               ::Hazel::Key::D8
-#define HZ_KEY_9               ::Hazel::Key::D9
-#define HZ_KEY_SEMICOLON       ::Hazel::Key::Semicolon     /* ; */
-#define HZ_KEY_EQUAL           ::Hazel::Key::Equal         /* = */
-#define HZ_KEY_A               ::Hazel::Key::A
-#define HZ_KEY_B               ::Hazel::Key::B
-#define HZ_KEY_C               ::Hazel::Key::C
-#define HZ_KEY_D               ::Hazel::Key::D
-#define HZ_KEY_E               ::Hazel::Key::E
-#define HZ_KEY_F               ::Hazel::Key::F
-#define HZ_KEY_G               ::Hazel::Key::G
-#define HZ_KEY_H               ::Hazel::Key::H
-#define HZ_KEY_I               ::Hazel::Key::I
-#define HZ_KEY_J               ::Hazel::Key::J
-#define HZ_KEY_K               ::Hazel::Key::K
-#define HZ_KEY_L               ::Hazel::Key::L
-#define HZ_KEY_M               ::Hazel::Key::M
-#define HZ_KEY_N               ::Hazel::Key::N
-#define HZ_KEY_O               ::Hazel::Key::O
-#define HZ_KEY_P               ::Hazel::Key::P
-#define HZ_KEY_Q               ::Hazel::Key::Q
-#define HZ_KEY_R               ::Hazel::Key::R
-#define HZ_KEY_S               ::Hazel::Key::S
-#define HZ_KEY_T               ::Hazel::Key::T
-#define HZ_KEY_U               ::Hazel::Key::U
-#define HZ_KEY_V               ::Hazel::Key::V
-#define HZ_KEY_W               ::Hazel::Key::W
-#define HZ_KEY_X               ::Hazel::Key::X
-#define HZ_KEY_Y               ::Hazel::Key::Y
-#define HZ_KEY_Z               ::Hazel::Key::Z
-#define HZ_KEY_LEFT_BRACKET    ::Hazel::Key::LeftBracket   /* [ */
-#define HZ_KEY_BACKSLASH       ::Hazel::Key::Backslash     /* \ */
-#define HZ_KEY_RIGHT_BRACKET   ::Hazel::Key::RightBracket  /* ] */
-#define HZ_KEY_GRAVE_ACCENT    ::Hazel::Key::GraveAccent   /* ` */
-#define HZ_KEY_WORLD_1         ::Hazel::Key::World1        /* non-US #1 */
-#define HZ_KEY_WORLD_2         ::Hazel::Key::World2        /* non-US #2 */
-
-/* Function keys */
-#define HZ_KEY_ESCAPE          ::Hazel::Key::Escape
-#define HZ_KEY_ENTER           ::Hazel::Key::Enter
-#define HZ_KEY_TAB             ::Hazel::Key::Tab
-#define HZ_KEY_BACKSPACE       ::Hazel::Key::Backspace
-#define HZ_KEY_INSERT          ::Hazel::Key::Insert
-#define HZ_KEY_DELETE          ::Hazel::Key::Delete
-#define HZ_KEY_RIGHT           ::Hazel::Key::Right
-#define HZ_KEY_LEFT            ::Hazel::Key::Left
-#define HZ_KEY_DOWN            ::Hazel::Key::Down
-#define HZ_KEY_UP              ::Hazel::Key::Up
-#define HZ_KEY_PAGE_UP         ::Hazel::Key::PageUp
-#define HZ_KEY_PAGE_DOWN       ::Hazel::Key::PageDown
-#define HZ_KEY_HOME            ::Hazel::Key::Home
-#define HZ_KEY_END             ::Hazel::Key::End
-#define HZ_KEY_CAPS_LOCK       ::Hazel::Key::CapsLock
-#define HZ_KEY_SCROLL_LOCK     ::Hazel::Key::ScrollLock
-#define HZ_KEY_NUM_LOCK        ::Hazel::Key::NumLock
-#define HZ_KEY_PRINT_SCREEN    ::Hazel::Key::PrintScreen
-#define HZ_KEY_PAUSE           ::Hazel::Key::Pause
-#define HZ_KEY_F1              ::Hazel::Key::F1
-#define HZ_KEY_F2              ::Hazel::Key::F2
-#define HZ_KEY_F3              ::Hazel::Key::F3
-#define HZ_KEY_F4              ::Hazel::Key::F4
-#define HZ_KEY_F5              ::Hazel::Key::F5
-#define HZ_KEY_F6              ::Hazel::Key::F6
-#define HZ_KEY_F7              ::Hazel::Key::F7
-#define HZ_KEY_F8              ::Hazel::Key::F8
-#define HZ_KEY_F9              ::Hazel::Key::F9
-#define HZ_KEY_F10             ::Hazel::Key::F10
-#define HZ_KEY_F11             ::Hazel::Key::F11
-#define HZ_KEY_F12             ::Hazel::Key::F12
-#define HZ_KEY_F13             ::Hazel::Key::F13
-#define HZ_KEY_F14             ::Hazel::Key::F14
-#define HZ_KEY_F15             ::Hazel::Key::F15
-#define HZ_KEY_F16             ::Hazel::Key::F16
-#define HZ_KEY_F17             ::Hazel::Key::F17
-#define HZ_KEY_F18             ::Hazel::Key::F18
-#define HZ_KEY_F19             ::Hazel::Key::F19
-#define HZ_KEY_F20             ::Hazel::Key::F20
-#define HZ_KEY_F21             ::Hazel::Key::F21
-#define HZ_KEY_F22             ::Hazel::Key::F22
-#define HZ_KEY_F23             ::Hazel::Key::F23
-#define HZ_KEY_F24             ::Hazel::Key::F24
-#define HZ_KEY_F25             ::Hazel::Key::F25
-
-/* Keypad */
-#define HZ_KEY_KP_0            ::Hazel::Key::KP0
-#define HZ_KEY_KP_1            ::Hazel::Key::KP1
-#define HZ_KEY_KP_2            ::Hazel::Key::KP2
-#define HZ_KEY_KP_3            ::Hazel::Key::KP3
-#define HZ_KEY_KP_4            ::Hazel::Key::KP4
-#define HZ_KEY_KP_5            ::Hazel::Key::KP5
-#define HZ_KEY_KP_6            ::Hazel::Key::KP6
-#define HZ_KEY_KP_7            ::Hazel::Key::KP7
-#define HZ_KEY_KP_8            ::Hazel::Key::KP8
-#define HZ_KEY_KP_9            ::Hazel::Key::KP9
-#define HZ_KEY_KP_DECIMAL      ::Hazel::Key::KPDecimal
-#define HZ_KEY_KP_DIVIDE       ::Hazel::Key::KPDivide
-#define HZ_KEY_KP_MULTIPLY     ::Hazel::Key::KPMultiply
-#define HZ_KEY_KP_SUBTRACT     ::Hazel::Key::KPSubtract
-#define HZ_KEY_KP_ADD          ::Hazel::Key::KPAdd
-#define HZ_KEY_KP_ENTER        ::Hazel::Key::KPEnter
-#define HZ_KEY_KP_EQUAL        ::Hazel::Key::KPEqual
-
-#define HZ_KEY_LEFT_SHIFT      ::Hazel::Key::LeftShift
-#define HZ_KEY_LEFT_CONTROL    ::Hazel::Key::LeftControl
-#define HZ_KEY_LEFT_ALT        ::Hazel::Key::LeftAlt
-#define HZ_KEY_LEFT_SUPER      ::Hazel::Key::LeftSuper
-#define HZ_KEY_RIGHT_SHIFT     ::Hazel::Key::RightShift
-#define HZ_KEY_RIGHT_CONTROL   ::Hazel::Key::RightControl
-#define HZ_KEY_RIGHT_ALT       ::Hazel::Key::RightAlt
-#define HZ_KEY_RIGHT_SUPER     ::Hazel::Key::RightSuper
-#define HZ_KEY_MENU            ::Hazel::Key::Menu
