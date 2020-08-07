@@ -4,8 +4,8 @@ project "Hazel"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "hzpch.h"
 	pchsource "src/hzpch.cpp"
@@ -30,12 +30,12 @@ project "Hazel"
 	{
 		"src",
 		"vendor/spdlog/include",
-		"../%{IncludeDir.GLFW}",
-		"../%{IncludeDir.Glad}",
-		"../%{IncludeDir.ImGui}",
-		"../%{IncludeDir.glm}",
-		"../%{IncludeDir.stb_image}",
-		"../%{IncludeDir.entt}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

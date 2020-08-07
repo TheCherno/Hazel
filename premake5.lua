@@ -18,12 +18,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
-IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
-IncludeDir["ImGui"] = "Hazel/vendor/imgui"
-IncludeDir["glm"] = "Hazel/vendor/glm"
-IncludeDir["stb_image"] = "Hazel/vendor/stb_image"
-IncludeDir["entt"] = "Hazel/vendor/entt/include"
+IncludeDir["GLFW"] = "%{wks.location}/Hazel/vendor/GLFW/include"
+IncludeDir["Glad"] = "%{wks.location}/Hazel/vendor/Glad/include"
+IncludeDir["ImGui"] = "%{wks.location}/Hazel/vendor/imgui"
+IncludeDir["glm"] = "%{wks.location}/Hazel/vendor/glm"
+IncludeDir["stb_image"] = "%{wks.location}/Hazel/vendor/stb_image"
+IncludeDir["entt"] = "%{wks.location}/Hazel/vendor/entt/include"
 
 group "Dependencies"
 	include "Hazel/vendor/GLFW"
