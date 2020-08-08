@@ -1,3 +1,5 @@
+include "./vendor/premake/premake_customization/solution_items.lua"
+
 workspace "Hazel"
 	architecture "x86_64"
 	startproject "Hazelnut"
@@ -7,6 +9,11 @@ workspace "Hazel"
 		"Debug",
 		"Release",
 		"Dist"
+	}
+
+	solution_items
+	{
+		".editorconfig"
 	}
 
 	flags
