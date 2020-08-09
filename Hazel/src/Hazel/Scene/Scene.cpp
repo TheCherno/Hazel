@@ -63,25 +63,42 @@ namespace Hazel {
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Render 2D
-
 		m_Registry.view<TransformComponent, CameraComponent>().each(
 			// cameraEntity can be avoided to be captured
 			[&]( [[maybe_unused]] const auto cameraEntity, const auto& transformComp, const auto& cameraComp)
 			{
-				const auto &camera = cameraComp.Camera;
-				const auto& transform = transformComp.Transform;
 				if (cameraComp.Primary) {
+					const auto& mainCamera = cameraComp.Camera;
+					const auto& cameraTransform = transformComp.Transform;
 
-					Renderer2D::BeginScene(camera.GetProjection(), transform);
+					Renderer2D::BeginScene(mainCamera.GetProjection(), cameraTransform);
 
 					m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>).each(
-						[](const auto& transformComp, const auto& spriteComp) {
-						Renderer2D::DrawQuad(transformComp.Transform, spriteComp.Color);
-					});
+						[](const auto& transformComp, const auto& spriteComp)
+						{
+							Renderer2D::DrawQuad(transformComp.Transform, spriteComp.Color);
+						}
+					);
+
 					Renderer2D::EndScene();
-					return;
 				}
-			});
+			}
+		);
+	}
+
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		// Resize our non-FixedAspectRatio cameras
+		m_Registry.view<CameraComponent>().each(
+			[=]( [[maybe_unused]] const auto cameraEntity, auto& cameraComp)
+			{
+				if (!cameraComp.FixedAspectRatio)
+					cameraComp.Camera.SetViewportSize(width, height);
+			}
+		);
 	}
 
 }
