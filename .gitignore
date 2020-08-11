@@ -12,7 +12,3 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-
-/imgui.ini
-imgui.ini
-Hazelnut/imgui.ini
