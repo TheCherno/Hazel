@@ -18,5 +18,7 @@
 #include "Hazel/Debug/Instrumentor.h"
 
 #ifdef HZ_PLATFORM_WINDOWS
+	#undef min
+	#undef max
 	#include <Windows.h>
 #endif
