@@ -68,7 +68,7 @@ namespace Hazel {
 			{
 				if (!nsc.Instance)
 				{
-					nsc.InstantiateFunction();
+					nsc.InstantiateFunction(nsc.Instance);
 					nsc.Instance->m_Entity = Entity{ entity, this };
 
 					if (nsc.OnCreateFunction)
