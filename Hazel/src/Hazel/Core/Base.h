@@ -57,10 +57,11 @@
 	#define HZ_DEBUGBREAK()
 #endif
 
-// TODO: Make this macro able to take in no arguments except condition
+// Adding the ## to the __VA_ARGS__ will allow it to accept zero arguments
+// Of course if you still want the {0} included, you could change the macro to be HZ_ASSERT(x, n, ...) ..... "...Failed {0}", n, ##__VA_ARGS__
 #ifdef HZ_ENABLE_ASSERTS
-	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
-	#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); HZ_DEBUGBREAK(); } }
+	#define HZ_ASSERT(x, ...) { if(!(x)) { HZ_ERROR("Assertion Failed: {0}", ##__VA_ARGS__); HZ_DEBUGBREAK(); } }
+	#define HZ_CORE_ASSERT(x, ...) { if(!(x)) { HZ_CORE_ERROR("Assertion Failed: {0}", ##__VA_ARGS__); HZ_DEBUGBREAK(); } }
 #else
 	#define HZ_ASSERT(x, ...)
 	#define HZ_CORE_ASSERT(x, ...)
