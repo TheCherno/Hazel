@@ -54,12 +54,12 @@ namespace Hazel {
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		void(* InstantiateFunction)(ScriptableEntity*&);
-		void(* DestroyInstanceFunction)(ScriptableEntity*&);
+		void(* InstantiateFunction)(ScriptableEntity*&) = nullptr;
+		void(* DestroyInstanceFunction)(ScriptableEntity*&) = nullptr;
 
-		void(* OnCreateFunction)(ScriptableEntity*);
-		void(* OnDestroyFunction)(ScriptableEntity*);
-		void(* OnUpdateFunction)(ScriptableEntity*, Timestep);
+		void(* OnCreateFunction)(ScriptableEntity*) = nullptr;
+		void(* OnDestroyFunction)(ScriptableEntity*) = nullptr;
+		void(* OnUpdateFunction)(ScriptableEntity*, Timestep) = nullptr;
 
 		template<typename T>
 		void Bind()
