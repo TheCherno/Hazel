@@ -204,8 +204,9 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
-			return m_UniformLocationCache[name];
+		auto cachedLocation = m_UniformLocationCache.find(name);
+		if (cachedLocation != m_UniformLocationCache.end())
+			return cachedLocation->second;
 
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		m_UniformLocationCache[name] = location;
