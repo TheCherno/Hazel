@@ -58,6 +58,12 @@ namespace Hazel {
 				if (Input::IsKeyUp(KeyCode::H))
 					HZ_INFO("H is up");
 
+				if (Input::IsMouseButtonDown(MouseCode::ButtonLeft))
+					HZ_INFO("Left Click is down");
+
+				if (Input::IsMouseButtonUp(MouseCode::ButtonRight))
+					HZ_INFO("Right Click is up");
+
 				if (Input::IsKeyPressed(KeyCode::A))
 					transform[3][0] -= speed * ts;
 				if (Input::IsKeyPressed(KeyCode::D))

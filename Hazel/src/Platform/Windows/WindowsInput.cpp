@@ -6,6 +6,7 @@
 
 namespace Hazel {
 	static std::unordered_map<KeyCode, bool> s_KeyStateMap(0);
+	static std::unordered_map<MouseCode, bool> s_MouseButtonStateMap(0);
 
 	static std::vector<KeyCode> s_AllKeys =
 	{
@@ -131,6 +132,18 @@ namespace Hazel {
 		KeyCode::Menu
 	};
 
+	static std::vector<MouseCode> s_AllMouseButtons =
+	{
+		MouseCode::Button0,
+		MouseCode::Button1,
+		MouseCode::Button2,
+		MouseCode::Button3,
+		MouseCode::Button4,
+		MouseCode::Button5,
+		MouseCode::Button6,
+		MouseCode::Button7
+	};
+
 	bool Input::IsKeyPressed(KeyCode key)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -153,6 +166,16 @@ namespace Hazel {
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
 		return state == GLFW_PRESS;
+	}
+
+	bool Input::IsMouseButtonDown(MouseCode button)
+	{
+		return GetMouseButton(button) && !s_MouseButtonStateMap[button];
+	}
+
+	bool Input::IsMouseButtonUp(MouseCode button)
+	{
+		return !GetMouseButton(button) && s_MouseButtonStateMap[button];
 	}
 
 	std::pair<float, float> Input::GetMousePosition()
@@ -182,10 +205,20 @@ namespace Hazel {
 			static_cast<int32_t>(keycode)) == GLFW_PRESS;
 	}
 
+	bool Input::GetMouseButton(MouseCode mousecode)
+	{
+		return glfwGetMouseButton(static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow()),
+			static_cast<int32_t>(mousecode)) == GLFW_PRESS;
+	}
+
 	void Input::OnUpdate()
 	{
 		for (KeyCode key : s_AllKeys) {
 			s_KeyStateMap[key] = GetKey(key);
+		}
+
+		for (MouseCode mouseButton : s_AllMouseButtons) {
+			s_MouseButtonStateMap[mouseButton] = GetMouseButton(mouseButton);
 		}
 	}
 }
