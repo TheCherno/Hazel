@@ -10,7 +10,6 @@
 #include <GLFW/glfw3.h>
 
 namespace Hazel {
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application(const std::string& name)
@@ -66,7 +65,7 @@ namespace Hazel {
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			if (e.Handled) 
+			if (e.Handled)
 				break;
 			(*it)->OnEvent(e);
 		}
@@ -103,6 +102,8 @@ namespace Hazel {
 				m_ImGuiLayer->End();
 			}
 
+			Input::OnUpdate();
+
 			m_Window->OnUpdate();
 		}
 	}
@@ -128,5 +129,4 @@ namespace Hazel {
 
 		return false;
 	}
-
 }

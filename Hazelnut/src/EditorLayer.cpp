@@ -4,9 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 namespace Hazel {
-
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 	{
@@ -27,7 +25,7 @@ namespace Hazel {
 
 		// Entity
 		auto square = m_ActiveScene->CreateEntity("Green Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
 		m_SquareEntity = square;
 
@@ -54,6 +52,12 @@ namespace Hazel {
 				auto& transform = GetComponent<TransformComponent>().Transform;
 				float speed = 5.0f;
 
+				if (Input::IsKeyDown(KeyCode::G))
+					HZ_INFO("G is down");
+
+				if (Input::IsKeyUp(KeyCode::H))
+					HZ_INFO("H is up");
+
 				if (Input::IsKeyPressed(KeyCode::A))
 					transform[3][0] -= speed * ts;
 				if (Input::IsKeyPressed(KeyCode::D))
@@ -66,7 +70,6 @@ namespace Hazel {
 		};
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
 	}
 
 	void EditorLayer::OnDetach()
@@ -135,9 +138,9 @@ namespace Hazel {
 			window_flags |= ImGuiWindowFlags_NoBackground;
 
 		// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
+		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
 		// all active windows docked into it will lose their parent and become undocked.
-		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
+		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
 		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
@@ -158,7 +161,7 @@ namespace Hazel {
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
+				// Disabling fullscreen would allow the window to be moved to the front of other windows,
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
@@ -205,7 +208,6 @@ namespace Hazel {
 				camera.SetOrthographicSize(orthoSize);
 		}
 
-
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
@@ -230,5 +232,4 @@ namespace Hazel {
 	{
 		m_CameraController.OnEvent(e);
 	}
-
 }
