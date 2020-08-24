@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "Framebuffer.h"
+#include "Hazel/Renderer/Framebuffer.h"
 
 #include "Hazel/Renderer/Renderer.h"
 
