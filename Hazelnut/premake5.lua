@@ -27,6 +27,25 @@ project "Hazelnut"
 		"Hazel"
 	}
 
+	filter "system:linux"
+		links
+		{
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+			"stdc++fs"
+		}
+		defines
+		{
+		}
+
 	filter "system:windows"
 		systemversion "latest"
 

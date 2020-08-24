@@ -52,6 +52,11 @@ namespace Hazel {
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 		{
 			HZ_PROFILE_SCOPE("glfwCreateWindow");
 		#if defined(HZ_DEBUG)

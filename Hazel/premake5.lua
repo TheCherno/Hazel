@@ -43,12 +43,33 @@ project "Hazel"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
 	}
+
+	filter "system:linux"
+		-- pic "on"
+
+		links 
+		{ 
+			"Xrandr",
+			"Xi",
+			"GLU",
+			"GL",
+			"X11"
+		}
+
+		defines
+		{
+		}
 
 	filter "system:windows"
 		systemversion "latest"
 
+
+		links 
+		{ 
+			"opengl32.lib"
+		}
+		
 		defines
 		{
 		}

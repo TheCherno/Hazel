@@ -6,7 +6,10 @@ bin-int/
 # Hazel files
 *.log
 
-# Visual Studio files and folder
+# Linux makefile
+Makefile
+
+# Visual Studio files and folders
 .vs/
 **.sln
 **.vcxproj
