@@ -161,6 +161,16 @@ namespace Hazel {
 		return !GetKey(keycode) && s_KeyStateMap[keycode];
 	}
 
+	bool Input::IsKeyDown(const KeyCode keycode)
+	{
+		return GetKey(keycode) && !s_KeyStateMap[keycode];
+	}
+
+	bool Input::IsKeyUp(const KeyCode keycode)
+	{
+		return !GetKey(keycode) && s_KeyStateMap[keycode];
+	}
+
 	bool Input::IsMouseButtonPressed(const MouseCode button)
 	{
 		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
