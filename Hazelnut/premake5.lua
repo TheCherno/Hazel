@@ -33,14 +33,9 @@ project "Hazelnut"
 			"GLFW",
 			"Glad",
 			"ImGui",
-			"Xrandr",
-			"Xi",
-			"GLU",
-			"GL",
 			"X11",
 			"dl",
-			"pthread",
-			"stdc++fs"
+			"pthread"
 		}
 		defines
 		{

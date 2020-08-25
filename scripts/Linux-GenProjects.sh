@@ -1,4 +1,4 @@
-<<COMMENT
+<<'###COMMENT'
 linux users are welcome too
 
          _nnnn_        
@@ -17,7 +17,7 @@ linux users are welcome too
 _)      \.___.,|     .'
 \____   )MMMMMP|   .'  
      `-'       `--' hjm
-COMMENT
+###COMMENT
 
 dp0=$(dirname $(readlink -f $0))
 cd "$dp0/.."
