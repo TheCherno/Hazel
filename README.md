@@ -35,6 +35,6 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 [![Patreon](https://img.shields.io/badge/%40thecherno--green.svg?style=social&logo=Patreon)](https://patreon.com/thecherno)
 
 ## Short term goals :
-By the end 2020, we want to make a game, using the Hazel game engine 
+By the end 2020, we want to make a game, using the Hazel game engine.
 
 *note this is subject to change at any time.*
