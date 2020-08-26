@@ -42,7 +42,6 @@ namespace Hazel {
 
 }
 
-#ifndef LOG_H
 	#include "Hazel/Core/Log.h"
 
 	// TODO: Make this macro able to take in no arguments except condition
@@ -53,4 +52,3 @@ namespace Hazel {
 		#define HZ_ASSERT(x, ...)
 		#define HZ_CORE_ASSERT(x, ...)
 	#endif
-#endif // !LOG_H

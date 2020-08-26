@@ -1,5 +1,4 @@
 #pragma once
-#define LOG_H
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
