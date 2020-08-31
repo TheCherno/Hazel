@@ -26,6 +26,7 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 - Artificial Intelligence
 - Audio system
 
+
 ## Short term goals :
 *note this is subject to change at any time.*
 By the end 2020, we want to make a game, using the Hazel game engine.
