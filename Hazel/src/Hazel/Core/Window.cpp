@@ -11,7 +11,9 @@ namespace Hazel
 {
 	Scope<Window> Window::Create(const WindowProps& props)
 	{
-	#if defined(HZ_PLATFORM_WINDOWS) || defined(HZ_PLATFORM_LINUX)
+	#if defined(HZ_PLATFORM_WINDOWS)
+		return CreateScope<WindowsWindow>(props);
+	#elif defined(HZ_PLATFORM_LINUX)
 		return CreateScope<WindowsWindow>(props);
 	#else
 		HZ_CORE_ASSERT(false, "Unknown platform!");
