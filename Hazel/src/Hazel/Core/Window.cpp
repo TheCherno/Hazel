@@ -1,7 +1,9 @@
 #include "hzpch.h"
 #include "Hazel/Core/Window.h"
 
-#if defined(HZ_PLATFORM_WINDOWS) || defined(HZ_PLATFORM_LINUX)
+#if defined(HZ_PLATFORM_WINDOWS)
+	#include "Platform/Windows/WindowsWindow.h"
+#elif defined(HZ_PLATFORM_LINUX)
 	#include "Platform/Windows/WindowsWindow.h"
 #endif
 
