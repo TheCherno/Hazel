@@ -6,7 +6,7 @@ bin-int/
 # Hazel files
 *.log
 
-# Linux makefile
+# Makefiles
 Makefile
 
 # Visual Studio files and folders
