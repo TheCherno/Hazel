@@ -1,6 +1,6 @@
-# Directories
-/bin/
-Hazel/vendor/**/bin/
+# Binaries
+**/bin/
+!vendor/premake/bin/
 bin-int/
 
 # Files
@@ -16,6 +16,7 @@ Hazel.includes
 
 # Visual Studio files and folder
 .vs/
-*.sln
-**/**/*.vcxproj
-**/**/*.vcxproj.filters
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user

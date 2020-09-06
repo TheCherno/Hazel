@@ -1,16 +1,16 @@
 [submodule "Hazel/vendor/spdlog"]
 	path = Hazel/vendor/spdlog
-	url = https://github.com/gabime/spdlog
+	url = ../../gabime/spdlog.git
 	branch = v1.x
 [submodule "Hazel/vendor/GLFW"]
 	path = Hazel/vendor/GLFW
-	url = https://github.com/TheCherno/glfw
+	url = ../../TheCherno/glfw.git
 	branch = master
 [submodule "Hazel/vendor/imgui"]
 	path = Hazel/vendor/imgui
-	url = https://github.com/TheCherno/imgui
+	url = ../../TheCherno/imgui.git
 	branch = docking
 [submodule "Hazel/vendor/glm"]
 	path = Hazel/vendor/glm
-	url = https://github.com/g-truc/glm
+	url = ../../g-truc/glm.git
 	branch = master

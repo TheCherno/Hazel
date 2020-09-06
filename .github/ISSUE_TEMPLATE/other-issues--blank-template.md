@@ -1,5 +1,5 @@
 ---
-name: 'Issue: Blank template'
+name: 'Other issues: Blank template'
 about: For issues that are not a bug report or feature request
 
 ---
