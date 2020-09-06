@@ -42,6 +42,7 @@ project "Sandbox"
 			"pthread",
 			"stdc++fs"
 		}
+		
 		defines
 		{
 		}
