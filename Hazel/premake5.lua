@@ -64,7 +64,6 @@ project "Hazel"
 	filter "system:windows"
 		systemversion "latest"
 
-
 		links 
 		{ 
 			"opengl32.lib"
