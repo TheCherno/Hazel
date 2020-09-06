@@ -37,6 +37,7 @@ project "Hazelnut"
 			"dl",
 			"pthread"
 		}
+		
 		defines
 		{
 		}
