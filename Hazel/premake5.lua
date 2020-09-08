@@ -59,7 +59,6 @@ project "Hazel"
 
 		defines
 		{
-			"HZ_PLATFORM_LINUX"
 		}
 
 	filter "system:windows"
@@ -72,7 +71,6 @@ project "Hazel"
 		
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug"
