@@ -33,6 +33,9 @@
 	#error "Android is not supported!"
 #elif defined(__linux__)
 	#define HZ_PLATFORM_LINUX
+	// Linux is not offically supported by Hazel.
+	// You can remove this line to enable Linux support
+	#error "Linux is not supported! Read message in Hazel/src/Hazel/Core/PlatformDetection.h"
 #else
 	/* Unknown compiler/platform */
 	#error "Unknown platform!"
