@@ -67,8 +67,8 @@ namespace Hazel {
 		if (m_BlockEvents)
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			e.Handled |= e.IsInCategory(EventCategory::EventCategoryMouse) & io.WantCaptureMouse;
-			e.Handled |= e.IsInCategory(EventCategory::EventCategoryKeyboard) & io.WantCaptureKeyboard;
+			e.Handled |= e.IsInCategory(EventCategory::Mouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategory::Keyboard) & io.WantCaptureKeyboard;
 		}
 	}
 	
