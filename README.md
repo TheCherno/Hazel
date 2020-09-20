@@ -28,7 +28,7 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 
 
 ## Short term goals :
-*note this is subject to change at any time.*
+*Note: this is subject to change at any time! Follow the roadmap over at [hazelengine.com/roadmap](http://hazelengine.com/roadmap).*
 By the end 2020, we want to make a game using the Hazel game engine. Not like the time I made a game in one hour using the engine, but this time by using the proper tools that would be required to make a game with Hazel. This means we need to add a full 2D workflow:
 
 - Design the game scene by using Hazelnut, the Hazel editor,
