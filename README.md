@@ -36,7 +36,7 @@ By the end 2020, we want to make a game using the Hazel game engine. Not like th
 - Test the game inside Hazelnut, including the ability to save/load the created game,
 - Load and play the game inside Sandbox.
 
-We want everyone to be able to play the game on all desktop platforms (Windows, Mac and Linux). When this is implemented, another attempt at the "Creating a game 1 one hour using Hazel" will be made to see how far the engine has become.
+We want everyone to be able to play the game on all desktop platforms (Windows, Mac and Linux). When this is implemented, another attempt at the "Creating a game in 1 one hour using Hazel" will be made to see how far the engine has become.
 
 [![Twitter](https://img.shields.io/badge/%40thecherno--blue.svg?style=social&logo=Twitter)](https://twitter.com/thecherno)
 [![Instagram](https://img.shields.io/badge/thecherno--red.svg?style=social&logo=Instagram)](https://www.instagram.com/thecherno)
