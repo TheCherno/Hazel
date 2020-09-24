@@ -75,6 +75,8 @@ namespace Hazel {
 			{
 				tag = std::string(buffer);
 			}
+			//Check if the tag is empty if so name it "Entity".
+			tag = tag.empty() ? "Entity" : tag;
 		}
 
 		if (entity.HasComponent<TransformComponent>())
