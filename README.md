@@ -28,7 +28,7 @@ Currently Hazel supports:
 	
 	- IOS not supported
 	
-Windows and Linux is currently supported with plans for MacOS and Android/IOS support in the future.
+Windows is currently supported with plans for MacOS, Linux and Android/IOS support in the future.
 
 ### Hardware requirements
 As of now, Hazel only supports OpenGL Rendering and requires a minimum version of 4.5.
