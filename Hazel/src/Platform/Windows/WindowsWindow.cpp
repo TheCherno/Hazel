@@ -13,7 +13,7 @@
 
 namespace Hazel {
 	
-	float Window::highDPIScaleFactor = 1.0f;
+	float Window::s_HighDPIScaleFactor = 1.0f;
 
 	static uint8_t s_GLFWWindowCount = 0;
 
@@ -61,9 +61,9 @@ namespace Hazel {
 			float xscale, yscale;
 			glfwGetMonitorContentScale(monitor, &xscale, &yscale);
 			
-			if (xscale > 1 || yscale > 1)
+			if (xscale > 1.0f || yscale > 1.0f)
 			{
-				highDPIScaleFactor = xscale;
+				s_HighDPIScaleFactor = xscale;
 				glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
 			}
 

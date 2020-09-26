@@ -34,7 +34,7 @@ namespace Hazel {
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
 		ImFontConfig fontConfig;
-		fontConfig.SizePixels = Window::highDPIScaleFactor * 12.0f;
+		fontConfig.SizePixels = Window::s_HighDPIScaleFactor * 12.0f;
 		ImFont* font = io.Fonts->AddFontDefault(&fontConfig);
 		io.FontDefault = io.Fonts->Fonts.back();
 
@@ -45,7 +45,7 @@ namespace Hazel {
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
 
-		style.ScaleAllSizes(Window::highDPIScaleFactor);
+		style.ScaleAllSizes(Window::s_HighDPIScaleFactor);
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{

@@ -43,7 +43,7 @@ namespace Hazel {
 
 		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	public:
-		static float highDPIScaleFactor;
+		static float s_HighDPIScaleFactor;
 	};
 
 }
