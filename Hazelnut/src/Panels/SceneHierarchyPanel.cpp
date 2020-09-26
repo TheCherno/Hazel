@@ -71,10 +71,12 @@ namespace Hazel {
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
 			strcpy_s(buffer, sizeof(buffer), tag.c_str());
-			if (ImGui::InputText("Tag", buffer, sizeof(buffer)))
+			ImGui::Text("Tag"); ImGui::SameLine();
+			if (ImGui::InputText("##emtpy", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);
 			}
+			
 			//Check if the tag is empty if so name it "Entity".
 			tag = tag.empty() ? "Entity" : tag;
 		}
