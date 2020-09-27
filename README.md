@@ -11,28 +11,6 @@ Start by cloning the repository with `git clone --recursive https://github.com/T
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
-## Hazels support
-Hazel is in active development. Here is a short list of what is supported and what isn't. *Note This can change at any time.*
-
-### Supported platforms
-Currently Hazel supports:
-
-- Computer OS:
-	- Windows supported
-	- Linux not supported
-	- MacOS not supported
-	
-- Mobile OS
-
-	- Android not supported
-	
-	- IOS not supported
-	
-Windows is currently supported with plans for MacOS, Linux and Android/IOS support in the future.
-
-### Hardware requirements
-As of now, Hazel only supports OpenGL Rendering and requires a minimum version of 4.5.
-
 ## The Plan
 The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serve as an education tool for teaching game engine design and architecture. Because of this the development inside this repository is rather slow, since everything has to be taught and implemented on-camera. There is a much more advanced version of the engine in a private repository called `Hazel-dev`, accessible to supporters on [Patreon](https://patreon.com/thecherno). The plan for this project is to mostly take already implemented code from the `Hazel-dev` repository and integrate it into this one, done within videos and supported by explanations.
 
