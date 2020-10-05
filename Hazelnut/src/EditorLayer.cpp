@@ -29,6 +29,9 @@ namespace Hazel {
 		auto square = m_ActiveScene->CreateEntity("Green Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 
+		auto redSquare = m_ActiveScene->CreateEntity("Red Square");
+		redSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+
 		m_SquareEntity = square;
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
@@ -41,32 +44,37 @@ namespace Hazel {
 		class CameraController : public ScriptableEntity
 		{
 		public:
-			void OnCreate()
-			{
-			}
-
-			void OnDestroy()
-			{
-			}
-
-			void OnUpdate(Timestep ts)
+			virtual void OnCreate() override
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
+				transform[3][0] = rand() % 10 - 5.0f;
+			}
+
+			virtual void OnDestroy() override
+			{
+			}
+
+			virtual void OnUpdate(Timestep ts) override
+			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+
 				float speed = 5.0f;
 
-				if (Input::IsKeyPressed(KeyCode::A))
+				if (Input::IsKeyPressed(Key::A))
 					transform[3][0] -= speed * ts;
-				if (Input::IsKeyPressed(KeyCode::D))
+				if (Input::IsKeyPressed(Key::D))
 					transform[3][0] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::W))
+				if (Input::IsKeyPressed(Key::W))
 					transform[3][1] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::S))
+				if (Input::IsKeyPressed(Key::S))
 					transform[3][1] -= speed * ts;
 			}
 		};
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -169,6 +177,8 @@ namespace Hazel {
 			ImGui::EndMenuBar();
 		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
@@ -218,8 +228,8 @@ namespace Hazel {
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
 
