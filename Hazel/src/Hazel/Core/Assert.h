@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Hazel/Core/Base.h"
+#include "Hazel/Core/Log.h"
+
 #ifdef HZ_ENABLE_ASSERTS
 
 	namespace Hazel::Assert
