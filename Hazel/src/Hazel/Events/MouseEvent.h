@@ -54,7 +54,9 @@ namespace Hazel {
 	public:
 		MouseCode GetMouseButton() const { return m_Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input | EventCategory::MouseButton)
+
 	protected:
 		MouseButtonEvent(const MouseCode button)
 			: m_Button(button) {}
