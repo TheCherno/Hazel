@@ -41,6 +41,7 @@ project "Hazelnut"
 			"dl",
 			"pthread",
 			"stdc++fs",	--GCC versions 5.3 through 8.x need stdc++fs for std::filesystem
+			"yaml-cpp",
 		}
 		defines
 		{
