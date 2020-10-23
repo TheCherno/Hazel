@@ -85,21 +85,21 @@ namespace Hazel {
 	template<typename T>
 	static void SerializeComponent(YAML::Emitter& out, const T& component);
 
-  template<>
+	template<>
 	static void SerializeComponent(YAML::Emitter& out, const TagComponent& tagComponent)
-  {
-	  out << YAML::Key << "TagComponent";
+	{
+		out << YAML::Key << "TagComponent";
 		out << YAML::BeginMap; // TagComponent
 
 		out << YAML::Key << "Tag" << YAML::Value << tagComponent.Tag;
 
 		out << YAML::EndMap; // TagComponent
-  }
+	}
 
-  template<>
+	template<>
 	static void SerializeComponent(YAML::Emitter& out, const TransformComponent& tc)
-  {
-  	out << YAML::Key << "TransformComponent";
+	{
+		out << YAML::Key << "TransformComponent";
 		out << YAML::BeginMap; // TransformComponent
 
 		out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
@@ -107,11 +107,11 @@ namespace Hazel {
 		out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
 
 		out << YAML::EndMap; // TransformComponent
-  }
+	}
 
-  template<>
+	template<>
 	static void SerializeComponent(YAML::Emitter& out, const CameraComponent& cameraComponent)
-  {
+	{
 		out << YAML::Key << "CameraComponent";
 		out << YAML::BeginMap; // CameraComponent
 
@@ -132,36 +132,36 @@ namespace Hazel {
 		out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 
 		out << YAML::EndMap; // CameraComponent
-  }
+	}
 
-  template<>
+	template<>
 	static void SerializeComponent(
 		YAML::Emitter& out, const SpriteRendererComponent& spriteRendererComponent)
-  {
+	{
 		out << YAML::Key << "SpriteRendererComponent";
 		out << YAML::BeginMap; // SpriteRendererComponent
 
 		out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
 
 		out << YAML::EndMap; // SpriteRendererComponent
-  }
+	}
 
 	template<typename T>
 	static void TrySerializeComponent(YAML::Emitter& out, const Entity& entity)
-  {
-	  if (entity.HasComponent<T>())
-      SerializeComponent(out, entity.GetComponent<T>());
-  }
+	{
+		if (entity.HasComponent<T>())
+			SerializeComponent(out, entity.GetComponent<T>());
+	}
 
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		out << YAML::BeginMap; // Entity
 		out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
 
-    TrySerializeComponent<TagComponent>(out, entity);
-  	TrySerializeComponent<TransformComponent>(out, entity);
-  	TrySerializeComponent<CameraComponent>(out, entity);
-  	TrySerializeComponent<SpriteRendererComponent>(out, entity);
+		TrySerializeComponent<TagComponent>(out, entity);
+		TrySerializeComponent<TransformComponent>(out, entity);
+		TrySerializeComponent<CameraComponent>(out, entity);
+		TrySerializeComponent<SpriteRendererComponent>(out, entity);
 
 		out << YAML::EndMap; // Entity
 	}
