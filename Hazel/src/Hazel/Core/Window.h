@@ -14,8 +14,8 @@ namespace Hazel {
 		uint32_t Height;
 
 		WindowProps(const std::string& title = "Hazel Engine",
-			        uint32_t width = 1600,
-			        uint32_t height = 900)
+			        uint32_t width = 1280,
+			        uint32_t height = 720)
 			: Title(title), Width(width), Height(height)
 		{
 		}
@@ -42,6 +42,8 @@ namespace Hazel {
 		virtual void* GetNativeWindow() const = 0;
 
 		static Scope<Window> Create(const WindowProps& props = WindowProps());
+	public:
+		static float s_HighDPIScaleFactor;
 	};
 
 }

@@ -35,8 +35,7 @@ project "Hazel"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -44,7 +43,6 @@ project "Hazel"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"yaml-cpp",
 		"opengl32.lib"
 	}
 
