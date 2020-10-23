@@ -33,10 +33,8 @@ namespace Hazel {
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
-		ImFontConfig fontConfig;
-		fontConfig.SizePixels = Window::s_HighDPIScaleFactor * 12.0f;
-		ImFont* font = io.Fonts->AddFontDefault(&fontConfig);
-		io.FontDefault = io.Fonts->Fonts.back();
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", Window::s_HighDPIScaleFactor * 18.0f);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", Window::s_HighDPIScaleFactor * 18.0f);
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
