@@ -1,0 +1,37 @@
+language: c++
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+    - os: osx
+      compiler: clang
+    - os: osx
+      compiler: gcc
+env:
+  - CTEST_OUTPUT_ON_FAILURE=1
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cd ..
+script:
+  - cmake --build build
+  - cmake --build build --target test
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.9
+    packages:
+    - g++-4.9
+    - clang-3.9
+    update: true
+  homebrew:
+    packages:
+    - ccache
+    - gcc@4.9
+    - llvm@4
+    update: true

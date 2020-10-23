@@ -1,0 +1,28 @@
+version: 1.0.{build}
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: Visual Studio 14 2015
+      CMAKE_PLATFORM: win32
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: Visual Studio 14 2015
+      CMAKE_PLATFORM: x64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CMAKE_GENERATOR: Visual Studio 15 2017
+      CMAKE_PLATFORM: win32
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CMAKE_GENERATOR: Visual Studio 15 2017
+      CMAKE_PLATFORM: x64
+
+before_build:
+   - cmd: mkdir build
+   - cmd: cd build
+   - cmd: cmake .. -G "%CMAKE_GENERATOR%" -DCMAKE_GENERATOR_PLATFORM=%CMAKE_PLATFORM%
+   - cmd: cd ..
+
+build_script:
+   - cmake --build build
+test_script:
+   - cmd: cd build
+   - ctest
