@@ -82,70 +82,86 @@ namespace Hazel {
 	{
 	}
 
+	template<typename T>
+	static void SerializeComponent(YAML::Emitter& out, const T& component);
+
+  template<>
+	static void SerializeComponent(YAML::Emitter& out, const TagComponent& tagComponent)
+  {
+	  out << YAML::Key << "TagComponent";
+		out << YAML::BeginMap; // TagComponent
+
+		out << YAML::Key << "Tag" << YAML::Value << tagComponent.Tag;
+
+		out << YAML::EndMap; // TagComponent
+  }
+
+  template<>
+	static void SerializeComponent(YAML::Emitter& out, const TransformComponent& tc)
+  {
+  	out << YAML::Key << "TransformComponent";
+		out << YAML::BeginMap; // TransformComponent
+
+		out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
+		out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
+		out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
+
+		out << YAML::EndMap; // TransformComponent
+  }
+
+  template<>
+	static void SerializeComponent(YAML::Emitter& out, const CameraComponent& cameraComponent)
+  {
+		out << YAML::Key << "CameraComponent";
+		out << YAML::BeginMap; // CameraComponent
+
+		auto& camera = cameraComponent.Camera;
+
+		out << YAML::Key << "Camera" << YAML::Value;
+		out << YAML::BeginMap; // Camera
+		out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
+		out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
+		out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
+		out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
+		out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
+		out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
+		out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
+		out << YAML::EndMap; // Camera
+
+		out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
+		out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
+
+		out << YAML::EndMap; // CameraComponent
+  }
+
+  template<>
+	static void SerializeComponent(
+		YAML::Emitter& out, const SpriteRendererComponent& spriteRendererComponent)
+  {
+		out << YAML::Key << "SpriteRendererComponent";
+		out << YAML::BeginMap; // SpriteRendererComponent
+
+		out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+
+		out << YAML::EndMap; // SpriteRendererComponent
+  }
+
+	template<typename T>
+	static void TrySerializeComponent(YAML::Emitter& out, const Entity& entity)
+  {
+	  if (entity.HasComponent<T>())
+      SerializeComponent(out, entity.GetComponent<T>());
+  }
+
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		out << YAML::BeginMap; // Entity
 		out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
 
-		if (entity.HasComponent<TagComponent>())
-		{
-			out << YAML::Key << "TagComponent";
-			out << YAML::BeginMap; // TagComponent
-
-			auto& tag = entity.GetComponent<TagComponent>().Tag;
-			out << YAML::Key << "Tag" << YAML::Value << tag;
-
-			out << YAML::EndMap; // TagComponent
-		}
-
-		if (entity.HasComponent<TransformComponent>())
-		{
-			out << YAML::Key << "TransformComponent";
-			out << YAML::BeginMap; // TransformComponent
-
-			auto& tc = entity.GetComponent<TransformComponent>();
-			out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
-			out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
-			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
-
-			out << YAML::EndMap; // TransformComponent
-		}
-
-		if (entity.HasComponent<CameraComponent>())
-		{
-			out << YAML::Key << "CameraComponent";
-			out << YAML::BeginMap; // CameraComponent
-
-			auto& cameraComponent = entity.GetComponent<CameraComponent>();
-			auto& camera = cameraComponent.Camera;
-
-			out << YAML::Key << "Camera" << YAML::Value;
-			out << YAML::BeginMap; // Camera
-			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
-			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
-			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
-			out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
-			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
-			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
-			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
-			out << YAML::EndMap; // Camera
-
-			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
-			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
-
-			out << YAML::EndMap; // CameraComponent
-		}
-
-		if (entity.HasComponent<SpriteRendererComponent>())
-		{
-			out << YAML::Key << "SpriteRendererComponent";
-			out << YAML::BeginMap; // SpriteRendererComponent
-
-			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
-			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
-
-			out << YAML::EndMap; // SpriteRendererComponent
-		}
+    TrySerializeComponent<TagComponent>(out, entity);
+  	TrySerializeComponent<TransformComponent>(out, entity);
+  	TrySerializeComponent<CameraComponent>(out, entity);
+  	TrySerializeComponent<SpriteRendererComponent>(out, entity);
 
 		out << YAML::EndMap; // Entity
 	}
