@@ -9,7 +9,6 @@
 #include "Hazel/Core/Application.h"
 
 namespace Hazel {
-
 	std::string FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA ofn;
@@ -40,6 +39,7 @@ namespace Hazel {
 		ofn.nMaxFile = sizeof(szFile);
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
+		ofn.lpstrDefExt = ".hazel";
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 		if (GetSaveFileNameA(&ofn) == TRUE)
 		{
@@ -47,5 +47,4 @@ namespace Hazel {
 		}
 		return std::string();
 	}
-
 }
