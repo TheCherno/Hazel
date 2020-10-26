@@ -8,6 +8,13 @@
 #include "Hazel/Scene/Components.h"
 #include <cstring>
 
+/* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
+ * the following definition to disable a security warning on std::strncpy().
+ */
+#ifdef _MSVC_LANG
+  #define _CRT_SECURE_NO_WARNINGS
+#endif
+
 namespace Hazel {
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
