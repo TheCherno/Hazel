@@ -9,6 +9,7 @@
 #include "Hazel/Core/Application.h"
 
 namespace Hazel {
+	
 	std::string FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA ofn;
@@ -47,4 +48,5 @@ namespace Hazel {
 		}
 		return std::string();
 	}
+	
 }
