@@ -19,7 +19,6 @@ namespace Hazel {
 		AppTick, AppUpdate, AppRender,
 		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-		CustomEventType
 	};
 
 	enum EventCategory
