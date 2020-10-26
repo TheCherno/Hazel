@@ -5,6 +5,26 @@
 
 namespace Hazel {
 
+	enum CustomEventTypes
+	{
+		TestEventType
+	};
+
+	class TestEvent : public CustomEvent
+	{
+	public:
+		TestEvent() {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "TestEvent" << std::endl;
+			return ss.str();
+		}
+
+		EVENT_CLASS_CUSTOM_TYPE(TestEventType)
+	};
+
 	class EditorLayer : public Layer
 	{
 	public:
@@ -17,6 +37,9 @@ namespace Hazel {
 		void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
+
+		void OnCustomEvent(CustomEvent& e) override;
+		bool OnTestEvent(TestEvent& e);
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
 

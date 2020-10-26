@@ -72,6 +72,18 @@ namespace Hazel {
 		}
 	}
 
+	void Application::OnCustomEvent(CustomEvent& e)
+	{
+		HZ_PROFILE_FUNCTION();
+
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+		{
+			if (e.Handled)
+				break;
+			(*it)->OnCustomEvent(e);
+		}
+	}
+
 	void Application::Run()
 	{
 		HZ_PROFILE_FUNCTION();

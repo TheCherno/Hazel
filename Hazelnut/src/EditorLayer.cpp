@@ -234,8 +234,27 @@ namespace Hazel {
 		dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}
 
+	bool EditorLayer::OnTestEvent(TestEvent& e)
+	{
+		HZ_INFO("Player killed!");
+		return true;
+	}
+
+	void EditorLayer::OnCustomEvent(CustomEvent& e)
+	{
+		CustomEventDispatcher dispatcher(e);
+
+		dispatcher.Dispatch<TestEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnTestEvent));
+	}
+
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
+		if (e.GetKeyCode() == Key::Q)
+		{
+			TestEvent e;
+			OnCustomEvent(e);
+		}
+
 		// Shortcuts
 		if (e.GetRepeatCount() > 0)
 			return false;
