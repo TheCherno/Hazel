@@ -63,8 +63,9 @@ namespace Hazel {
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
-		auto& tag = entity.GetComponent<TagComponent>().Tag;
-		
+		auto& tagComponent = entity.GetComponent<TagComponent>();
+		auto& tag = tagComponent.Tag;
+
 		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
@@ -76,10 +77,30 @@ namespace Hazel {
 		bool entityDeleted = false;
 		if (ImGui::BeginPopupContextItem())
 		{
+			if (ImGui::MenuItem("Rename")) 
+			{
+				tagComponent.renaming = true;
+			}
+
 			if (ImGui::MenuItem("Delete Entity"))
 				entityDeleted = true;
 
 			ImGui::EndPopup();
+		}
+		
+		if (tagComponent.renaming)
+		{
+			char buffer[256];
+			memset(buffer, 0, sizeof(buffer));
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
+			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
+			{
+				tag = std::string(buffer);
+			}
+
+			if (ImGui::IsMouseClicked(0) && ImGui::IsWindowHovered()) {
+				tagComponent.renaming = false;
+			}
 		}
 
 		if (opened)
@@ -165,6 +186,7 @@ namespace Hazel {
 		ImGui::PopID();
 	}
 	
+	// Draws the components for the entity
 	template<typename T, typename UIFunction>
 	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction)
 	{
@@ -208,6 +230,7 @@ namespace Hazel {
 
 	void SceneHierarchyPanel::DrawComponents(Entity entity)
 	{
+		// Draw entity name
 		if (entity.HasComponent<TagComponent>())
 		{
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
