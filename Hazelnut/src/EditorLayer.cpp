@@ -27,6 +27,20 @@ namespace Hazel {
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = CreateRef<Scene>();
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
+		m_CameraEntity.AddComponent<CameraComponent>();
+
+
+		for (int i = 0; i < 20000; ++i)
+		{
+			auto& entity = m_ActiveScene->CreateEntity("Entity");
+			entity.AddComponent<SpriteRendererComponent>(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
+			//auto& transform = entity.GetComponent<TransformComponent>();
+			//transform.Translation = glm::vec3(
+			//	rand
+			//);
+		}
 
 #if 0
 		// Entity
