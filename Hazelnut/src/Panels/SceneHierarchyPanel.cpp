@@ -8,6 +8,13 @@
 #include "Hazel/Scene/Components.h"
 #include <cstring>
 
+/* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
+ * the following definition to disable a security warning on std::strncpy().
+ */
+#ifdef _MSVC_LANG
+  #define _CRT_SECURE_NO_WARNINGS
+#endif
+
 namespace Hazel {
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -18,6 +25,7 @@ namespace Hazel {
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -221,17 +229,23 @@ namespace Hazel {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			if (ImGui::MenuItem("Camera"))
-			{
-				m_SelectionContext.AddComponent<CameraComponent>();
-				ImGui::CloseCurrentPopup();
-			}
+				if (ImGui::MenuItem("Camera"))
+				{
+					if (!m_SelectionContext.HasComponent<CameraComponent>())
+						m_SelectionContext.AddComponent<CameraComponent>();
+					else
+						HZ_CORE_WARN("This entity already has the Camera Component!");
+					ImGui::CloseCurrentPopup();
+				}
 
-			if (ImGui::MenuItem("Sprite Renderer"))
-			{
-				m_SelectionContext.AddComponent<SpriteRendererComponent>();
-				ImGui::CloseCurrentPopup();
-			}
+				if (ImGui::MenuItem("Sprite Renderer"))
+				{
+					if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+						m_SelectionContext.AddComponent<SpriteRendererComponent>();
+					else
+						HZ_CORE_WARN("This entity already has the Sprite Renderer Component!");
+					ImGui::CloseCurrentPopup();
+				}
 
 			ImGui::EndPopup();
 		}

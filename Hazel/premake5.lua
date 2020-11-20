@@ -48,6 +48,8 @@ project "Hazel"
 	}
 
 	filter "system:linux"
+		removefiles { "src/Platform/Windows/WindowsPlatformUtils.cpp" }
+	
 		defines
 		{
 			"HZ_PLATFORM_LINUX",
@@ -55,6 +57,8 @@ project "Hazel"
 
 	filter "system:windows"
 		systemversion "latest"
+
+		removefiles { "**/Linux/**" }
 
 		links 
 		{ 
