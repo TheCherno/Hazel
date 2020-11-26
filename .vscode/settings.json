@@ -1,0 +1,12 @@
+{
+    "terminal.integrated.shell.windows": "E:\\win\\prg-kits\\msys64\\usr\\bin\\bash.exe",
+    "terminal.integrated.env.windows": {
+        "MSYSTEM": "MINGW64",
+        "CHERE_INVOKING": "1"
+    },
+    "terminal.integrated.shellArgs.windows": [
+        "--login"
+    ],
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.automationShell.windows": "E:\\win\\prg-kits\\msys64\\usr\\bin\\bash.exe"
+}
