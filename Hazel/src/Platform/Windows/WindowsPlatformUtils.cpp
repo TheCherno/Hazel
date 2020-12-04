@@ -1,7 +1,6 @@
 #include "hzpch.h"
 #include "Hazel/Utils/PlatformUtils.h"
 
-#include <sstream>
 #include <commdlg.h>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -10,7 +9,6 @@
 #include "Hazel/Core/Application.h"
 
 namespace Hazel {
-
 	std::optional<std::string> FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA ofn;
@@ -23,8 +21,8 @@ namespace Hazel {
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-    
-		if (GetOpenFileNameA(&ofn) == TRUE) 
+
+		if (GetOpenFileNameA(&ofn) == TRUE)
 			return ofn.lpstrFile;
 		return std::nullopt;
 	}
@@ -49,5 +47,4 @@ namespace Hazel {
 			return ofn.lpstrFile;
 		return std::nullopt;
 	}
-
 }
