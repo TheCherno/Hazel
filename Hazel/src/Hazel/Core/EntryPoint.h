@@ -16,7 +16,7 @@ extern "C" {
 }
 
 extern "C" {
-	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+	__declspec(dllexport) uint32_t NvOptimusEnablement = 0x00000001;
 }
 
 int main(int argc, char** argv)
