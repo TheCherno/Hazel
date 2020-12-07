@@ -42,6 +42,13 @@ namespace Hazel {
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 
+		bool IsValid() {
+			if (m_EntityHandle == entt::null) return false;
+			if (m_Scene == nullptr) return false;
+
+			return m_Scene->m_Registry.valid(m_EntityHandle);
+		}
+
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator entt::entity() const { return m_EntityHandle; }
 		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
