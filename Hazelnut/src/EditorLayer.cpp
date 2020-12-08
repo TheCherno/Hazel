@@ -261,6 +261,7 @@ namespace Hazel {
 
 			if (ImGuizmo::IsUsing())
 			{
+				m_IsGizmoInUse = true;
 				glm::vec3 translation, rotation, scale;
 				Math::DecomposeTransform(transform, translation, rotation, scale);
 
@@ -269,8 +270,11 @@ namespace Hazel {
 				tc.Rotation += deltaRotation;
 				tc.Scale = scale;
 			}
-		}
+			else {
+				m_IsGizmoInUse = false;
+			}
 
+		}
 
 		ImGui::End();
 		ImGui::PopStyleVar();
@@ -320,16 +324,28 @@ namespace Hazel {
 
 			// Gizmos
 			case Key::Q:
-				m_GizmoType = -1;
+				if (!m_IsGizmoInUse)
+				{
+					m_GizmoType = -1;
+				}
 				break;
 			case Key::W:
-				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				if (!m_IsGizmoInUse)
+				{
+					m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				}
 				break;
 			case Key::E:
-				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				if (!m_IsGizmoInUse)
+				{
+					m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				}
 				break;
 			case Key::R:
-				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				if (!m_IsGizmoInUse)
+				{
+					m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				}
 				break;
 		}
 	}
