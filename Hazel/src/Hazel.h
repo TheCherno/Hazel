@@ -22,6 +22,7 @@
 #include "Hazel/Scene/Entity.h"
 #include "Hazel/Scene/ScriptableEntity.h"
 #include "Hazel/Scene/Components.h"
+#include "Hazel/Utils/Random.h"
 
 // ---Renderer------------------------
 #include "Hazel/Renderer/Renderer.h"
