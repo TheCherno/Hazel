@@ -1,5 +1,7 @@
 #pragma once
 
+include "glm/gtx/string_cast.hpp"
+
 #include "Hazel/Core/Base.h"
 
 // This ignores all warnings raised inside External headers
