@@ -11,6 +11,7 @@ namespace Hazel
 		{
 			if constexpr (std::is_same_v<T, int>)
 			{
+				max--;
 				if (min > max)
 				{
 					std::swap(min, max);
@@ -24,6 +25,7 @@ namespace Hazel
 
 			if constexpr (std::is_same_v<T, float>)
 			{
+				max--;
 				if (min > max)
 				{
 					std::swap(min, max);
@@ -37,6 +39,7 @@ namespace Hazel
 
 			if constexpr (std::is_same_v<T, double>)
 			{
+				max--;
 				if (min > max)
 				{
 					std::swap(min, max);
