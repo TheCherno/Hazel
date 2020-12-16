@@ -303,8 +303,11 @@ namespace Hazel {
 		if (e.GetRepeatCount() > 0)
 			return false;
 
+		int gizmoChange = -2;
+
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
 		switch (e.GetKeyCode())
 		{
 			case Key::N:
@@ -331,17 +334,31 @@ namespace Hazel {
 
 			// Gizmos
 			case Key::Q:
-				m_GizmoType = -1;
+			{
+				gizmoChange = -1;
 				break;
+			}
 			case Key::W:
-				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			{
+				gizmoChange = ImGuizmo::OPERATION::TRANSLATE;
 				break;
+			}
 			case Key::E:
-				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+			{
+				gizmoChange = ImGuizmo::OPERATION::ROTATE;
 				break;
+			}
 			case Key::R:
-				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+			{
+				gizmoChange = ImGuizmo::OPERATION::SCALE;
 				break;
+			}
+		}
+
+		if(gizmoChange != -2 && gizmoChange != m_GizmoType) {
+			ImGuizmo::Enable(false);
+			ImGuizmo::Enable(true);
+			m_GizmoType = gizmoChange;
 		}
 	}
 
