@@ -15,10 +15,6 @@ extern "C" {
 	__declspec(dllexport) uint32_t NvOptimusEnablement = 0x00000001;
 }
 
-extern "C" {
-	__declspec(dllexport) uint32_t NvOptimusEnablement = 0x00000001;
-}
-
 int main(int argc, char** argv)
 {
 >>>>>>> 9ee977d... Updated as per @lovely_santa 's suggestion
