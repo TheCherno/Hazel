@@ -249,23 +249,26 @@ namespace Hazel {
 			NextBatch();
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		if(texture)
 		{
-			if (*s_Data.TextureSlots[i] == *texture)
+			for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
 			{
-				textureIndex = (float)i;
-				break;
+				if (*s_Data.TextureSlots[i] == *texture)
+				{
+					textureIndex = (float)i;
+					break;
+				}
 			}
-		}
 
-		if (textureIndex == 0.0f)
-		{
-			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				NextBatch();
+			if (textureIndex == 0.0f)
+			{
+				if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+					NextBatch();
 
-			textureIndex = (float)s_Data.TextureSlotIndex;
-			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
-			s_Data.TextureSlotIndex++;
+				textureIndex = (float)s_Data.TextureSlotIndex;
+				s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+				s_Data.TextureSlotIndex++;
+			}	
 		}
 
 		for (size_t i = 0; i < quadVertexCount; i++)
