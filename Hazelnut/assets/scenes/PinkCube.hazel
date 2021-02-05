@@ -9,6 +9,8 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0.876447856, 0, 0.834712803, 1]
+      TextureFilepath: G:\CPP\Hazel\Hazelnut\assets\textures\ChernoLogo.png
+      TilingFactor: 1
   - Entity: 12837192831273
     TagComponent:
       Tag: Camera
@@ -36,6 +38,8 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0.54842025, 0, 0.586872578, 1]
+      TextureFilepath: G:\CPP\Hazel\Hazelnut\assets\textures\Checkerboard.png
+      TilingFactor: 1
   - Entity: 12837192831273
     TagComponent:
       Tag: Left
@@ -45,3 +49,5 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [1, 0, 0.949807167, 1]
+      TextureFilepath: G:\CPP\Hazel\Hazelnut\assets\textures\Checkerboard.png
+      TilingFactor: 0.5

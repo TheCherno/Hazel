@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Scene/Components.h"
+#include "Hazel/Utils/PlatformUtils.h"
 #include <cstring>
 
 /* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
@@ -99,6 +100,21 @@ namespace Hazel {
 		}
 	}
 
+	static void DrawFloatControl(const std::string& label, float* value, float columnWidth = 100.0f)
+	{
+		ImGui::PushID(label.c_str());
+
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+
+		ImGui::DragFloat("##value", value, 0.1f);
+
+		ImGui::Columns(1);
+		ImGui::PopID();
+	}
+	
 	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -323,6 +339,41 @@ namespace Hazel {
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+			// Texture
+			{
+				const uint32_t id = component.Texture == nullptr ? 0 : component.Texture->GetRendererID();
+
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+
+				ImGui::Text("Texture");
+				const ImVec2 buttonSize = { 80, 80 };
+				ImGui::SameLine(ImGui::GetWindowWidth() * 0.6f);
+
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.25f, 0.25f, 0.25f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.35f, 0.35f, 0.35f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.25f, 0.25f, 0.25f, 1.0f });
+				if(ImGui::ImageButton((ImTextureID)id, buttonSize, { 0, 0 }, { 1, 1}, 0))
+				{
+					auto filepath = FileDialogs::OpenFile("Texture (*.png)\0*.png\0");
+					if (filepath)
+						component.SetTexture(*filepath);
+				}
+				ImGui::PopStyleColor(3);
+
+				ImGui::SameLine();
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.2f, 0.2f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.3f, 0.3f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.2f, 0.2f, 1.0f });
+				if(ImGui::Button("x", { buttonSize.x / 4, buttonSize.y } ))
+					component.RemoveTexture();
+				ImGui::PopStyleColor(3);
+				ImGui::PopStyleVar();
+			}
+			ImGui::Spacing();
+
+			// Tiling Factor
+			DrawFloatControl("Tiling Factor", &component.TilingFactor, 200);
 		});
 
 	}
