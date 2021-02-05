@@ -1,10 +1,6 @@
 // Platform detection using predefined macros
-#ifdef _WIN32
-	/* Windows x64/x86 */
-	#ifdef _WIN64
-		/* Windows x64  */
-		#define HZ_PLATFORM_WINDOWS
-	#else
+#if defined HZ_PLATFORM_WINDOWS
+	#ifndef _WIN64
 		/* Windows x86 */
 		#error "x86 Builds are not supported!"
 	#endif
@@ -31,9 +27,7 @@
 #elif defined(__ANDROID__)
 	#define HZ_PLATFORM_ANDROID
 	#error "Android is not supported!"
-#elif defined(__linux__)
-	#define HZ_PLATFORM_LINUX
-	#error "Linux is not supported!"
+#elif defined HZ_PLATFORM_LINUX
 #else
 	/* Unknown compiler/platform */
 	#error "Unknown platform!"

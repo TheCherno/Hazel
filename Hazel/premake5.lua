@@ -49,17 +49,32 @@ project "Hazel"
 		"Glad",
 		"ImGui",
 		"yaml-cpp",
-		"opengl32.lib"
 	}
 
 	filter "files:vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH" }
 
+	filter "system:linux"
+		removefiles { "src/Platform/Windows/WindowsPlatformUtils.cpp" }
+	
+		defines
+		{
+			"HZ_PLATFORM_LINUX",
+		}
+
 	filter "system:windows"
 		systemversion "latest"
 
+		removefiles { "**/Linux/**" }
+
+		links 
+		{ 
+			"opengl32.lib"
+		}
+
 		defines
 		{
+			"HZ_PLATFORM_WINDOWS",
 		}
 
 	filter "configurations:Debug"

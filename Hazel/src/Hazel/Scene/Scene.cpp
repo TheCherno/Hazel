@@ -131,7 +131,11 @@ namespace Hazel {
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{
+#ifndef __GNUC__
 		static_assert(false);
+#else
+		assert(false);
+#endif
 	}
 
 	template<>

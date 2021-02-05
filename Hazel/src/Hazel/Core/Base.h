@@ -4,6 +4,7 @@
 
 #include "Hazel/Core/PlatformDetection.h"
 
+// Debug settings
 #ifdef HZ_DEBUG
 	#if defined(HZ_PLATFORM_WINDOWS)
 		#define HZ_DEBUGBREAK() __debugbreak()

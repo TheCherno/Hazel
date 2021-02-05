@@ -18,7 +18,7 @@ namespace Hazel {
 	class Application
 	{
 	public:
-		Application(const std::string& name = "Hazel App");
+		Application(std::string, const std::string& name = "Hazel App");
 		virtual ~Application();
 
 		void OnEvent(Event& e);
@@ -33,6 +33,7 @@ namespace Hazel {
 		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		static Application& Get() { return *s_Instance; }
+		std::string CorrectFilePath(const std::string&);
 	private:
 		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -46,6 +47,7 @@ namespace Hazel {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
+		std::string m_BaseDirectory;
 		friend int ::main(int argc, char** argv);
 	};
 
