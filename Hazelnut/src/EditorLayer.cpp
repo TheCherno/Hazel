@@ -236,18 +236,16 @@ namespace Hazel {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
-		{
-			ImVec2 minBound = ImGui::GetWindowContentRegionMin();
-			ImVec2 maxBound = ImGui::GetWindowContentRegionMax();
+		ImVec2 minBound = ImGui::GetWindowContentRegionMin();
+		ImVec2 maxBound = ImGui::GetWindowContentRegionMax();
 
-			minBound.x += ImGui::GetWindowPos().x;
-			minBound.y += ImGui::GetWindowPos().y;
-			maxBound.x += ImGui::GetWindowPos().x;
-			maxBound.y += ImGui::GetWindowPos().y;
+		minBound.x += ImGui::GetWindowPos().x;
+		minBound.y += ImGui::GetWindowPos().y;
+		maxBound.x += ImGui::GetWindowPos().x;
+		maxBound.y += ImGui::GetWindowPos().y;
 
-			m_ViewportBounds[0] = { minBound.x, minBound.y };
-			m_ViewportBounds[1] = { maxBound.x, maxBound.y };
-		}
+		m_ViewportBounds[0] = { minBound.x, minBound.y };
+		m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
@@ -266,9 +264,7 @@ namespace Hazel {
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
-			float windowWidth = (float)ImGui::GetWindowWidth();
-			float windowHeight = (float)ImGui::GetWindowHeight();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+			ImGuizmo::SetRect(minBound.x, minBound.y, maxBound.x - minBound.x, maxBound.y - minBound.y);
 
 			// Camera
 			
