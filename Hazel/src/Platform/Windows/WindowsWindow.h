@@ -13,6 +13,7 @@ namespace Hazel {
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 
+		void ProcessInput() override;
 		void OnUpdate() override;
 
 		unsigned int GetWidth() const override { return m_Data.Width; }

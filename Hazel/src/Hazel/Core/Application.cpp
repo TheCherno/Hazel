@@ -86,6 +86,8 @@ namespace Hazel {
 
 			if (!m_Minimized)
 			{
+				m_Window->ProcessInput();
+
 				{
 					HZ_PROFILE_SCOPE("LayerStack OnUpdate");
 

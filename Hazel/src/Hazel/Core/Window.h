@@ -29,6 +29,7 @@ namespace Hazel {
 
 		virtual ~Window() = default;
 
+		virtual void ProcessInput() = 0;
 		virtual void OnUpdate() = 0;
 
 		virtual uint32_t GetWidth() const = 0;

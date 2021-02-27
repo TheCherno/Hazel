@@ -172,11 +172,14 @@ namespace Hazel {
 		}
 	}
 
+	void WindowsWindow::ProcessInput() {
+		glfwPollEvents();
+	}
+
 	void WindowsWindow::OnUpdate()
 	{
 		HZ_PROFILE_FUNCTION();
 
-		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
