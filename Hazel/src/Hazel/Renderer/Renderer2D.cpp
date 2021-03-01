@@ -16,7 +16,6 @@ namespace Hazel {
 		glm::vec2 TexCoord;
 		float TexIndex;
 		float TilingFactor;
-		glm::vec2 UVOffsetFactor;
 	};
 
 	struct Renderer2DData
@@ -57,8 +56,7 @@ namespace Hazel {
 			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float, "a_TexIndex" },
-			{ ShaderDataType::Float, "a_TilingFactor" },
-			{ ShaderDataType::Float2, "a_UVOffsetFactor" }
+			{ ShaderDataType::Float, "a_TilingFactor" }
 		});
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -230,10 +228,9 @@ namespace Hazel {
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i] - uvOffsetFactor;
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.QuadVertexBufferPtr->UVOffsetFactor = uvOffsetFactor;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
@@ -276,10 +273,9 @@ namespace Hazel {
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = tintColor;
-			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i] - texture_uvoffset;
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_Data.QuadVertexBufferPtr->UVOffsetFactor = texture_uvoffset;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
