@@ -323,6 +323,15 @@ namespace Hazel {
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+
+			// Texture UVs Offset
+			ImGui::Text("UV Offset");
+			ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
+			ImGui::SetNextItemWidth(100.0f);
+			ImGui::DragFloat("##UVOffsetX", &component.TextureUVOffset.x, 0.1f, 0.0f, 0.0f, "%.2f");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(100.0f);
+			ImGui::DragFloat("##UVOffsetY", &component.TextureUVOffset.y, 0.1f, 0.0f, 0.0f, "%.2f");
 		});
 
 	}

@@ -11,6 +11,29 @@
 namespace YAML {
 
 	template<>
+	struct convert<glm::vec2>
+	{
+		static Node encode(const glm::vec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
+
+	template<>
 	struct convert<glm::vec3>
 	{
 		static Node encode(const glm::vec3& rhs)
@@ -64,6 +87,13 @@ namespace YAML {
 
 }
 namespace Hazel {
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec2& v)
+	{
+		out << YAML::Flow;
+		out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+		return out;
+	}
 
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
@@ -145,6 +175,7 @@ namespace Hazel {
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+			out << YAML::Key << "TextureUVOffset" << YAML::Value << spriteRendererComponent.TextureUVOffset;
 
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
@@ -239,6 +270,10 @@ namespace Hazel {
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+
+					auto uvoff_node = spriteRendererComponent["TextureUVOffset"];
+					if(uvoff_node)
+						src.TextureUVOffset = spriteRendererComponent["TextureUVOffset"].as<glm::vec2>();
 				}
 			}
 		}
