@@ -32,7 +32,7 @@ namespace Hazel {
 			s_RendererAPI->DrawIndexed(vertexArray, count);
 		}
 	private:
-		static Scope<RendererAPI> s_RendererAPI;
+		static inline Scope<RendererAPI> s_RendererAPI{ RendererAPI::Create() };
 	};
 
 }
