@@ -21,7 +21,6 @@ namespace Hazel {
 
 		static void BindTexture(bool multisampled, uint32_t id)
 		{
-			//glBindTexture(TextureTarget(multisampled), id);
 			glBindTextureUnit(0, id);
 		}
 
@@ -44,7 +43,6 @@ namespace Hazel {
 			}
 
 			glNamedFramebufferTexture(fbo, GL_COLOR_ATTACHMENT0 + index, id, 0);
-			//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, TextureTarget(multisampled), id, 0);
 		}
 
 		static void AttachDepthTexture(uint32_t fbo, uint32_t id, int samples, GLenum format, GLenum attachmentType, uint32_t width, uint32_t height)
@@ -53,7 +51,6 @@ namespace Hazel {
 			if (multisampled)
 			{
 				glTextureStorage2DMultisample(id, samples, format, width, height, GL_FALSE);
-				//glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
 			}
 			else
 			{
@@ -68,7 +65,6 @@ namespace Hazel {
 			}
 
 			glNamedFramebufferTexture(fbo, attachmentType, id, 0);
-			//glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), id, 0);
 		}
 
 		static bool IsDepthFormat(FramebufferTextureFormat format)
