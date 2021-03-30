@@ -192,13 +192,6 @@ namespace Hazel {
 		glUseProgram(m_RendererID);
 	}
 
-	void OpenGLShader::Unbind() const
-	{
-		HZ_PROFILE_FUNCTION();
-
-		glUseProgram(0);
-	}
-
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
 		HZ_PROFILE_FUNCTION();
