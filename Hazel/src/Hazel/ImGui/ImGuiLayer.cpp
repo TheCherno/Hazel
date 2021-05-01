@@ -15,6 +15,8 @@
 
 namespace Hazel {
 
+	ImGuiLayer* ImGuiLayer::s_Instance = nullptr;
+
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
@@ -23,6 +25,9 @@ namespace Hazel {
 	void ImGuiLayer::OnAttach()
 	{
 		HZ_PROFILE_FUNCTION();
+
+		HZ_CORE_ASSERT(!s_Instance, "ImGuiLayer already exists!");
+		s_Instance = this;
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
