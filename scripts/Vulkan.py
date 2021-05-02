@@ -10,8 +10,8 @@ from urllib.request import urlopen
 from zipfile import ZipFile
 
 VULKAN_SDK = os.environ.get('VULKAN_SDK')
-VULKAN_SDK_INSTALLER_URL = f"https://sdk.lunarg.com/sdk/download/{HAZEL_VULKAN_VERSION}/windows/VulkanSDK-{HAZEL_VULKAN_VERSION}-Installer.exe"
 HAZEL_VULKAN_VERSION = '1.2.170.0'
+VULKAN_SDK_INSTALLER_URL = f"https://sdk.lunarg.com/sdk/download/{HAZEL_VULKAN_VERSION}/windows/VulkanSDK-{HAZEL_VULKAN_VERSION}-Installer.exe"
 VULKAN_SDK_EXE_PATH = 'Hazel/vendor/VulkanSDK/VulkanSDK.exe'
 
 def InstallVulkanSDK():
