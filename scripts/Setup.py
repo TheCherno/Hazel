@@ -6,9 +6,12 @@ import CheckPython
 CheckPython.ValidatePackages()
 
 import Vulkan
+import Premake
 
 # Change from Scripts directory to root
 os.chdir('../')
+
+Premake.InstallPremake()
 
 if (not Vulkan.CheckVulkanSDK()):
     print("Vulkan SDK not installed.")
