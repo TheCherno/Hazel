@@ -45,9 +45,8 @@ def CheckVulkanSDK():
     print(f"Correct Vulkan SDK located at {VULKAN_SDK}")
     return True
 
-VulkanSDKDebugLibsURL = f"https://sdk.lunarg.com/sdk/download/{HAZEL_VULKAN_VERSION}/windows/VulkanSDK-{HAZEL_VULKAN_VERSION}-DebugLibs.zip"
+VulkanSDKDebugLibsURL = f"'https://files.lunarg.com/SDK-{HAZEL_VULKAN_VERSION}/VulkanSDK-{HAZEL_VULKAN_VERSION}-DebugLibs.zip'"
 OutputDirectory = "Hazel/vendor/VulkanSDK"
-TempZipFile = f"{OutputDirectory}/VulkanSDK.zip"
 
 def CheckVulkanSDKDebugLibs():
     shadercdLib = Path(f"{OutputDirectory}/Lib/shaderc_sharedd.lib")
