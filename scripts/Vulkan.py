@@ -44,7 +44,7 @@ def CheckVulkanSDK():
     print(f"Correct Vulkan SDK located at {VULKAN_SDK}")
     return True
 
-VulkanSDKDebugLibsURL = f"'https://files.lunarg.com/SDK-{HAZEL_VULKAN_VERSION}/VulkanSDK-{HAZEL_VULKAN_VERSION}-DebugLibs.zip'"
+VulkanSDKDebugLibsURL = f"https://files.lunarg.com/SDK-{HAZEL_VULKAN_VERSION}/VulkanSDK-{HAZEL_VULKAN_VERSION}-DebugLibs.zip"
 OutputDirectory = "Hazel/vendor/VulkanSDK"
 
 def CheckVulkanSDKDebugLibs():
