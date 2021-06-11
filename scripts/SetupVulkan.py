@@ -60,12 +60,18 @@ class VulkanConfiguration:
     @classmethod
     def CheckVulkanSDKDebugLibs(cls):
         shadercdLib = Path(f"{cls.vulkanDirectory}/Lib/shaderc_sharedd.lib")
-        if True or (not shadercdLib.exists()):
+        
+        VulkanSDKDebugLibsURLlist = [
+            f"https://files.lunar.com/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip",
+            f"https://sdk.lunarg.com/sdk/download/{cls.requiredVulkanVersion}/windows/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip",
+            f"https://files.lunarg.com/SDK-{cls.requiredVulkanVersion}/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip"
+            
+        ]
+        
+        if not shadercdLib.exists():
             print(f"\nNo Vulkan SDK debug libs found. (Checked {shadercdLib})")
-            VulkanSDKDebugLibsURL = f"https://sdk.lunarg.com/sdk/download/{cls.requiredVulkanVersion}/windows/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip"
             vulkanPath = f"{cls.vulkanDirectory}/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip"
-            print("Downloading", VulkanSDKDebugLibsURL)
-            Utils.DownloadFile(VulkanSDKDebugLibsURL, vulkanPath)
+            Utils.DownloadFile(VulkanSDKDebugLibsURLlist, vulkanPath)
             print("Extracting", vulkanPath)
             Utils.UnzipFile(vulkanPath, deleteZipFile=False)
             print(f"Vulkan SDK debug libs installed at {os.path.abspath(cls.vulkanDirectory)}")

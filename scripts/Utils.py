@@ -4,6 +4,7 @@ import winreg
 
 import requests
 import time
+import urllib
 
 from zipfile import ZipFile
 
@@ -24,13 +25,26 @@ def GetUserEnvironmentVariable(name):
 def DownloadFile(url, filepath):
     path = filepath
     filepath = os.path.abspath(filepath)
-    try:
-        os.makedirs(os.path.dirname(filepath))
-    except FileExistsError:
-        # Directory already exist
-        if os.path.isfile(filepath):
-            print(f"Skipping download, {path} already exist!")
-            return
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+            
+    if (type(url) is list):
+        for url_option in url:
+            print("Downloading", url_option)
+            try:
+                DownloadFile(url_option, filepath)
+                return
+            except urllib.error.URLError as e:
+                print(f"URL Error encountered: {e.reason}. Proceeding to next URL...\n\n")
+                pass
+            except urllib.error.HTTPError as e:
+                print(f"HTTP Error  encountered: {e.code}. Proceeding to next URL...\n\n")
+                pass
+            except:
+                print(f"Something went wrong. Proceeding to next URL...\n\n")
+                pass
+        raise ValueError(f"Failed to download {filepath}")
+    if not(type(url) is str):
+        raise TypeError("Argument 'url' must be of type list or string")
 
     with open(filepath, 'wb') as f:
         headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
