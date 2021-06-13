@@ -34,13 +34,16 @@ def DownloadFile(url, filepath):
                 DownloadFile(url_option, filepath)
                 return
             except urllib.error.URLError as e:
-                print(f"URL Error encountered: {e.reason}. Proceeding to next URL...\n\n")
+                print(f"URL Error encountered: {e.reason}. Proceeding with backup...\n\n")
+                os.remove(filepath)
                 pass
             except urllib.error.HTTPError as e:
-                print(f"HTTP Error  encountered: {e.code}. Proceeding to next URL...\n\n")
+                print(f"HTTP Error  encountered: {e.code}. Proceeding with backup...\n\n")
+                os.remove(filepath)
                 pass
             except:
-                print(f"Something went wrong. Proceeding to next URL...\n\n")
+                print(f"Something went wrong. Proceeding with backup...\n\n")
+                os.remove(filepath)
                 pass
         raise ValueError(f"Failed to download {filepath}")
     if not(type(url) is str):
