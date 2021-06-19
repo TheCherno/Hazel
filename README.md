@@ -11,6 +11,25 @@ Start by cloning the repository with `git clone --recursive https://github.com/T
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
+## Building the project
+1. Run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file found in `scripts` folder. This will download the 'VulkanSDK.exe' installation file.
+2. If VulkanSDK is not installed, the script will execute the VulkanSDK.exe file, and will prompt the user to install the SDK.
+3. After installation, run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file again. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK Debug libraries. (This may take a longer amount of time)
+4. After donwloading and unzipping the files, the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file will get executed automatically, which will then generate a Visual Studio solution file for user's usage.
+
+After running the project in Visual Studio, you may get a crash, or a linking error. That's because the DLL files, which got downloaded in Step 3, need to be copied to the output directory.
+
+Copy the following three files, located in `Hazel\Hazel\vendor\VulkanSDK\Bin` folder:
+```
+1. shaderc_sharedd.dll
+2. spirv-cross-c-sharedd.dll
+3. SPIRV-Tools-sharedd.dll
+```
+
+and paste it in the Hazelnut or Sandbox output directory, located at `Hazel\bin\Debug-windows-x86_64\Hazelnut` and `Hazel\bin\Debug-windows-x86_64\Sandbox` respectively.
+
+If changes are made, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
+
 ## The Plan
 The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serve as an education tool for teaching game engine design and architecture. Because of this the development inside this repository is rather slow, since everything has to be taught and implemented on-camera. There is a much more advanced version of the engine in a private repository called `Hazel-dev`, accessible to supporters on [Patreon](https://patreon.com/thecherno). The plan for this project is to mostly take already implemented code from the `Hazel-dev` repository and integrate it into this one, done within videos and supported by explanations.
 
