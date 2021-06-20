@@ -4,20 +4,27 @@
 
 Hazel is primarily an early-stage interactive application and rendering engine for Windows. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
 
+***
+
 ## Getting Started
+<ins>**1. Downloading the repository:**</ins>
+
 Visual Studio 2017 or 2019 is recommended, Hazel is officially untested on other development environments whilst we focus on a Windows build.
 
 Start by cloning the repository with `git clone --recursive https://github.com/TheCherno/Hazel`.
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
-## Building the project
+<ins>**2. Configuring the dependencies:**</ins>
+
 1. Run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file found in `scripts` folder. This will download the required prerequisites for the project if they are not present yet.
 2. One prerequisite is the Vulkan SDK. If it is not installed, the script will execute the `VulkanSDK.exe` file, and will prompt the user to install the SDK.
 3. After installation, run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file again. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK Debug libraries. (This may take a longer amount of time)
 4. After donwloading and unzipping the files, the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file will get executed automatically, which will then generate a Visual Studio solution file for user's usage.
 
-After running the project in Visual Studio, you may get a crash, or a linking error. That's because the DLL files, which got downloaded in Step 3, need to be copied to the output directory.
+<ins>**3. Creating the project structure:**</ins>
+
+After running the project in Visual Studio, you may get a crash, or a linking error. That's because the DLL files, which got downloaded in Step 3 of 'Configuring the dependencies', need to be copied to the output directory.
 
 Copy the following three files, located in `Hazel\Hazel\vendor\VulkanSDK\Bin` folder:
 ```
@@ -29,6 +36,8 @@ Copy the following three files, located in `Hazel\Hazel\vendor\VulkanSDK\Bin` fo
 and paste it in the Hazelnut or Sandbox output directory, located at `Hazel\bin\Debug-windows-x86_64\Hazelnut` and `Hazel\bin\Debug-windows-x86_64\Sandbox` respectively.
 
 If changes are made, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
+
+***
 
 ## The Plan
 The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serve as an education tool for teaching game engine design and architecture. Because of this the development inside this repository is rather slow, since everything has to be taught and implemented on-camera. There is a much more advanced version of the engine in a private repository called `Hazel-dev`, accessible to supporters on [Patreon](https://patreon.com/thecherno). The plan for this project is to mostly take already implemented code from the `Hazel-dev` repository and integrate it into this one, done within videos and supported by explanations.
