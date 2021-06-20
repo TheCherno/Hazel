@@ -62,10 +62,8 @@ class VulkanConfiguration:
         shadercdLib = Path(f"{cls.vulkanDirectory}/Lib/shaderc_sharedd.lib")
         
         VulkanSDKDebugLibsURLlist = [
-            f"https://files.lunar.com/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip",
             f"https://sdk.lunarg.com/sdk/download/{cls.requiredVulkanVersion}/windows/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip",
             f"https://files.lunarg.com/SDK-{cls.requiredVulkanVersion}/VulkanSDK-{cls.requiredVulkanVersion}-DebugLibs.zip"
-            
         ]
         
         if not shadercdLib.exists():
