@@ -7,7 +7,7 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include "SceneCamera.h"
-#include "ScriptableEntity.h"
+#include "NativeScript.h"
 
 namespace Hazel {
 
@@ -64,16 +64,13 @@ namespace Hazel {
 
 	struct NativeScriptComponent
 	{
-		ScriptableEntity* Instance = nullptr;
+		std::function<Scope<NativeScript>(Entity entity)> InstantiateScript;
+		Scope<NativeScript> Instance;
 
-		ScriptableEntity*(*InstantiateScript)();
-		void (*DestroyScript)(NativeScriptComponent*);
-
-		template<typename T>
-		void Bind()
+		template<typename T, typename... Args>
+		void Bind(Args... args)
 		{
-			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+			InstantiateScript = [args...](Entity entity)->Scope<NativeScript> { return CreateScope<T>(entity, args...); };
 		}
 	};
 
