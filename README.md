@@ -12,8 +12,8 @@ Start by cloning the repository with `git clone --recursive https://github.com/T
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
 
 ## Building the project
-1. Run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file found in `scripts` folder. This will download the 'VulkanSDK.exe' installation file.
-2. If VulkanSDK is not installed, the script will execute the VulkanSDK.exe file, and will prompt the user to install the SDK.
+1. Run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file found in `scripts` folder. This will download the required prerequisites for the project if they are not present yet.
+2. One prerequisite is the VulkanSDK. If it is not installed, the script will execute the VulkanSDK.exe file, and will prompt the user to install the SDK.
 3. After installation, run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file again. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK Debug libraries. (This may take a longer amount of time)
 4. After donwloading and unzipping the files, the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file will get executed automatically, which will then generate a Visual Studio solution file for user's usage.
 
