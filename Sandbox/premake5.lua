@@ -34,6 +34,11 @@ project "Sandbox"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		
+		postbuildcommands
+		{
+			"{COPY} %{LibraryDir.VulkanSDK_DebugDLL} %{cfg.targetdir}"
+		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"

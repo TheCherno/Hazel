@@ -27,11 +27,6 @@ project "Hazelnut"
 	{
 		"Hazel"
 	}
-	
-	postbuildcommands
-	{
-		"{COPY} %{LibraryDir.VulkanSDK_DebugDLL} %{cfg.targetdir}"
-	}
 
 	filter "system:windows"
 		systemversion "latest"
@@ -40,6 +35,11 @@ project "Hazelnut"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		
+		postbuildcommands
+		{
+			"{COPY} %{LibraryDir.VulkanSDK_DebugDLL} %{cfg.targetdir}"
+		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
