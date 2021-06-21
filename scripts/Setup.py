@@ -8,10 +8,9 @@ from SetupPython import PythonConfiguration as PythonRequirements
 # Make sure everything we need for the setup is installed
 PythonRequirements.Validate()
 
-from SetupPremake import PremakeComfiguration as PremakeRequirements
-
-
-
+from SetupPremake import PremakeConfiguration as PremakeRequirements
+os.chdir("./../") # Change from devtools/scripts directory to root
+PremakeRequirements.Validate()
 
 from SetupVulkan import VulkanConfiguration as VulkanRequirements
 
