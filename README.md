@@ -7,9 +7,9 @@ Hazel is primarily an early-stage interactive application and rendering engine f
 ***
 
 ## Getting Started
-<ins>**1. Downloading the repository:**</ins>
-
 Visual Studio 2017 or 2019 is recommended, Hazel is officially untested on other development environments whilst we focus on a Windows build.
+
+<ins>**1. Downloading the repository:**</ins>
 
 Start by cloning the repository with `git clone --recursive https://github.com/TheCherno/Hazel`.
 
