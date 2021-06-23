@@ -12,11 +12,15 @@ from SetupPremake import PremakeConfiguration as PremakeRequirements
 from SetupVulkan import VulkanConfiguration as VulkanRequirements
 os.chdir('./../') # Change from devtools/scripts directory to root
 
-PremakeRequirements.Validate()
+premakeInstalled = PremakeRequirements.Validate()
 VulkanRequirements.Validate()
 
-if platform.system() == "Windows":
-    print("\nRunning premake...")
-    subprocess.call([os.path.abspath("./scripts/Win-GenProjects.bat"), "nopause"])
+if (premakeInstalled):
+    if platform.system() == "Windows":
+        print("\nRunning premake...")
+        subprocess.call([os.path.abspath("./scripts/Win-GenProjects.bat"), "nopause"])
 
-print("\nSetup completed!")
+    print("\nSetup completed!")
+else:
+    print("Hazel requires Premake to generate project files.")
+
