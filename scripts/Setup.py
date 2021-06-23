@@ -9,13 +9,10 @@ from SetupPython import PythonConfiguration as PythonRequirements
 PythonRequirements.Validate()
 
 from SetupPremake import PremakeConfiguration as PremakeRequirements
-os.chdir("./../") # Change from devtools/scripts directory to root
-PremakeRequirements.Validate()
-
 from SetupVulkan import VulkanConfiguration as VulkanRequirements
-
 os.chdir('./../') # Change from devtools/scripts directory to root
 
+PremakeRequirements.Validate()
 VulkanRequirements.Validate()
 
 if platform.system() == "Windows":
