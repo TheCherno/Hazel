@@ -44,7 +44,7 @@ class PremakeConfiguration:
         print(f"Premake {cls.premakeVersion} has been downloaded to '{cls.premakeDirectory}'")
 
         premakeLicensePath = f"{cls.premakeDirectory}/LICENSE.txt"
-        print("Downloading {0:s} to {1:s}".format(cls.premakeLicenseUrl, premakePath))
+        print("Downloading {0:s} to {1:s}".format(cls.premakeLicenseUrl, premakeLicensePath))
         Utils.DownloadFile(cls.premakeLicenseUrl, premakeLicensePath)
         print(f"Premake License file has been downloaded to '{cls.premakeDirectory}'")
 
