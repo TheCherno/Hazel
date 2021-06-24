@@ -63,10 +63,19 @@ def DownloadFile(url, filepath):
             for data in response.iter_content(chunk_size=max(int(total/1000), 1024*1024)):
                 downloaded += len(data)
                 f.write(data)
-                done = int(50*downloaded/total)
-                percentage = (downloaded / total) * 100
+                
+                try:
+                    done = int(50*downloaded/total) if downloaded < total else 50
+                    percentage = (downloaded / total) * 100 if downloaded < total else 100
+                except ZeroDivisionError:
+                    done = 50
+                    percentage = 100
                 elapsedTime = time.time() - startTime
-                avgKBPerSecond = (downloaded / 1024) / elapsedTime
+                try:
+                    avgKBPerSecond = (downloaded / 1024) / elapsedTime
+                except ZeroDivisionError:
+                    avgKBPerSecond = 0.0
+
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
                 if (avgKBPerSecond > 1024):
                     avgMBPerSecond = avgKBPerSecond / 1024
