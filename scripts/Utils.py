@@ -122,7 +122,7 @@ def UnzipFile(filepath, deleteZipFile=True):
                 estimatedTime = (zipFileContentSize - extractedContentSize) / (avgKBPerSecond * 1024)
             except ZeroDivisionError:
                 avgKBPerSecond = 0.0
-                estimatedTime = 0.0
+                estimatedTime = -1.0
             estimatedTimeString = FormatTime(estimatedTime)
             avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
             if (avgKBPerSecond > 1024):
