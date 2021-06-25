@@ -78,8 +78,8 @@ def DownloadFile(url, filepath):
                 except ZeroDivisionError:
                     avgKBPerSecond = 0.0
                 estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
-                estimatedTimeString = FormatTime(estimatedTime)
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
+                estimatedTimeString = FormatTime(estimatedTime)
                 if (avgKBPerSecond > 1024):
                     avgMBPerSecond = avgKBPerSecond / 1024
                     avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
