@@ -134,19 +134,17 @@ def UnzipFile(filepath, deleteZipFile=True):
         os.remove(zipFilePath) # delete zip file
 
 def FormatTime(seconds):
+    if seconds < 0 or seconds > 86400:
+        return "> 1 day" # OR return "More than a day!"
+    if seconds == 0:
+        return "Finished!" # OR return "0s"
     h = int(seconds // 3600)
     m = int(seconds % 3600 // 60)
     s = int(seconds % 3600 % 60)
     formatedTime = ""
-    if h == 0 and m == 0 and s == 0:
-        return "0s"
-    if seconds > 86400:
-        return "> 1 day"
-        # OR return "More than a day!"
     if h > 0:
         formatedTime += "{:02d}h ".format(h)
     if m > 0 or h > 0:
         formatedTime += "{:02d}m ".format(m)
-    if s > 0 or m > 0 or h > 0:
-        formatedTime += "{:02d}s ".format(s)
+    formatedTime += "{:02d}s".format(s)
     return formatedTime
