@@ -43,7 +43,7 @@ def DownloadFile(url, filepath):
                 print(f"HTTP Error  encountered: {e.code}. Proceeding with backup...\n\n")
                 os.remove(filepath)
                 pass
-            except Exception:
+            except:
                 print(f"Something went wrong. Proceeding with backup...\n\n")
                 os.remove(filepath)
                 pass
