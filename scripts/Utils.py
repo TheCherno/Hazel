@@ -6,6 +6,8 @@ import requests
 import time
 import urllib
 
+import datetime
+
 from zipfile import ZipFile
 
 def GetSystemEnvironmentVariable(name):
@@ -41,7 +43,7 @@ def DownloadFile(url, filepath):
                 print(f"HTTP Error  encountered: {e.code}. Proceeding with backup...\n\n")
                 os.remove(filepath)
                 pass
-            except:
+            except Exception:
                 print(f"Something went wrong. Proceeding with backup...\n\n")
                 os.remove(filepath)
                 pass
@@ -75,12 +77,13 @@ def DownloadFile(url, filepath):
                     avgKBPerSecond = (downloaded / 1024) / elapsedTime
                 except ZeroDivisionError:
                     avgKBPerSecond = 0.0
-
+                estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
+                estimatedTimeString = FormatTime(estimatedTime)
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
                 if (avgKBPerSecond > 1024):
                     avgMBPerSecond = avgKBPerSecond / 1024
                     avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-                sys.stdout.write('\r[{}{}] {:.2f}% ({})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString))
+                sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})    '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
                 sys.stdout.flush()
     sys.stdout.write('\n')
 
@@ -110,18 +113,40 @@ def UnzipFile(filepath, deleteZipFile=True):
             except ZeroDivisionError:
                 done = 50
                 percentage = 100
-            elapsedTime = time.time() - startTime
+            elapsedTime = time.time() - startTime            
+            estimatedTime = 0
             try:
                 avgKBPerSecond = (extractedContentSize / 1024) / elapsedTime
+                estimatedTime = ( (zipFileContentSize - extractedContentSize) / (avgKBPerSecond*1024) )
             except ZeroDivisionError:
                 avgKBPerSecond = 0.0
+                estimatedTime = 0
+            estimatedTimeString = FormatTime(estimatedTime)
             avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
             if (avgKBPerSecond > 1024):
                 avgMBPerSecond = avgKBPerSecond / 1024
                 avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-            sys.stdout.write('\r[{}{}] {:.2f}% ({})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString))
+            sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
             sys.stdout.flush()
     sys.stdout.write('\n')
 
     if deleteZipFile:
         os.remove(zipFilePath) # delete zip file
+
+def FormatTime(seconds):
+    h = int(seconds // 3600)
+    m = int(seconds % 3600 // 60)
+    s = int(seconds % 3600 % 60)
+    formatedTime = ""
+    if h == 0 and m == 0 and s == 0:
+        return "0s"
+    if seconds > 86400:
+        return "> 1 day"
+        # OR return "More than a day!"
+    if h > 0:
+        formatedTime += "{:02d}h ".format(h)
+    if m > 0 or h > 0:
+        formatedTime += "{:02d}m ".format(m)
+    if s > 0 or m > 0 or h > 0:
+        formatedTime += "{:02d}s ".format(s)
+    return formatedTime
