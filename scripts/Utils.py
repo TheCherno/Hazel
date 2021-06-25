@@ -6,6 +6,7 @@ import requests
 import time
 import urllib
 
+import datetime
 
 from zipfile import ZipFile
 
@@ -72,15 +73,19 @@ def DownloadFile(url, filepath):
                     done = 50
                     percentage = 100
                 elapsedTime = time.time() - startTime
+                estimatedTime = 0.0
                 try:
                     avgKBPerSecond = (downloaded / 1024) / elapsedTime
+                    estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
                 except ZeroDivisionError:
                     avgKBPerSecond = 0.0
+                    estimatedTime = -1.0 # representation of infinite
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
+                estimatedTimeString = FormatTime(estimatedTime)
                 if (avgKBPerSecond > 1024):
                     avgMBPerSecond = avgKBPerSecond / 1024
                     avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-                sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})    '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, CalculateEstimatedTime(downloaded, total, avgKBPerSecond * 1024)))
+                sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})    '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
                 sys.stdout.flush()
     sys.stdout.write('\n')
 
@@ -111,15 +116,19 @@ def UnzipFile(filepath, deleteZipFile=True):
                 done = 50
                 percentage = 100
             elapsedTime = time.time() - startTime            
+            estimatedTime = 0
             try:
                 avgKBPerSecond = (extractedContentSize / 1024) / elapsedTime
+                estimatedTime = (zipFileContentSize - extractedContentSize) / (avgKBPerSecond * 1024)
             except ZeroDivisionError:
                 avgKBPerSecond = 0.0
+                estimatedTime = 0.0
+            estimatedTimeString = FormatTime(estimatedTime)
             avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
             if (avgKBPerSecond > 1024):
                 avgMBPerSecond = avgKBPerSecond / 1024
                 avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-            sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, CalculateEstimatedTime(extractedContentSize, zipFileContentSize, avgKBPerSecond * 1024)))
+            sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
             sys.stdout.flush()
     sys.stdout.write('\n')
 
@@ -141,12 +150,3 @@ def FormatTime(seconds):
         formatedTime += "{:02d}m ".format(m)
     formatedTime += "{:02d}s".format(s)
     return formatedTime
-
-## A helper function to do the entire Estimated time calculation
-def CalculateEstimatedTime(done, total, speed):
-    try:
-        estimatedTime = (total - done) / speed
-        return FormatTime(estimatedTime)
-        pass
-    except ZeroDivisionError:
-        return "Infinity" # OR -1
