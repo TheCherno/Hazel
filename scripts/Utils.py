@@ -73,11 +73,13 @@ def DownloadFile(url, filepath):
                     done = 50
                     percentage = 100
                 elapsedTime = time.time() - startTime
+                estimatedTime = 0.0
                 try:
                     avgKBPerSecond = (downloaded / 1024) / elapsedTime
+                    estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
                 except ZeroDivisionError:
                     avgKBPerSecond = 0.0
-                estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
+                    estimatedTime = -1.0 # representation of infinite
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
                 estimatedTimeString = FormatTime(estimatedTime)
                 if (avgKBPerSecond > 1024):
@@ -120,7 +122,7 @@ def UnzipFile(filepath, deleteZipFile=True):
                 estimatedTime = (zipFileContentSize - extractedContentSize) / (avgKBPerSecond * 1024)
             except ZeroDivisionError:
                 avgKBPerSecond = 0.0
-                estimatedTime = 0
+                estimatedTime = 0.0
             estimatedTimeString = FormatTime(estimatedTime)
             avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
             if (avgKBPerSecond > 1024):
