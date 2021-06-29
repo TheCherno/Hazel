@@ -74,8 +74,8 @@ namespace Hazel {
 		if (m_BlockEvents)
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+			e.Handled |= e.IsInCategory(EventCategory::Mouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategory::Keyboard) & io.WantCaptureKeyboard;
 		}
 	}
 	
@@ -109,6 +109,7 @@ namespace Hazel {
 			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
+
 
 	void ImGuiLayer::SetDarkThemeColors()
 	{
