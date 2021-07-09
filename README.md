@@ -22,20 +22,7 @@ If the repository was cloned non-recursively previously, use `git submodule upda
 3. After installation, run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file again. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK Debug libraries. (This may take a longer amount of time)
 4. After donwloading and unzipping the files, the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file will get executed automatically, which will then generate a Visual Studio solution file for user's usage.
 
-<ins>**3. Creating the project structure:**</ins>
-
-After running the project in Visual Studio, you may get a crash, or a linking error. That's because the DLL files, which got downloaded in Step 3 of 'Configuring the dependencies', need to be copied to the output directory.
-
-Copy the following three files, located in `Hazel\Hazel\vendor\VulkanSDK\Bin` folder:
-```
-1. shaderc_sharedd.dll
-2. spirv-cross-c-sharedd.dll
-3. SPIRV-Tools-sharedd.dll
-```
-
-and paste it in the Hazelnut or Sandbox output directory, located at `Hazel\bin\Debug-windows-x86_64\Hazelnut` and `Hazel\bin\Debug-windows-x86_64\Sandbox` respectively.
-
-If changes are made, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
+If changes are made, or if you want to regenerate project files, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
 
 ***
 
