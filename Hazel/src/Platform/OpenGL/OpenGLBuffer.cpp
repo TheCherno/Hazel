@@ -41,13 +41,6 @@ namespace Hazel {
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
-	void OpenGLVertexBuffer::Unbind() const
-	{
-		HZ_PROFILE_FUNCTION();
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
 	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -83,13 +76,6 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-	}
-
-	void OpenGLIndexBuffer::Unbind() const
-	{
-		HZ_PROFILE_FUNCTION();
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 }

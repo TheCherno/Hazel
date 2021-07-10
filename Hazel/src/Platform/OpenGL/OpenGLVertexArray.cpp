@@ -47,13 +47,6 @@ namespace Hazel {
 		glBindVertexArray(m_RendererID);
 	}
 
-	void OpenGLVertexArray::Unbind() const
-	{
-		HZ_PROFILE_FUNCTION();
-
-		glBindVertexArray(0);
-	}
-
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		HZ_PROFILE_FUNCTION();
