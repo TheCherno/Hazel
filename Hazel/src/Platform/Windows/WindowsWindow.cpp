@@ -13,6 +13,8 @@
 
 namespace Hazel {
 	
+	float Window::s_HighDPIScaleFactor = 1.0f;
+	
 	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
@@ -54,6 +56,17 @@ namespace Hazel {
 
 		{
 			HZ_PROFILE_SCOPE("glfwCreateWindow");
+			
+			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+			float xscale, yscale;
+			glfwGetMonitorContentScale(monitor, &xscale, &yscale);
+			
+			if (xscale > 1.0f || yscale > 1.0f)
+			{
+				s_HighDPIScaleFactor = yscale;
+				glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+			}
+			
 		#if defined(HZ_DEBUG)
 			if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
