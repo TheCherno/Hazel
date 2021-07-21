@@ -6,6 +6,8 @@ import requests
 import time
 import urllib
 
+import datetime
+
 from zipfile import ZipFile
 
 def GetSystemEnvironmentVariable(name):
@@ -71,16 +73,19 @@ def DownloadFile(url, filepath):
                     done = 50
                     percentage = 100
                 elapsedTime = time.time() - startTime
+                estimatedTime = 0.0
                 try:
                     avgKBPerSecond = (downloaded / 1024) / elapsedTime
+                    estimatedTime = ( (total - downloaded) / (avgKBPerSecond*1024) )
                 except ZeroDivisionError:
                     avgKBPerSecond = 0.0
-
+                    estimatedTime = -1.0 # representation of infinite
                 avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
+                estimatedTimeString = FormatTime(estimatedTime)
                 if (avgKBPerSecond > 1024):
                     avgMBPerSecond = avgKBPerSecond / 1024
                     avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-                sys.stdout.write('\r[{}{}] {:.2f}% ({})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString))
+                sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})    '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
                 sys.stdout.flush()
     sys.stdout.write('\n')
 
@@ -110,18 +115,38 @@ def UnzipFile(filepath, deleteZipFile=True):
             except ZeroDivisionError:
                 done = 50
                 percentage = 100
-            elapsedTime = time.time() - startTime
+            elapsedTime = time.time() - startTime            
+            estimatedTime = 0
             try:
                 avgKBPerSecond = (extractedContentSize / 1024) / elapsedTime
+                estimatedTime = (zipFileContentSize - extractedContentSize) / (avgKBPerSecond * 1024)
             except ZeroDivisionError:
                 avgKBPerSecond = 0.0
+                estimatedTime = -1.0
+            estimatedTimeString = FormatTime(estimatedTime)
             avgSpeedString = '{:.2f} KB/s'.format(avgKBPerSecond)
             if (avgKBPerSecond > 1024):
                 avgMBPerSecond = avgKBPerSecond / 1024
                 avgSpeedString = '{:.2f} MB/s'.format(avgMBPerSecond)
-            sys.stdout.write('\r[{}{}] {:.2f}% ({})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString))
+            sys.stdout.write('\r[{}{}] {:.2f}% ({}) (Estimated Time: {})     '.format('█' * done, '.' * (50-done), percentage, avgSpeedString, estimatedTimeString))
             sys.stdout.flush()
     sys.stdout.write('\n')
 
     if deleteZipFile:
         os.remove(zipFilePath) # delete zip file
+
+def FormatTime(seconds):
+    if seconds < 0 or seconds > 86400:
+        return "> 1 day" # OR return "More than a day!"
+    if seconds == 0:
+        return "Finished!" # OR return "0s"
+    h = int(seconds // 3600)
+    m = int(seconds % 3600 // 60)
+    s = int(seconds % 3600 % 60)
+    formatedTime = ""
+    if h > 0:
+        formatedTime += "{:02d}h ".format(h)
+    if m > 0 or h > 0:
+        formatedTime += "{:02d}m ".format(m)
+    formatedTime += "{:02d}s".format(s)
+    return formatedTime
