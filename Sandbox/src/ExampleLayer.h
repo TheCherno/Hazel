@@ -2,6 +2,26 @@
 
 #include "Hazel.h"
 
+enum CustomEventTypes
+{
+	TestEventType
+};
+
+class TestEvent : public Hazel::CustomEvent
+{
+public:
+	TestEvent() {}
+
+	std::string ToString() const override
+	{
+		std::stringstream ss;
+		ss << "TestEvent" << std::endl;
+		return ss.str();
+	}
+
+	EVENT_CLASS_CUSTOM_TYPE(TestEventType)
+};
+
 class ExampleLayer : public Hazel::Layer
 {
 public:
@@ -14,6 +34,9 @@ public:
 	void OnUpdate(Hazel::Timestep ts) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(Hazel::Event& e) override;
+
+	bool OnTestEvent(TestEvent& e);
+	void OnCustomEvent(Hazel::CustomEvent& e);
 private:
 	Hazel::ShaderLibrary m_ShaderLibrary;
 	Hazel::Ref<Hazel::Shader> m_Shader;

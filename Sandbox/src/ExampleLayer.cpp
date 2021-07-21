@@ -128,6 +128,19 @@ ExampleLayer::ExampleLayer()
 	textureShader->SetInt("u_Texture", 0);
 }
 
+bool ExampleLayer::OnTestEvent(TestEvent& e)
+{
+	HZ_INFO("Player killed!");
+	return true;
+}
+
+void ExampleLayer::OnCustomEvent(Hazel::CustomEvent& e)
+{
+	Hazel::CustomEventDispatcher dispatcher(e);
+
+	dispatcher.Dispatch<TestEvent>(HZ_BIND_EVENT_FN(ExampleLayer::OnTestEvent));
+}
+
 void ExampleLayer::OnAttach()
 {
 }
@@ -138,6 +151,12 @@ void ExampleLayer::OnDetach()
 
 void ExampleLayer::OnUpdate(Hazel::Timestep ts) 
 {
+	if (Hazel::Input::IsKeyPressed(Hazel::Key::Q))
+	{
+		TestEvent e;
+		OnCustomEvent(e);
+	}
+
 	// Update
 	m_CameraController.OnUpdate(ts);
 

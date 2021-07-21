@@ -17,6 +17,7 @@ namespace Hazel {
 		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
+		virtual void OnCustomEvent(CustomEvent& event) {}
 
 		const std::string& GetName() const { return m_DebugName; }
 	protected:
