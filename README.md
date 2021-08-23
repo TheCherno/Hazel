@@ -41,6 +41,9 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 - Artificial Intelligence
 - Audio system
 
+### Short Term Goals
+
+Follow the roadmap over at [hazelengine.com/roadmap](http://hazelengine.com/roadmap)
 
 [![Twitter](https://img.shields.io/badge/%40thecherno--blue.svg?style=social&logo=Twitter)](https://twitter.com/thecherno)
 [![Instagram](https://img.shields.io/badge/thecherno--red.svg?style=social&logo=Instagram)](https://www.instagram.com/thecherno)
