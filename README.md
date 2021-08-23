@@ -41,18 +41,6 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 - Artificial Intelligence
 - Audio system
 
-
-## Short term goals :
-*Note: this is subject to change at any time! Follow the roadmap over at [hazelengine.com/roadmap](http://hazelengine.com/roadmap).*
-
-By the end 2020, we want to make a game using the Hazel game engine. Not like the time I made a game in one hour using the engine, but this time by using the proper tools that would be required to make a game with Hazel. This means we need to add a full 2D workflow:
-
-- Design the game scene by using Hazelnut, the Hazel editor,
-- Test the game inside Hazelnut, including the ability to save/load the created game,
-- Load and play the game inside Sandbox.
-
-We want everyone to be able to play the game on all desktop platforms (Windows, Mac and Linux). When this is implemented, another attempt at the "Creating a game in one hour using Hazel" will be made to see how far the engine has become.
-
 [![Twitter](https://img.shields.io/badge/%40thecherno--blue.svg?style=social&logo=Twitter)](https://twitter.com/thecherno)
 [![Instagram](https://img.shields.io/badge/thecherno--red.svg?style=social&logo=Instagram)](https://www.instagram.com/thecherno)
 [![Youtube](https://img.shields.io/badge/TheChernoProject--red.svg?style=social&logo=youtube)](https://www.youtube.com/user/TheChernoProject)
