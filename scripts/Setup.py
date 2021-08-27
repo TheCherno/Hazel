@@ -1,9 +1,14 @@
 
 import os
+import sys
 import subprocess
 import platform
 
 from SetupPython import PythonConfiguration as PythonRequirements
+
+# Make sure the pip package manager is installed (python -m ensurepip)
+
+subprocess.check_call([sys.executable, "-m", "ensurepip"])
 
 # Make sure everything we need for the setup is installed
 PythonRequirements.Validate()
