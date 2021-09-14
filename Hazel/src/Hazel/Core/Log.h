@@ -42,8 +42,7 @@ inline OStream& operator<<(OStream& os, const glm::mat<C, R, T, Q>& matrix)
 template<typename OStream, typename T, glm::qualifier Q>
 inline OStream& operator<<(OStream& os, glm::qua<T, Q> quaternio)
 {
-	os << glm::to_string(quaternio);
-	return os;
+	return os << glm::to_string(quaternio);
 }
 
 // Core log macros
