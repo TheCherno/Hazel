@@ -41,9 +41,7 @@ namespace Hazel {
 				// TODO: Move to Scene::OnScenePlay
 				if (!nsc.Instance)
 				{
-					nsc.Instance = nsc.InstantiateScript();
-					nsc.Instance->m_Entity = Entity{ entity, this };
-					nsc.Instance->OnCreate();
+					nsc.Instance = nsc.InstantiateScript({entity, this});
 				}
 
 				nsc.Instance->OnUpdate(ts);
