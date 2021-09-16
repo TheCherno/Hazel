@@ -17,8 +17,6 @@
 
 namespace Hazel {
 
-	extern const std::filesystem::path g_AssetPath;
-
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
 		SetContext(context);
@@ -70,9 +68,6 @@ namespace Hazel {
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
-		if (entity.HasComponent<SceneComponent>())
-			return;
-
 		auto& tag = entity.GetComponent<TagComponent>().Tag;
 		
 		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
@@ -239,41 +234,23 @@ namespace Hazel {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			if (!m_SelectionContext.HasComponent<CameraComponent>())
-			{
 				if (ImGui::MenuItem("Camera"))
 				{
-					m_SelectionContext.AddComponent<CameraComponent>();
+					if (!m_SelectionContext.HasComponent<CameraComponent>())
+						m_SelectionContext.AddComponent<CameraComponent>();
+					else
+						HZ_CORE_WARN("This entity already has the Camera Component!");
 					ImGui::CloseCurrentPopup();
 				}
-			}
 
-			if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
-			{
 				if (ImGui::MenuItem("Sprite Renderer"))
 				{
-					m_SelectionContext.AddComponent<SpriteRendererComponent>();
+					if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+						m_SelectionContext.AddComponent<SpriteRendererComponent>();
+					else
+						HZ_CORE_WARN("This entity already has the Sprite Renderer Component!");
 					ImGui::CloseCurrentPopup();
 				}
-			}
-
-			if (!m_SelectionContext.HasComponent<Rigidbody2DComponent>())
-			{
-				if (ImGui::MenuItem("Rigidbody 2D"))
-				{
-					m_SelectionContext.AddComponent<Rigidbody2DComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			if (!m_SelectionContext.HasComponent<BoxCollider2DComponent>())
-			{
-				if (ImGui::MenuItem("Box Collider 2D"))
-				{
-					m_SelectionContext.AddComponent<BoxCollider2DComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
 
 			ImGui::EndPopup();
 		}
@@ -351,59 +328,6 @@ namespace Hazel {
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
-			
-			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-				{
-					const wchar_t* path = (const wchar_t*)payload->Data;
-					std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
-					Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
-					if (texture->IsLoaded())
-						component.Texture = texture;
-					else
-						HZ_WARN("Could not load texture {0}", texturePath.filename().string());
-				}
-				ImGui::EndDragDropTarget();
-			}
-
-			ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
-		});
-
-		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, [](auto& rb2dComponent)
-		{
-			const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic" };
-			const char* currentBodyTypeString = bodyTypeStrings[(int)rb2dComponent.Type];
-			if (ImGui::BeginCombo("Type", currentBodyTypeString))
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
-					if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
-					{
-						currentBodyTypeString = bodyTypeStrings[i];
-						rb2dComponent.Type = (Rigidbody2DComponent::BodyType)i;
-					}
-
-					if (isSelected)
-						ImGui::SetItemDefaultFocus();
-				}
-
-				ImGui::EndCombo();
-			}
-
-			ImGui::Checkbox("Fixed Rotation", &rb2dComponent.FixedRotation);
-		});
-
-		DrawComponent<BoxCollider2DComponent>("Box Collider 2D", entity, [](auto& bc2dComponent)
-		{
-			ImGui::DragFloat2("Offset", glm::value_ptr(bc2dComponent.Offset));
-			ImGui::DragFloat2("Size", glm::value_ptr(bc2dComponent.Size));
-			ImGui::DragFloat("Density", &bc2dComponent.Density, 0.01f, 0.0f, 1.0f);
-			ImGui::DragFloat("Friction", &bc2dComponent.Friction, 0.01f, 0.0f, 1.0f);
-			ImGui::DragFloat("Restitution", &bc2dComponent.Restitution, 0.01f, 0.0f, 1.0f);
-			ImGui::DragFloat("RestitutionThreshold", &bc2dComponent.RestitutionThreshold, 0.01f, 0.0f);
 		});
 
 	}

@@ -18,6 +18,10 @@ namespace Hazel {
 
 		Entity GetSelectedEntity() const { return m_SelectionContext; }
 		void SetSelectedEntity(Entity entity);
+
+		glm::vec2 LastMousePos;
+		Entity ClickedEntity;
+
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
