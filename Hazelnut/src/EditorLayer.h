@@ -27,7 +27,9 @@ namespace Hazel {
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
+		void SaveScene();
 		void SaveSceneAs();
+		void SerializeScene(const std::filesystem::path& path);
 
 		void OnScenePlay();
 		void OnSceneStop();
@@ -43,6 +45,7 @@ namespace Hazel {
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
+		std::filesystem::path m_ActiveScenePath;
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
