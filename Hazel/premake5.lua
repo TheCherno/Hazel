@@ -41,7 +41,9 @@ project "Hazel"
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.VulkanSDK}"
+		"%{IncludeDir.VulkanSDK}",
+		"%{IncludeDir.shaderc}",
+		"%{IncludeDir.SPIRV_Cross}",
 	}
 
 	links
