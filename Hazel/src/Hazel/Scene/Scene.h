@@ -12,7 +12,7 @@ namespace Hazel {
 	class Scene
 	{
 	public:
-		Scene();
+		Scene(const std::string& name = "Untitled");
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
@@ -26,6 +26,8 @@ namespace Hazel {
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
+	public:
+		std::string Name;
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
