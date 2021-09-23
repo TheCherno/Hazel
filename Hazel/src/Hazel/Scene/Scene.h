@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hazel/Core/Timestep.h"
+#include "Hazel/Core/UUID.h"
 #include "Hazel/Renderer/EditorCamera.h"
 
 #include "entt.hpp"
@@ -18,6 +19,7 @@ namespace Hazel {
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
 		void OnRuntimeStart();
@@ -28,6 +30,10 @@ namespace Hazel {
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();
+
+		void DuplicateEntity(Entity entity);
+
+		static Ref<Scene> Copy(Ref<Scene> scene);
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
