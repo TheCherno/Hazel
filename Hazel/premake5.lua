@@ -12,8 +12,12 @@ project "Hazel"
 
 	files
 	{
-		"src/**.h",
-		"src/**.cpp",
+		"src/Hazel/**.h",
+		"src/Hazel/**.cpp",
+		"src/Platform/OpenGL/**.h",
+		"src/Platform/OpenGL/**.cpp",
+		"src/Platform/Windows/**.h",
+		"src/Platform/Windows/**.cpp",
 		"vendor/stb_image/**.h",
 		"vendor/stb_image/**.cpp",
 		"vendor/glm/glm/**.hpp",
@@ -58,11 +62,15 @@ project "Hazel"
 	filter "files:vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH" }
 
-	filter "system:windows"
+	filter { "system:windows", "action:vs*" }
 		systemversion "latest"
 
-		defines
+	filter "system:linux"
+
+		files
 		{
+			"src/Platform/Linux/**.h",
+			"src/Platform/Linux/**.cpp"
 		}
 
 	filter "configurations:Debug"

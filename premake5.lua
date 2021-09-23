@@ -1,5 +1,4 @@
 include "./vendor/premake/premake_customization/solution_items.lua"
-include "Dependencies.lua"
 
 workspace "Hazel"
 	architecture "x86_64"
@@ -23,6 +22,8 @@ workspace "Hazel"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+include "Dependencies.lua"
 
 group "Dependencies"
 	include "vendor/premake"

@@ -1,3 +1,4 @@
+#ifdef HZ_PLATFORM_WINDOWS
 #include "hzpch.h"
 #include "Hazel/Utils/PlatformUtils.h"
 
@@ -59,3 +60,4 @@ namespace Hazel {
 	}
 
 }
+#endif

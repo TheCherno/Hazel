@@ -30,7 +30,30 @@ project "Sandbox"
 	filter "system:windows"
 		systemversion "latest"
 
-	filter "configurations:Debug"
+	filter "system:linux"
+		links
+		{
+			"dl", 
+			"pthread",
+			"GLFW",
+			"GL",
+			"Glad",
+			"ImGui",
+			"yaml-cpp",
+			"X11",
+			"spirv-cross",
+			"shaderc",
+			"shaderc_util",
+			"SPIRV-Tools-opt",
+			"SPIRV-Tools",
+			"MachineIndependent",
+			"OSDependent",
+			"GenericCodeGen",
+			"OGLCompiler",
+			"SPIRV"
+		}
+
+	filter { "configurations:Debug", "action:vs*" }
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"

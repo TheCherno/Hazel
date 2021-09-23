@@ -31,6 +31,29 @@ project "Hazelnut"
 	filter "system:windows"
 		systemversion "latest"
 
+	filter "system:linux"
+		links
+		{
+			"dl", 
+			"pthread",
+			"GLFW",
+			"GL",
+			"Glad",
+			"ImGui",
+			"yaml-cpp",
+			"X11",
+			"spirv-cross",
+			"shaderc",
+			"shaderc_util",
+			"SPIRV-Tools-opt",
+			"SPIRV-Tools",
+			"MachineIndependent",
+			"OSDependent",
+			"GenericCodeGen",
+			"OGLCompiler",
+			"SPIRV"
+		}
+
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"

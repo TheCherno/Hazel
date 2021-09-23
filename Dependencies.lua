@@ -12,25 +12,54 @@ IncludeDir["ImGui"] = "%{wks.location}/Hazel/vendor/imgui"
 IncludeDir["ImGuizmo"] = "%{wks.location}/Hazel/vendor/ImGuizmo"
 IncludeDir["glm"] = "%{wks.location}/Hazel/vendor/glm"
 IncludeDir["entt"] = "%{wks.location}/Hazel/vendor/entt/include"
-IncludeDir["shaderc"] = "%{wks.location}/Hazel/vendor/shaderc/include"
+IncludeDir["shaderc"] = "%{wks.location}/Hazel/vendor/shaderc/libshaderc/include/"
 IncludeDir["SPIRV_Cross"] = "%{wks.location}/Hazel/vendor/SPIRV-Cross"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
-LibraryDir = {}
+if VULKAN_SDK ~= nil then
 
-LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
-LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Hazel/vendor/VulkanSDK/Lib"
-LibraryDir["VulkanSDK_DebugDLL"] = "%{wks.location}/Hazel/vendor/VulkanSDK/Bin"
+	LibraryDir = {}
 
-Library = {}
-Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
-Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
+	LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
+	LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Hazel/vendor/VulkanSDK/Lib"
+	LibraryDir["VulkanSDK_DebugDLL"] = "%{wks.location}/Hazel/vendor/VulkanSDK/Bin"
 
-Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
-Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib"
-Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
-Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
+	Library = {}
 
-Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
-Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
-Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+	Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
+	Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
+
+	Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
+	Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib"
+	Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
+	Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
+
+	Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
+	Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
+	Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+else
+
+	LibraryDir = {}
+
+	LibraryDir["VulkanSDK"] = ""
+	LibraryDir["VulkanSDK_Debug"] = ""
+	LibraryDir["VulkanSDK_DebugDLL"] = ""
+
+	Library = {}
+
+	Library["Vulkan"] = ""
+	Library["VulkanUtils"] = ""
+
+	Library["ShaderC_Debug"] = ""
+	Library["SPIRV_Cross_Debug"] = ""
+	Library["SPIRV_Cross_GLSL_Debug"] = ""
+	Library["SPIRV_Tools_Debug"] = ""
+
+	Library["ShaderC_Release"] = ""
+	Library["SPIRV_Cross_Release"] = ""
+	Library["SPIRV_Cross_GLSL_Release"] = ""
+
+	include "Hazel/vendor/SPIRV-Cross"
+	include "Hazel/vendor/shaderc"
+
+end
