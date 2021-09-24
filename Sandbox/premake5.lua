@@ -53,11 +53,13 @@ project "Sandbox"
 			"SPIRV"
 		}
 
-	filter { "configurations:Debug", "action:vs*" }
+	
+	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
 		
+	filter { "configurations:Debug", "system:windows" }
 		postbuildcommands
 		{
 			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
