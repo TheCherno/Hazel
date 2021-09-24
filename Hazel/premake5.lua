@@ -12,12 +12,8 @@ project "Hazel"
 
 	files
 	{
-		"src/Hazel/**.h",
-		"src/Hazel/**.cpp",
-		"src/Platform/OpenGL/**.h",
-		"src/Platform/OpenGL/**.cpp",
-		"src/Platform/Windows/**.h",
-		"src/Platform/Windows/**.cpp",
+		"src/**.h",
+		"src/**.cpp",
 		"vendor/stb_image/**.h",
 		"vendor/stb_image/**.cpp",
 		"vendor/glm/glm/**.hpp",
@@ -65,12 +61,8 @@ project "Hazel"
 	filter { "system:windows", "action:vs*" }
 		systemversion "latest"
 
-	filter "system:linux"
-
-		files
+		defines
 		{
-			"src/Platform/Linux/**.h",
-			"src/Platform/Linux/**.cpp"
 		}
 
 	filter "configurations:Debug"
