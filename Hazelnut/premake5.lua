@@ -31,6 +31,28 @@ project "Hazelnut"
 	filter "system:windows"
 		systemversion "latest"
 
+	filter { "system:windows", "action:gmake*" }
+		links
+		{
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"yaml-cpp",
+			"OpenGL32",
+			"gdi32",
+			"comdlg32",
+			"spirv-cross",
+			"shaderc",
+			"shaderc_util",
+			"SPIRV-Tools-opt",
+			"SPIRV-Tools",
+			"MachineIndependent",
+			"OSDependent",
+			"GenericCodeGen",
+			"OGLCompiler",
+			"SPIRV"
+		}
+
 	filter "system:linux"
 		links
 		{
@@ -58,11 +80,14 @@ project "Hazelnut"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
-		
-		postbuildcommands
-		{
-			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
-		}
+
+	if os.getenv("VULKAN_SDK") ~= nil then
+		filter { "configurations:Debug", "action:vs*" }
+			postbuildcommands
+			{
+				"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+			}
+	end
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"

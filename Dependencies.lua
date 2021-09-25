@@ -12,11 +12,11 @@ IncludeDir["ImGui"] = "%{wks.location}/Hazel/vendor/imgui"
 IncludeDir["ImGuizmo"] = "%{wks.location}/Hazel/vendor/ImGuizmo"
 IncludeDir["glm"] = "%{wks.location}/Hazel/vendor/glm"
 IncludeDir["entt"] = "%{wks.location}/Hazel/vendor/entt/include"
-IncludeDir["shaderc"] = "%{wks.location}/Hazel/vendor/shaderc/libshaderc/include/"
-IncludeDir["SPIRV_Cross"] = "%{wks.location}/Hazel/vendor/SPIRV-Cross"
-IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 if VULKAN_SDK ~= nil then
+
+	IncludeDir["SPIRV_Cross"] = "%{wks.location}/Hazel/vendor/SPIRV-Cross"
+	IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 	LibraryDir = {}
 
@@ -37,27 +37,26 @@ if VULKAN_SDK ~= nil then
 	Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
 	Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
 	Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+	
 else
 
-	LibraryDir = {}
-
-	LibraryDir["VulkanSDK"] = ""
-	LibraryDir["VulkanSDK_Debug"] = ""
-	LibraryDir["VulkanSDK_DebugDLL"] = ""
+	IncludeDir["shaderc"] = "%{wks.location}/Hazel/vendor/shaderc/libshaderc/include/"
+	IncludeDir["SPIRV_Cross"] = "%{wks.location}/Hazel/vendor/SPIRV-Cross"
 
 	Library = {}
 
-	Library["Vulkan"] = ""
-	Library["VulkanUtils"] = ""
+	Library["ShaderC"] = "shaderc"
+	Library["ShaderC_Util"] = "shaderc_util"
 
-	Library["ShaderC_Debug"] = ""
-	Library["SPIRV_Cross_Debug"] = ""
-	Library["SPIRV_Cross_GLSL_Debug"] = ""
-	Library["SPIRV_Tools_Debug"] = ""
+	Library["SPIRV"] = "SPIRV"
+	Library["SPIRV_Cross"] = "spirv-cross"
+	Library["SPIRV_Cross_MachineIndependent"] = "MachineIndependent"
+	Library["SPIRV_Cross_OSDependent"] = "OSDependent"
+	Library["SPIRV_Cross_GenericCodeGen"] = "GenericCodeGen"
+	Library["SPIRV_Cross_OGLCompiler"] = "OGLCompiler"
 
-	Library["ShaderC_Release"] = ""
-	Library["SPIRV_Cross_Release"] = ""
-	Library["SPIRV_Cross_GLSL_Release"] = ""
+	Library["SPIRV_Tools_SPIRV_Tools"] = "SPIRV-Tools"
+	Library["SPIRV_Tools_Opt"] = "SPIRV-Tools-opt"
 
 	include "Hazel/vendor/SPIRV-Cross"
 	include "Hazel/vendor/shaderc"

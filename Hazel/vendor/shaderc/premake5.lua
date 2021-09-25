@@ -24,9 +24,16 @@ project "shaderc"
 		"ENABLE_HLSL"
 	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_HAS_EXCEPTIONS=0",
+			"GLSLANG_OSINCLUDE_WIN32",
+			"ENABLE_OPT=1"
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always -fvisibility=hidden -fPIC -pthread" }
@@ -38,6 +45,7 @@ project "shaderc"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "shaderc_util"
 	kind "StaticLib"
@@ -71,9 +79,16 @@ project "shaderc_util"
 		"ENABLE_HLSL"
 	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_HAS_EXCEPTIONS=0",
+			"GLSLANG_OSINCLUDE_WIN32",
+			"ENABLE_OPT=1"
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always -fvisibility=hidden -fPIC -pthread" }
@@ -85,6 +100,7 @@ project "shaderc_util"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "SPIRV-Tools-opt"
 	kind "StaticLib"
@@ -212,13 +228,26 @@ project "SPIRV-Tools-opt"
 	{
 		"SPIRV_CHECK_CONTEXT",
 		"SPIRV_COLOR_TERMINAL",
-		"SPIRV_LINUX",
-		"SPIRV_TIMER_ENABLED",
 	}
 
-	filter { "system:windows", "action:vs*"}
+	filter { "system:linux"}
+		defines
+		{
+			"SPIRV_LINUX",
+			"SPIRV_TIMER_ENABLED"
+		}
+
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_CRT_SECURE_NO_WARNINGS",
+			"_SCL_SECURE_NO_WARNINGS",
+			"SPIRV_WINDOWS",
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always -fPIC -fno-exceptions" }
@@ -230,6 +259,7 @@ project "SPIRV-Tools-opt"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 
 project "SPIRV-Tools"
@@ -317,17 +347,31 @@ project "SPIRV-Tools"
 		"third_party/spirv-headers/include",
 		"third_party/spirv-tools/include"
 	}
+
 	defines
 	{
 		"SPIRV_CHECK_CONTEXT",
 		"SPIRV_COLOR_TERMINAL",
-		"SPIRV_LINUX",
-		"SPIRV_TIMER_ENABLED"
 	}
 
-	filter { "system:windows", "action:vs*"}
+	filter { "system:linux"}
+		defines
+		{
+			"SPIRV_LINUX",
+			"SPIRV_TIMER_ENABLED"
+		}
+
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_CRT_SECURE_NO_WARNINGS",
+			"_SCL_SECURE_NO_WARNINGS",
+			"SPIRV_WINDOWS",
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always -fPIC -fno-rtti -fno-exceptions" }
@@ -339,6 +383,7 @@ project "SPIRV-Tools"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "MachineIndependent"
 	kind "StaticLib"
@@ -394,13 +439,25 @@ project "MachineIndependent"
 	defines
 	{
 		"ENABLE_HLSL",
-		"ENABLE_OPT=1",
-		"GLSLANG_OSINCLUDE_UNIX"
+		"ENABLE_OPT=1"
 	}
+	
+	filter { "system:linux"}
+		defines
+		{
+			"GLSLANG_OSINCLUDE_UNIX"
+		}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_HAS_EXCEPTIONS=0",
+			"GLSLANG_OSINCLUDE_WIN32"
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always -fPIC -fno-exceptions -fno-rtti -pthread" }
@@ -412,6 +469,7 @@ project "MachineIndependent"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "OSDependent"
 	kind "StaticLib"
@@ -430,25 +488,21 @@ project "OSDependent"
 	{
 		"third_party/re2"
 	}
-	defines
-	{
-		
-	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
 		files
 		{
 			"third_party/glslang/glslang/OSDependent/Windows/ossource.cpp"
 		}
-
-	filter "action:gmake*"
-		buildoptions { "-fdiagnostics-color=always" }
+	filter "system:linux"
 		files
 		{
 			"third_party/glslang/glslang/OSDependent/Unix/ossource.cpp"
 		}
+		
+	filter "action:gmake*"
+		buildoptions { "-fdiagnostics-color=always" }
 
 	filter "configurations:Debug"
 		runtime "Debug"
@@ -457,6 +511,7 @@ project "OSDependent"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "GenericCodeGen"
 	kind "StaticLib"
@@ -473,7 +528,6 @@ project "GenericCodeGen"
 		"third_party/re2/re2/prefilter_tree.cc",
 		"third_party/re2/re2/prog.cc",
 		"third_party/re2/re2/re2.cc",
-		"third_party/re2/re2/regexp.cc",
 		"third_party/glslang/StandAlone/resource_limits_c.cpp",
 		"third_party/glslang/glslang/GenericCodeGen/CodeGen.cpp"
 	}
@@ -482,14 +536,18 @@ project "GenericCodeGen"
 	{
 		"third_party/re2"
 	}
-	defines
-	{
-		
-	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
+		defines
+		{
+			"WIN32",
+			"_WINDOWS",
+			"_HAS_EXCEPTIONS=0",
+			"ENABLE_HLSL",
+			"GLSLANG_OSINCLUDE_WIN32",
+			"ENABLE_OPT=1"
+		}
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always" }
@@ -501,6 +559,7 @@ project "GenericCodeGen"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "OGLCompiler"
 	kind "StaticLib"
@@ -522,14 +581,9 @@ project "OGLCompiler"
 		"third_party/glslang",
 		"third_party/re2"
 	}
-	defines
-	{
-		
-	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always" }
@@ -541,6 +595,7 @@ project "OGLCompiler"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
 
 project "SPIRV"
 	kind "StaticLib"
@@ -567,14 +622,9 @@ project "SPIRV"
 	{
 		"third_party/glslang"
 	}
-	defines
-	{
-		
-	}
 
-	filter { "system:windows", "action:vs*"}
+	filter "system:windows"
 		systemversion "latest"
-		staticruntime "off"
 
 	filter "action:gmake*"
 		buildoptions { "-fdiagnostics-color=always" }
@@ -586,3 +636,4 @@ project "SPIRV"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		defines "NDEBUG"
