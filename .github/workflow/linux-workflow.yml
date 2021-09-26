@@ -2,9 +2,9 @@ name: Linux
 
 on:
   push:
-    branches: [ master, dev, physics ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ master, dev, physics ]
+    branches: [ master, dev ]
 
 jobs:
   build:
