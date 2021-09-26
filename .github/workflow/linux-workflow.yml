@@ -1,0 +1,35 @@
+name: Linux
+
+on:
+  push:
+    branches: [ master, dev, physics ]
+  pull_request:
+    branches: [ master, dev, physics ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: update
+      run: sudo add-apt-repository universe && sudo apt-get update
+    - name: update-premake
+      run: sudo add-apt-repository ppa:beauman/marley && sudo apt-get update
+
+    - name: getdeps
+      run: sudo apt install git build-essential libx11-dev premake5 xorg-dev
+
+    - name: submodules
+      run: git submodule update --init --recursive
+
+    - name: premake
+      run: premake5 gmake2
+    
+    - name: compile-release
+      run: export MAKEFLAGS=-j8 && make verbose=1 config=release  && ls -lahR bin
+    
+      
+      
+      
