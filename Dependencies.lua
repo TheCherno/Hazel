@@ -58,7 +58,9 @@ else
 	Library["SPIRV_Tools_SPIRV_Tools"] = "SPIRV-Tools"
 	Library["SPIRV_Tools_Opt"] = "SPIRV-Tools-opt"
 
-	include "Hazel/vendor/SPIRV-Cross"
-	include "Hazel/vendor/shaderc"
+	group "spirv_shaderc"
+		include "Hazel/vendor/SPIRV-Cross"
+		include "Hazel/vendor/shaderc"
+	group ""
 
 end
