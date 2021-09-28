@@ -2,9 +2,9 @@ name: 😍 Windows
 
 on:
   push:
-    branches: [ master, dev, physics, github-actions ]
+    branches: [ master, dev, physics ]
   pull_request:
-    branches: [ master, dev, physics, github-actions ]
+    branches: [ master, dev, physics ]
 env:
   BUILD_CONFIGURATION: Release
 
