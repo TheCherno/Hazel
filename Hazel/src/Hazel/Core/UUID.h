@@ -1,7 +1,5 @@
 #pragma once
 
-#include <xhash>
-
 namespace Hazel {
 
 	// "UUID" (universally unique identifier) or GUID is (usually) a 128-bit integer
@@ -24,13 +22,14 @@ namespace Hazel {
 }
 
 namespace std {
+	template <typename T> struct hash;
 
 	template <>
 	struct hash<Hazel::UUID>
 	{
 		std::size_t operator()(const Hazel::UUID& uuid) const
 		{
-			return hash<uint64_t>()((uint64_t)uuid);
+			return (uint64_t)uuid;
 		}
 	};
 
