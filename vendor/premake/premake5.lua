@@ -1,5 +1,5 @@
 
-function file_exists(filename)
+function FileExists(filename)
 	local filehandle=io.open(filename,"r")
 	if filehandle~=nil then
 		io.close(filehandle)
@@ -20,7 +20,7 @@ project "Premake"
 		"%{wks.location}/**premake5.lua"
 	}
 
-	if file_exists("bin/premake5.exe") then
+	if FileExists("bin/premake5.exe") then
 		postbuildmessage "Regenerating project files with Premake5!"
 		postbuildcommands
 		{
