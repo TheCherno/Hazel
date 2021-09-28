@@ -1,0 +1,36 @@
+name: 😍 Windows
+
+on:
+  push:
+    branches: [ master, dev, physics, github-actions ]
+  pull_request:
+    branches: [ master, dev, physics, github-actions ]
+env:
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x64]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: submodules
+      run: git submodule update --init --recursive -j $(getconf _NPROCESSORS_ONLN)
+
+    - name: Setup premake
+      uses: abel0b/setup-premake@v1
+
+    - name: premake
+      run: premake5 vs2019
+    
+    - name: MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: compile
+      working-directory: ${{ env.GITHUB_WORKSPACE }}
+      run: msbuild /m /p:TrackFileAccess=false /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.platform }} Hazel.sln
