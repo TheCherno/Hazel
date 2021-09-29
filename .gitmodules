@@ -20,3 +20,6 @@
 [submodule "Hazel/vendor/ImGuizmo"]
 	path = Hazel/vendor/ImGuizmo
 	url = https://github.com/thecherno/imguizmo
+[submodule "Hazel/vendor/googletest"]
+	path = Hazel/vendor/googletest
+	url = https://github.com/google/googletest
