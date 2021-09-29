@@ -22,4 +22,4 @@
 	url = https://github.com/thecherno/imguizmo
 [submodule "Hazel/vendor/googletest"]
 	path = Hazel/vendor/googletest
-	url = https://github.com/google/googletest
+	url = https://github.com/niklasweidenfeller/googletest
