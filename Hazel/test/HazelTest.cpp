@@ -1,9 +1,9 @@
 #include "hzpch.h"
 #include <gtest/gtest.h>
 
-TEST(testMath, myCubeTest)
+TEST(HazelTest, dummyTest)
 {
-	EXPECT_EQ(1000, 5 * 200);
+	EXPECT_TRUE(TRUE);
 }
 
 int main(int argc, char **argv) {
