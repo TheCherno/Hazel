@@ -42,6 +42,8 @@ class VulkanConfiguration:
     @classmethod
     def __InstallVulkanSDK(cls):
         permissionGranted = False
+        if os.environ.get("PIPELINE_RUN") == 'true':
+            permissionGranted = True
         while not permissionGranted:
             reply = str(input("Would you like to install VulkanSDK {0:s}? [Y/N]: ".format(cls.requiredVulkanVersion))).lower().strip()[:1]
             if reply == 'n':

@@ -30,6 +30,8 @@ class PremakeConfiguration:
     @classmethod
     def InstallPremake(cls):
         permissionGranted = False
+        if os.environ.get("PIPELINE_RUN") == 'true':
+            permissionGranted = True
         while not permissionGranted:
             reply = str(input("Premake not found. Would you like to download Premake {0:s}? [Y/N]: ".format(cls.premakeVersion))).lower().strip()[:1]
             if reply == 'n':

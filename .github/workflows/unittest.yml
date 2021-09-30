@@ -34,10 +34,11 @@ jobs:
     - name: Run Setup.bat
       shell: cmd
       env:
-        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"        
+        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
+        PIPELINE_RUN: "true"
       run: |
         pip install requests
-        cd SetupGitActions
+        cd scripts
         Setup.bat
 
     - name: generate visual studio project
@@ -60,7 +61,6 @@ jobs:
     - name: Execute Tests
       env:
         VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
-      shell: cmd      
       run: |
         cd bin/Debug-windows-x86_64/HazelTest
-        HazelTest.exe
+        .\HazelTest.exe

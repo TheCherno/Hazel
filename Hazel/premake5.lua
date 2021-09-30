@@ -1,3 +1,37 @@
+HazelFiles =  {
+	"src/**.h",
+	"src/**.cpp",
+	"vendor/stb_image/**.h",
+	"vendor/stb_image/**.cpp",
+	"vendor/glm/glm/**.hpp",
+	"vendor/glm/glm/**.inl",
+
+	"vendor/ImGuizmo/ImGuizmo.h",
+	"vendor/ImGuizmo/ImGuizmo.cpp"
+}
+
+HazelIncludeDirs = {
+	"src",
+	"vendor/spdlog/include",
+	"%{IncludeDir.GLFW}",
+	"%{IncludeDir.Glad}",
+	"%{IncludeDir.ImGui}",
+	"%{IncludeDir.glm}",
+	"%{IncludeDir.stb_image}",
+	"%{IncludeDir.entt}",
+	"%{IncludeDir.yaml_cpp}",
+	"%{IncludeDir.ImGuizmo}",
+	"%{IncludeDir.VulkanSDK}"
+}
+
+HazelLinks = {
+	"GLFW",
+	"Glad",
+	"ImGui",
+	"yaml-cpp",
+	"opengl32.lib"
+}
+
 project "Hazel"
 	kind "StaticLib"
 	language "C++"
@@ -10,18 +44,7 @@ project "Hazel"
 	pchheader "hzpch.h"
 	pchsource "src/hzpch.cpp"
 
-	files
-	{
-		"src/**.h",
-		"src/**.cpp",
-		"vendor/stb_image/**.h",
-		"vendor/stb_image/**.cpp",
-		"vendor/glm/glm/**.hpp",
-		"vendor/glm/glm/**.inl",
-
-		"vendor/ImGuizmo/ImGuizmo.h",
-		"vendor/ImGuizmo/ImGuizmo.cpp"
-	}
+	files { HazelFiles }
 
 	defines
 	{
@@ -29,29 +52,9 @@ project "Hazel"
 		"GLFW_INCLUDE_NONE"
 	}
 
-	includedirs
-	{
-		"src",
-		"vendor/spdlog/include",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.VulkanSDK}"
-	}
+	includedirs { HazelIncludeDirs }
 
-	links
-	{
-		"GLFW",
-		"Glad",
-		"ImGui",
-		"yaml-cpp",
-		"opengl32.lib"
-	}
+	links { HazelLinks }
 
 	filter "files:vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH" }
@@ -115,17 +118,9 @@ project "HazelTest"
 
 	files
 	{
-		"src/**.h",
-		"src/**.cpp",
+		HazelFiles,
 		"test/**.h",
-		"test/**.cpp",
-		"vendor/stb_image/**.h",
-		"vendor/stb_image/**.cpp",
-		"vendor/glm/glm/**.hpp",
-		"vendor/glm/glm/**.inl",
-
-		"vendor/ImGuizmo/ImGuizmo.h",
-		"vendor/ImGuizmo/ImGuizmo.cpp"
+		"test/**.cpp"
 	}
 
 	defines
@@ -136,37 +131,18 @@ project "HazelTest"
 
 	includedirs
 	{
-		"src",
-		"vendor/spdlog/include",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.VulkanSDK}",
+		HazelIncludeDirs,
 		"%{IncludeDir.GoogleTest}"
 	}
 
 	links
 	{
-		"GLFW",
-		"Glad",
-		"ImGui",
-		"yaml-cpp",
-		"opengl32.lib",
+		HazelLinks,
 		"GoogleTest"
 	}
 
 	filter "files:vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH", "NoImportLib" }
-	linkoptions
-	{
-		"/NODEFAULTLIB:LIBCMTD",
-		"/NODEFAULTLIB:RuntimeLibrary"
-	}
 
 	filter "system:windows"
 		systemversion "latest"
