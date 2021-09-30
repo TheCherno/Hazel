@@ -63,6 +63,17 @@ namespace Hazel {
 			: Color(color) {}
 	};
 
+	struct CircleRendererComponent
+	{
+		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		float Thickness = 1.0f; // 0->1 (1 = filled)
+
+		CircleRendererComponent() = default;
+		CircleRendererComponent(const CircleRendererComponent&) = default;
+		CircleRendererComponent(const glm::vec4& color)
+			: Color(color) {}
+	};
+
 	struct CameraComponent
 	{
 		SceneCamera Camera;
@@ -123,12 +134,15 @@ namespace Hazel {
 	};
 	
 	template<typename... Component>
-	struct ComponentGroup
-	{
-
-	};
-	using AllComponents = 
-		ComponentGroup<TransformComponent, SpriteRendererComponent,
-			CameraComponent, NativeScriptComponent,
-			Rigidbody2DComponent, BoxCollider2DComponent>;
+	struct ComponentGroup {};
+	using AllComponents = ComponentGroup
+	<
+		TransformComponent,
+		SpriteRendererComponent,
+		CircleRendererComponent,
+		CameraComponent,
+		NativeScriptComponent,
+		Rigidbody2DComponent,
+		BoxCollider2DComponent
+	>;
 }

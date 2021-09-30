@@ -77,6 +77,16 @@ namespace Hazel {
 		CopyComponentIfExists<Component...>(dst, src);
 	}
 
+	static void CopyAllComponents(entt::registry& dstSceneRegistry, entt::registry& srcSceneRegistry, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		CopyComponent(AllComponents{}, dstSceneRegistry, srcSceneRegistry, enttMap);
+	}
+
+	static void CopyAllExistingComponents(Entity dst, Entity src)
+	{
+		CopyComponentIfExists(AllComponents{}, dst, src);
+	}
+
 	Ref<Scene> Scene::Copy(Ref<Scene> scene)
 	{
 		Ref<Scene> newScene = CreateRef<Scene>();
@@ -99,7 +109,7 @@ namespace Hazel {
 		}
 
 		// Copy components (except IDComponent and TagComponent)
-		CopyComponent(AllComponents{}, dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyAllComponents(dstSceneRegistry, srcSceneRegistry, enttMap);
 
 		return newScene;
 	}
@@ -238,6 +248,14 @@ namespace Hazel {
 				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 			}
 
+			auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, circleRenderer] = view.get<TransformComponent, CircleRendererComponent>(entity);
+
+				Renderer2D::DrawCircle(transform.GetTransform(), circleRenderer.Color, circleRenderer.Thickness, (int)entity);
+			}
+
 			Renderer2D::EndScene();
 		}
 
@@ -253,6 +271,14 @@ namespace Hazel {
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
 			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+		}
+
+		auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+		for (auto entity : view)
+		{
+			auto [transform, circleRenderer] = view.get<TransformComponent, CircleRendererComponent>(entity);
+
+			Renderer2D::DrawCircle(transform.GetTransform(), circleRenderer.Color, circleRenderer.Thickness, (int)entity);
 		}
 
 		Renderer2D::EndScene();
@@ -289,7 +315,7 @@ namespace Hazel {
 	void Scene::DuplicateEntity(Entity entity)
 	{
 		Entity newEntity = CreateEntity(entity.GetName());
-		CopyComponentIfExists(AllComponents{}, newEntity, entity);
+		CopyAllExistingComponents(newEntity, entity);
 	}
 
 	template<typename T>
@@ -317,6 +343,11 @@ namespace Hazel {
 
 	template<>
 	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component)
 	{
 	}
 
