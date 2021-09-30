@@ -1,0 +1,66 @@
+name: unittest
+
+on: [push, pull_request]
+
+jobs:
+  test:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.6' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+    - name: Cache Vulkan SDK
+      id: cache-vulkan-sdk
+      uses: actions/cache@v1
+      with:
+        path: "C:\\VulkanSDK\\1.2.170.0"
+        key: vulkan-sdk-1.2.170.0
+
+    - name: Setup Vulkan
+      if: steps.cache-vulkan-sdk.outputs.cache-hit != 'true'
+      run: |
+        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/1.2.170.0/windows/VulkanSDK-1.2.170.0-Installer.exe" -OutFile VulkanSDK.exe
+        $installer = Start-Process -FilePath VulkanSDK.exe -Wait -PassThru -ArgumentList @("/S");
+        $installer.WaitForExit();
+
+    - name: Setup premake
+      uses: abel0b/setup-premake@v1
+
+    - name: Run Setup.bat
+      shell: cmd
+      env:
+        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"        
+      run: |
+        pip install requests
+        cd SetupGitActions
+        Setup.bat
+
+    - name: generate visual studio project
+      env:
+        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
+      shell: cmd
+      run: |
+        premake5 vs2019
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.3
+
+    - name: build with msbuild
+      env:
+        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
+      shell: cmd
+      run: |
+        msbuild Hazel.sln
+        cd ..
+
+    - name: Execute Tests
+      env:
+        VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
+      shell: cmd      
+      run: |
+        cd bin/Debug-windows-x86_64/HazelTest
+        HazelTest.exe
