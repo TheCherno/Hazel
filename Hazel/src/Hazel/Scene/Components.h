@@ -121,5 +121,14 @@ namespace Hazel {
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
 	};
+	
+	template<typename... Component>
+	struct ComponentGroup
+	{
 
+	};
+	using AllComponents = 
+		ComponentGroup<TransformComponent, SpriteRendererComponent,
+			CameraComponent, NativeScriptComponent,
+			Rigidbody2DComponent, BoxCollider2DComponent>;
 }
