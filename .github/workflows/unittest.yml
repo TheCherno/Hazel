@@ -63,4 +63,4 @@ jobs:
         VULKAN_SDK: "C:/VulkanSDK/1.2.170.0"
       run: |
         cd bin/Debug-windows-x86_64/HazelTest
-        .\HazelTest.ex
+        .\HazelTest.exe
