@@ -13,3 +13,8 @@ TEST(LogTest, InitTest)
 	EXPECT_NE(Hazel::Log::GetCoreLogger(), nullptr);
 	EXPECT_NE(Hazel::Log::GetClientLogger(), nullptr);
 }
+
+TEST(LogTest, failingTest)
+{
+	EXPECT_FALSE(true);
+}
