@@ -2,7 +2,7 @@ project "Hazelnut"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -35,6 +35,11 @@ project "Hazelnut"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		
+		postbuildcommands
+		{
+			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
+		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
