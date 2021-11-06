@@ -60,9 +60,9 @@ namespace Hazel {
 
 	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 	{
+		vertexArray->Bind();
 		uint32_t count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 }

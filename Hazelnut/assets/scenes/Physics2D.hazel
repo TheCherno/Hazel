@@ -1,12 +1,23 @@
 Scene: Untitled
 Entities:
-  - Entity: 16672940118998907085
+  - Entity: 8804479042241551551
+    TagComponent:
+      Tag: Circle
+    TransformComponent:
+      Translation: [1.6247555, -1.03230619, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CircleRendererComponent:
+      Color: [0.934362948, 0.362345755, 0.057721246, 1]
+      Thickness: 0.100000001
+      Fade: 0.00499999989
+  - Entity: 5134011587522944740
     TagComponent:
       Tag: Floor
     TransformComponent:
-      Translation: [-0.883175671, -1.09447932, 0]
-      Rotation: [0, 0, -0.638996005]
-      Scale: [6.74196768, 0.46067813, 1]
+      Translation: [2.3506453, -1.84539962, 0]
+      Rotation: [0, 0, 0.603692532]
+      Scale: [6.74196959, 0.46067816, 1]
     SpriteRendererComponent:
       Color: [0.949806929, 0.455301404, 0.0660097376, 1]
     Rigidbody2DComponent:
@@ -19,24 +30,6 @@ Entities:
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-  - Entity: 4793924497264767156
-    TagComponent:
-      Tag: Camera
-    TransformComponent:
-      Translation: [0, 0, 4.99711323]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 0
-        PerspectiveFOV: 0.785398185
-        PerspectiveNear: 0.00999999978
-        PerspectiveFar: 1000
-        OrthographicSize: 10
-        OrthographicNear: -1
-        OrthographicFar: 1
-      Primary: true
-      FixedAspectRatio: false
   - Entity: 15045535320033348975
     TagComponent:
       Tag: Sprite
@@ -56,13 +49,31 @@ Entities:
       Friction: 0.100000001
       Restitution: 0.819999993
       RestitutionThreshold: 0.5
-  - Entity: 5134011587522944740
+  - Entity: 4793924497264767156
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 4.99711323]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 16672940118998907085
     TagComponent:
       Tag: Floor
     TransformComponent:
-      Translation: [2.3506453, -1.84539962, 0]
-      Rotation: [0, 0, 0.603692532]
-      Scale: [6.74196959, 0.46067816, 1]
+      Translation: [-0.883175671, -1.09447932, 0]
+      Rotation: [0, 0, -0.638996005]
+      Scale: [6.74196768, 0.46067813, 1]
     SpriteRendererComponent:
       Color: [0.949806929, 0.455301404, 0.0660097376, 1]
     Rigidbody2DComponent:
