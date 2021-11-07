@@ -473,6 +473,9 @@ namespace Hazel {
 
 	void EditorLayer::NewScene()
 	{
+		if (m_SceneState != SceneState::Edit)
+			return;
+
 		m_EditorScene = CreateRef<Scene>();
 		m_EditorScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_EditorScene);
