@@ -1,4 +1,4 @@
-# Hazel [![License](https://img.shields.io/github/license/TheCherno/Hazel.svg)](https://github.com/TheCherno/Hazel/blob/master/LICENSE)
+# Hazel [![License](https://img.shields.io/github/license/TheCherno/Hazel.svg)](https://github.com/TheCherno/Hazel/blob/master/LICENSE)  [![Build with MSVC and run Unit Tests](https://github.com/niklasweidenfeller/Hazel/actions/workflows/unittest.yml/badge.svg)](https://github.com/niklasweidenfeller/Hazel/actions/workflows/unittest.yml)
 
 ![Hazel](/Resources/Branding/Hazel_Logo_Text_Light_Square.png?raw=true "Hazel")
 
