@@ -23,3 +23,6 @@
 [submodule "Hazel/vendor/googletest"]
 	path = Hazel/vendor/googletest
 	url = https://github.com/niklasweidenfeller/googletest
+[submodule "Hazel/vendor/Box2D"]
+	path = Hazel/vendor/Box2D
+	url = https://github.com/thecherno/box2d

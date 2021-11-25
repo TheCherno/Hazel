@@ -13,23 +13,30 @@ HazelFiles =  {
 HazelIncludeDirs = {
 	"src",
 	"vendor/spdlog/include",
-	"%{IncludeDir.GLFW}",
-	"%{IncludeDir.Glad}",
-	"%{IncludeDir.ImGui}",
-	"%{IncludeDir.glm}",
-	"%{IncludeDir.stb_image}",
-	"%{IncludeDir.entt}",
-	"%{IncludeDir.yaml_cpp}",
-	"%{IncludeDir.ImGuizmo}",
-	"%{IncludeDir.VulkanSDK}"
+		"%{IncludeDir.Box2D}",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.VulkanSDK}"
 }
 
 HazelLinks = {
-	"GLFW",
-	"Glad",
-	"ImGui",
-	"yaml-cpp",
-	"opengl32.lib"
+  "Box2D",
+
+		"GLFW",
+
+		"Glad",
+
+		"ImGui",
+
+		"yaml-cpp",
+
+		"opengl32.lib"
 }
 
 project "Hazel"

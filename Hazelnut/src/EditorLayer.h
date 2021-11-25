@@ -32,6 +32,8 @@ namespace Hazel {
 		void OnScenePlay();
 		void OnSceneStop();
 
+		void DuplicateSelectedEntity();
+
 		// UI Panels
 		void UI_Toolbar();
 	private:
@@ -43,6 +45,7 @@ namespace Hazel {
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
+		Ref<Scene> m_EditorScene, m_RuntimeScene;
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;

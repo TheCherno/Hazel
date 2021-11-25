@@ -35,7 +35,8 @@ namespace Hazel {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-		m_ActiveScene = CreateRef<Scene>();
+		m_EditorScene = CreateRef<Scene>();
+		m_ActiveScene = m_EditorScene;
 
 		auto commandLineArgs = Application::Get().GetCommandLineArgs();
 		if (commandLineArgs.Count > 1)
@@ -420,6 +421,14 @@ namespace Hazel {
 				break;
 			}
 
+			case Key::D:
+			{
+				if (control)
+					DuplicateSelectedEntity();
+
+				break;
+			}
+
 			// Gizmos
 			case Key::Q:
 			{
@@ -474,6 +483,9 @@ namespace Hazel {
 
 	void EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
+		if (m_SceneState != SceneState::Edit)
+			OnSceneStop();
+
 		if (path.extension().string() != ".hazel")
 		{
 			HZ_WARN("Could not load {0} - not a scene file", path.filename().string());
@@ -484,7 +496,8 @@ namespace Hazel {
 		SceneSerializer serializer(newScene);
 		if (serializer.Deserialize(path.string()))
 		{
-			m_ActiveScene = newScene;
+			m_EditorScene = newScene;
+			m_ActiveScene = m_EditorScene;
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		}
@@ -503,12 +516,31 @@ namespace Hazel {
 	void EditorLayer::OnScenePlay()
 	{
 		m_SceneState = SceneState::Play;
+
+		// Make a copy of the Editor scene
+		m_RuntimeScene = Scene::Copy(m_EditorScene);
+
+		m_ActiveScene = m_RuntimeScene;
+		m_ActiveScene->OnRuntimeStart();
 	}
 
 	void EditorLayer::OnSceneStop()
 	{
 		m_SceneState = SceneState::Edit;
 
+		m_ActiveScene = m_EditorScene;
+		m_RuntimeScene = nullptr;
+		m_ActiveScene->OnRuntimeStop();
+	}
+
+	void EditorLayer::DuplicateSelectedEntity()
+	{
+		if (m_SceneState != SceneState::Edit)
+			return;
+
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity)
+			m_EditorScene->DuplicateEntity(selectedEntity);
 	}
 
 }
