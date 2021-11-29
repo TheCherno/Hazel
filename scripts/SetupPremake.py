@@ -10,8 +10,7 @@ class PremakeConfiguration:
     premakeLicenseUrl = "https://raw.githubusercontent.com/premake/premake-core/master/LICENSE.txt"
     premakeDirectory = "./vendor/premake/bin"
 
-    @classmethod
-    def Validate(cls):
+    def Validate(self):
         if (not cls.CheckIfPremakeInstalled()):
             print("Premake is not installed.")
             return False
@@ -19,16 +18,14 @@ class PremakeConfiguration:
         print(f"Correct Premake located at {os.path.abspath(cls.premakeDirectory)}")
         return True
 
-    @classmethod
-    def CheckIfPremakeInstalled(cls):
+    def CheckIfPremakeInstalled(self):
         premakeExe = Path(f"{cls.premakeDirectory}/premake5.exe");
         if (not premakeExe.exists()):
-            return cls.InstallPremake()
+            return self.InstallPremake()
 
         return True
 
-    @classmethod
-    def InstallPremake(cls):
+    def InstallPremake(self):
         permissionGranted = False
         while not permissionGranted:
             reply = str(input("Premake not found. Would you like to download Premake {0:s}? [Y/N]: ".format(cls.premakeVersion))).lower().strip()[:1]
