@@ -27,6 +27,7 @@ namespace Hazel {
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
+		void SaveScene();
 		void SaveSceneAs();
 
 		void OnScenePlay();
@@ -65,6 +66,8 @@ namespace Hazel {
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
 		int m_GizmoType = -1;
+
+		std::string m_ActiveSceneFilePath = "";
 
 		enum class SceneState
 		{
