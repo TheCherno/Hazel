@@ -84,6 +84,11 @@ namespace Hazel {
 			return "";
 		}
 
+		static const bool IsAmdGpu()
+		{
+			const char* vendor = (char*)glGetString(GL_VENDOR);
+			return strstr(vendor, "ATI") != nullptr;
+		}
 
 	}
 
@@ -100,8 +105,12 @@ namespace Hazel {
 		{
 			Timer timer;
 			CompileOrGetVulkanBinaries(shaderSources);
-			CompileOrGetOpenGLBinaries();
-			CreateProgram();
+			if (Utils::IsAmdGpu()) {
+				CreateProgramForAmd();
+			} else {
+				CompileOrGetOpenGLBinaries();
+				CreateProgram();
+			}
 			HZ_CORE_WARN("Shader creation took {0} ms", timer.ElapsedMillis());
 		}
 
@@ -123,8 +132,12 @@ namespace Hazel {
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
 
 		CompileOrGetVulkanBinaries(sources);
-		CompileOrGetOpenGLBinaries();
-		CreateProgram();
+		if (Utils::IsAmdGpu()) {
+			CreateProgramForAmd();
+		} else {
+			CompileOrGetOpenGLBinaries();
+			CreateProgram();
+		}
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -344,6 +357,127 @@ namespace Hazel {
 		}
 
 		m_RendererID = program;
+	}
+
+	static bool VerifyProgramLink(GLenum& program)
+	{
+		int isLinked = 0;
+		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			int maxLength = 0;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+			std::vector<char> infoLog(maxLength);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+			glDeleteProgram(program);
+
+			HZ_CORE_ERROR("{0}", infoLog.data());
+			HZ_CORE_ASSERT(false, "[OpenGL] Shader link failure!");
+			return false;
+		}
+		return true;
+	}
+
+	void OpenGLShader::CreateProgramForAmd()
+	{
+		GLuint program = glCreateProgram();
+
+		std::filesystem::path cacheDirectory = Utils::GetCacheDirectory();
+		std::filesystem::path shaderFilePath = m_FilePath;
+		std::filesystem::path cachedPath = cacheDirectory / (shaderFilePath.filename().string() + ".cached_opengl.pgr");
+		std::ifstream in(cachedPath, std::ios::ate | std::ios::binary);
+
+		if (in.is_open())
+		{
+			auto size = in.tellg();
+			in.seekg(0);
+
+			auto& data = std::vector<char>(size);
+			uint32_t format = 0;
+			in.read((char*)&format, sizeof(uint32_t));
+			in.read((char*)data.data(), size);
+			glProgramBinary(program, format, data.data(), data.size());
+
+			bool linked = VerifyProgramLink(program);
+
+			if (!linked)
+				return;
+		} 
+		else
+		{
+			std::array<uint32_t, 2> glShadersIDs;
+			CompileOpenGLBinariesForAmd(program, glShadersIDs);
+			glLinkProgram(program);
+
+			bool linked = VerifyProgramLink(program);
+
+			if (linked)
+			{
+				// Save program data
+				GLint formats = 0;
+				glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &formats);
+				HZ_CORE_ASSERT(formats > 0, "Driver does not support binary format");
+				Utils::CreateCacheDirectoryIfNeeded();
+				GLint length = 0;
+				glGetProgramiv(program, GL_PROGRAM_BINARY_LENGTH, &length);
+				auto shaderData = std::vector<char>(length);
+				uint32_t format = 0;
+				glGetProgramBinary(program, length, nullptr, &format, shaderData.data());
+				std::ofstream out(cachedPath, std::ios::out | std::ios::binary);
+				if (out.is_open())
+				{
+					out.write((char*)&format, sizeof(uint32_t));
+					out.write(shaderData.data(), shaderData.size());
+					out.flush();
+					out.close();
+				}
+			}
+
+			for (auto& id : glShadersIDs)
+				glDetachShader(program, id);
+		}
+
+		m_RendererID = program;
+	}
+
+	void OpenGLShader::CompileOpenGLBinariesForAmd(GLenum& program, std::array<uint32_t, 2>& glShadersIDs)
+	{
+		int glShaderIDIndex = 0;
+		for (auto&& [stage, spirv] : m_VulkanSPIRV)
+		{
+			spirv_cross::CompilerGLSL glslCompiler(spirv);
+			auto& source = glslCompiler.compile();
+
+			uint32_t shader;
+
+			shader = glCreateShader(stage);
+
+			const GLchar* sourceCStr = source.c_str();
+			glShaderSource(shader, 1, &sourceCStr, 0);
+
+			glCompileShader(shader);
+
+			int isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				int maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				std::vector<char> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+				glDeleteShader(shader);
+
+				HZ_CORE_ERROR("{0}", infoLog.data());
+				HZ_CORE_ASSERT(false, "[OpenGL] Shader compilation failure!");
+				return;
+			}
+			glAttachShader(program, shader);
+			glShadersIDs[glShaderIDIndex++] = shader;
+		}
 	}
 
 	void OpenGLShader::Reflect(GLenum stage, const std::vector<uint32_t>& shaderData)
