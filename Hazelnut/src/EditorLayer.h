@@ -36,6 +36,7 @@ namespace Hazel {
 		void UI_MenuBar();
 		void UI_Stats();
 		void UI_Toolbar();
+		void UI_Gizmos();
 	private:
 		Hazel::OrthographicCameraController m_CameraController;
 
