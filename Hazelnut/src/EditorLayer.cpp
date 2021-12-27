@@ -226,39 +226,8 @@ namespace Hazel {
 		m_ContentBrowserPanel.OnImGuiRender();
 
 		UI_Stats();
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-		ImGui::Begin("Viewport");
-		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
-		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
-		auto viewportOffset = ImGui::GetWindowPos();
-		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
-
-		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
-
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-
-		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-			{
-				const wchar_t* path = (const wchar_t*)payload->Data;
-				OpenScene(std::filesystem::path(g_AssetPath) / path);
-			}
-			ImGui::EndDragDropTarget();
-		}
-
-		UI_Gizmos();
-
-		ImGui::End();
-		ImGui::PopStyleVar();
+		
+		UI_Viewport();
 
 		UI_Toolbar();
 
@@ -336,6 +305,42 @@ namespace Hazel {
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);
 		ImGui::End();
+	}
+
+	void EditorLayer::UI_Viewport()
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+		ImGui::Begin("Viewport");
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)payload->Data;
+				OpenScene(std::filesystem::path(g_AssetPath) / path);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		UI_Gizmos();
+
+		ImGui::End();
+		ImGui::PopStyleVar();
 	}
 
 	void EditorLayer::UI_Gizmos()
