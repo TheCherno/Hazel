@@ -33,6 +33,7 @@ namespace Hazel {
 		void OnSceneStop();
 
 		// UI Panels
+		void UI_MenuBar();
 		void UI_Stats();
 		void UI_Toolbar();
 	private:
