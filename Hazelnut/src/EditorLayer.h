@@ -33,6 +33,7 @@ namespace Hazel {
 		void OnSceneStop();
 
 		// UI Panels
+		void UI_Stats();
 		void UI_Toolbar();
 	private:
 		Hazel::OrthographicCameraController m_CameraController;
