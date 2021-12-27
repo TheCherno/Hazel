@@ -229,12 +229,6 @@ namespace Hazel {
 		ImGui::End();
 	}
 
-	void EditorLayer::UI_ChildPanels()
-	{
-		m_SceneHierarchyPanel.OnImGuiRender();
-		m_ContentBrowserPanel.OnImGuiRender();
-	}
-
 	void EditorLayer::UI_MenuBar()
 	{
 		if (ImGui::BeginMenuBar())
@@ -259,6 +253,12 @@ namespace Hazel {
 
 			ImGui::EndMenuBar();
 		}
+	}
+
+	void EditorLayer::UI_ChildPanels()
+	{
+		m_SceneHierarchyPanel.OnImGuiRender();
+		m_ContentBrowserPanel.OnImGuiRender();
 	}
 
 	void EditorLayer::UI_Stats()
