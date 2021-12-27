@@ -595,6 +595,12 @@ namespace Hazel {
 
 	void EditorLayer::OnScenePlay()
 	{
+		if (!m_EditorScene->GetPrimaryCameraEntity())
+		{
+			HZ_WARN("No active camera rendering!");
+			return;
+		}
+
 		m_SceneState = SceneState::Play;
 
 		m_ActiveScene = Scene::Copy(m_EditorScene);
