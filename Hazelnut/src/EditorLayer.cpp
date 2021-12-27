@@ -222,8 +222,7 @@ namespace Hazel {
 
 		UI_MenuBar();
 
-		m_SceneHierarchyPanel.OnImGuiRender();
-		m_ContentBrowserPanel.OnImGuiRender();
+		UI_ChildPanels();
 
 		UI_Stats();
 		
@@ -232,6 +231,12 @@ namespace Hazel {
 		UI_Toolbar();
 
 		ImGui::End();
+	}
+
+	void EditorLayer::UI_ChildPanels()
+	{
+		m_SceneHierarchyPanel.OnImGuiRender();
+		m_ContentBrowserPanel.OnImGuiRender();
 	}
 
 	void EditorLayer::UI_MenuBar()
