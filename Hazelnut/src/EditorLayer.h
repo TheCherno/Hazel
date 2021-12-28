@@ -32,6 +32,9 @@ namespace Hazel {
 		void OnScenePlay();
 		void OnSceneStop();
 
+		void SetActiveScene(const Ref<Scene>& activeScene);
+		void SetWindowTitleFromActiveScene();
+
 		// UI Panels
 		void UI_Toolbar();
 	private:

@@ -25,8 +25,6 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		Application::Get().GetWindow().SetTitle("Test");
-
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 		m_IconPlay = Texture2D::Create("Resources/Icons/PlayButton.png");
 		m_IconStop = Texture2D::Create("Resources/Icons/StopButton.png");
@@ -37,14 +35,20 @@ namespace Hazel {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-		m_ActiveScene = CreateRef<Scene>();
-
 		auto commandLineArgs = Application::Get().GetCommandLineArgs();
 		if (commandLineArgs.Count > 1)
 		{
+			Ref<Scene> startScene = CreateRef<Scene>();
+
 			auto sceneFilePath = commandLineArgs[1];
-			SceneSerializer serializer(m_ActiveScene);
+			SceneSerializer serializer(startScene);
 			serializer.Deserialize(sceneFilePath);
+
+			SetActiveScene(startScene);
+		}
+		else
+		{
+			NewScene();
 		}
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
@@ -99,8 +103,6 @@ namespace Hazel {
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -462,9 +464,8 @@ namespace Hazel {
 
 	void EditorLayer::NewScene()
 	{
-		m_ActiveScene = CreateRef<Scene>();
-		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		Ref<Scene> newScene = CreateRef<Scene>();
+		SetActiveScene(newScene);
 	}
 
 	void EditorLayer::OpenScene()
@@ -486,9 +487,7 @@ namespace Hazel {
 		SceneSerializer serializer(newScene);
 		if (serializer.Deserialize(path.string()))
 		{
-			m_ActiveScene = newScene;
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+			SetActiveScene(newScene);
 		}
 	}
 
@@ -500,6 +499,7 @@ namespace Hazel {
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
 			m_ActiveScene->SetName(std::filesystem::path(filepath).filename().string());
+			SetWindowTitleFromActiveScene();
 		}
 	}
 
@@ -513,5 +513,21 @@ namespace Hazel {
 		m_SceneState = SceneState::Edit;
 
 	}
+	
+	void EditorLayer::SetActiveScene(const Ref<Scene>& activeScene)
+	{
+		HZ_ASSERT(activeScene, "EditorLayer ActiveScene cannot be null");
 
+		m_ActiveScene = activeScene;
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		SetWindowTitleFromActiveScene();
+	}
+
+	void EditorLayer::SetWindowTitleFromActiveScene()
+	{
+		Application::Get().GetWindow().SetTitle("Hazelnut - " + m_ActiveScene->GetName());
+	}
 }
