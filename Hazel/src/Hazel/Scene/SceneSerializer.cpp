@@ -252,7 +252,7 @@ namespace Hazel {
 			}
 		}
 
-		m_Scene->SetName(std::filesystem::path(filepath).filename().string());
+		m_Scene->SetName(std::filesystem::path(filepath));
 
 		return true;
 	}

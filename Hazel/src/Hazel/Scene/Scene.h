@@ -25,6 +25,7 @@ namespace Hazel {
 		Entity GetPrimaryCameraEntity();
 
 		void SetName(const std::string& name);
+		void SetName(const std::filesystem::path& filepath);
 		const std::string& GetName() const { return m_Name; }
 	private:
 		template<typename T>
