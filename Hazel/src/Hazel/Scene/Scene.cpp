@@ -128,6 +128,11 @@ namespace Hazel {
 		return {};
 	}
 
+	void Scene::SetName(const std::string& name)
+	{
+		m_Name = name;
+	}
+
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{

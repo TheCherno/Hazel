@@ -35,14 +35,25 @@ namespace Hazel {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-		m_ActiveScene = CreateRef<Scene>();
+		// When setting the active scene later in this method, we try to resize its viewport
+		// If viewport size is still 0, we'll assert
+		// So set it to some valid value now
+		// Then later in OnUpdate()/OnImGuiRender() fix it to the correct value
+		m_ViewportSize = { fbSpec.Width, fbSpec.Height };
+
+		// Try to load a scene from command line args
+		// If it fails (no args, invalid scene, etc.) then fallback to default new untitled scene
+		bool loadedScene = false;
 
 		auto commandLineArgs = Application::Get().GetCommandLineArgs();
 		if (commandLineArgs.Count > 1)
 		{
-			auto sceneFilePath = commandLineArgs[1];
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(sceneFilePath);
+			loadedScene = OpenScene(std::filesystem::path(commandLineArgs[1]));
+		}
+
+		if (!loadedScene)
+		{
+			NewScene();
 		}
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
@@ -97,8 +108,6 @@ namespace Hazel {
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -460,9 +469,9 @@ namespace Hazel {
 
 	void EditorLayer::NewScene()
 	{
-		m_ActiveScene = CreateRef<Scene>();
-		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		Ref<Scene> newScene = CreateRef<Scene>();
+		SetActiveScene(newScene);
+		SetEditorScenePath(std::filesystem::path());
 	}
 
 	void EditorLayer::OpenScene()
@@ -472,22 +481,24 @@ namespace Hazel {
 			OpenScene(filepath);
 	}
 
-	void EditorLayer::OpenScene(const std::filesystem::path& path)
+	bool EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
 		if (path.extension().string() != ".hazel")
 		{
 			HZ_WARN("Could not load {0} - not a scene file", path.filename().string());
-			return;
+			return false;
 		}
 		
 		Ref<Scene> newScene = CreateRef<Scene>();
 		SceneSerializer serializer(newScene);
-		if (serializer.Deserialize(path.string()))
+		if (!serializer.Deserialize(path.string()))
 		{
-			m_ActiveScene = newScene;
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+			return false;
 		}
+
+		SetActiveScene(newScene);
+		SetEditorScenePath(path);
+		return true;
 	}
 
 	void EditorLayer::SaveSceneAs()
@@ -497,6 +508,7 @@ namespace Hazel {
 		{
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
+			SetEditorScenePath(std::filesystem::path(filepath));
 		}
 	}
 
@@ -510,5 +522,31 @@ namespace Hazel {
 		m_SceneState = SceneState::Edit;
 
 	}
+	
+	void EditorLayer::SetActiveScene(const Ref<Scene>& activeScene)
+	{
+		HZ_ASSERT(activeScene, "EditorLayer ActiveScene cannot be null");
 
+		m_ActiveScene = activeScene;
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		SyncWindowTitle();
+	}
+
+	void EditorLayer::SetEditorScenePath(const std::filesystem::path& path)
+	{
+		m_EditorScenePath = path;
+		SyncWindowTitle();
+	}
+
+	void EditorLayer::SyncWindowTitle()
+	{
+		std::string title = "Hazelnut";
+		title += " - " + m_ActiveScene->GetName();
+		title += " (" + (m_EditorScenePath.empty() ? "unsaved" : m_EditorScenePath.string()) + ")";
+
+		Application::Get().GetWindow().SetTitle(title);
+	}
 }

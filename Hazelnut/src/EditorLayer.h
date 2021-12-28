@@ -26,11 +26,15 @@ namespace Hazel {
 
 		void NewScene();
 		void OpenScene();
-		void OpenScene(const std::filesystem::path& path);
+		bool OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 
 		void OnScenePlay();
 		void OnSceneStop();
+
+		void SetActiveScene(const Ref<Scene>& activeScene);
+		void SetEditorScenePath(const std::filesystem::path& path);
+		void SyncWindowTitle();
 
 		// UI Panels
 		void UI_Toolbar();
@@ -43,6 +47,8 @@ namespace Hazel {
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
+		std::filesystem::path m_EditorScenePath;
+
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
