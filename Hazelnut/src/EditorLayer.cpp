@@ -498,8 +498,6 @@ namespace Hazel {
 		{
 			SceneSerializer serializer(m_ActiveScene);
 			serializer.Serialize(filepath);
-			m_ActiveScene->SetName(std::filesystem::path(filepath));
-			SetWindowTitleFromActiveScene();
 		}
 	}
 

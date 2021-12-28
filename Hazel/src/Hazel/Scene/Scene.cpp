@@ -133,11 +133,6 @@ namespace Hazel {
 		m_Name = name;
 	}
 
-	void Scene::SetName(const std::filesystem::path& filepath)
-	{
-		m_Name = filepath.stem().string();
-	}
-
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{
