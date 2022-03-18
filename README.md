@@ -3,11 +3,13 @@
 ![Hazel](/Resources/Branding/Hazel_Logo_Text_Light_Square.png?raw=true "Hazel")
 
 ## About
-Hazel is an early-stage interactive application and rendering engine by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game, with abstractions to different APIs and platforms. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
+Hazel is an early-stage interactive application and rendering engine by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game with abstractions to different APIs and platforms. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
 
 "TheCherno" is an Australian YouTuber who creates programming tutorials around different subjects from game development to general programming language tutorials at [TheChernoProject](https://www.youtube.com/user/TheChernoProject) on Youtube.
 
 ## Getting Started
+Visual Studio 2017 or 2019 is recommended, Hazel is officially untested on other development environments whilst we focus on a Windows build.
+
 Start by cloning the repository with `git clone --recursive https://github.com/TheCherno/Hazel`.
 
 If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
@@ -26,6 +28,7 @@ The plan for Hazel is two-fold: to create a powerful 3D engine, but also to serv
 - Procedural terrain and world generation
 - Artificial Intelligence
 - Audio system
+
 
 ## Short term goals :
 *Note: this is subject to change at any time! Follow the roadmap over at [hazelengine.com/roadmap](http://hazelengine.com/roadmap).*
@@ -62,7 +65,7 @@ Currently Hazel supports:
 Windows and Linux is currently supported with plans for MacOS and Android/IOS support in the future.
 
 ### Hardware requirements
-As of now, Hazel only supports OpenGL Rendering and requires a minimum version of 4.5.
+Hazel uses OpenGL Rendering only at this time. Vulkan and OpenGL 4.6 is required to support the SPIR-V intermediate language for shaders. OpenGL 4.5 is required for the remainder of the graphics call stack.
 
 ## Installing and setup
 
@@ -92,6 +95,8 @@ $ sudo cp premake5 /usr/bin/
 $ premake5 --help
 ```
 
+Hazel uses a few Vulkan API features and needs the Vulkan SDK to be installed. Visit the [Vulkan SDK Download](https://vulkan.lunarg.com/sdk/home) page and follow the directions for either a Ubuntu install or other Linux distribution install. Installing by *Tarball* to a custom directory is not supported by this Hazel branch at this time.
+
 Hazel has extra development dependencies needed for Linux. The following packages are needed to compile the project:
 
 - `libxcursor`
@@ -99,6 +104,8 @@ Hazel has extra development dependencies needed for Linux. The following package
 - `libxinerama`
 - `libxi`
 - `zenity`
+- `libvulkan-dev`
+- `vulkan-sdk`
 
 Hazel is configured and compiled with:
 
@@ -117,4 +124,4 @@ On Arch and Arch derivative distributions, install the additional dependencies b
 
 On Debian and Debian derivative distributions, install the additional dependencies by running:
 
-`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglu1-mesa-dev zenity`
+`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglu1-mesa-dev zenity libvulkan-dev`

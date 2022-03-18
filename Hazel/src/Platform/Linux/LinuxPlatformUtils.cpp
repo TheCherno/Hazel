@@ -17,10 +17,10 @@ namespace Hazel {
 
 	bool FileDialogsUtilityCheck();
 
-	std::optional<std::string> FileDialogs::OpenFile(const char* filter)
+	std::string FileDialogs::OpenFile(const char* filter)
 	{
 		if (!FileDialogsUtilityCheck())
-			return std::nullopt;
+			return std::string();
 
 		const char* file_extension = std::strchr(filter, 0) + 1;
 
@@ -37,7 +37,7 @@ namespace Hazel {
 		if (fgets(path, LINUX_PATH_MAX, fp) == NULL)
 		{
 			pclose(fp);
-			return std::nullopt;
+			return std::string();
 		}
 
 		pclose(fp);
@@ -48,10 +48,10 @@ namespace Hazel {
 		return file_choice;
 	}
 
-	std::optional<std::string> FileDialogs::SaveFile(const char* filter)
+	std::string FileDialogs::SaveFile(const char* filter)
 	{
 		if (!FileDialogsUtilityCheck())
-			return std::nullopt;
+			return std::string();
 
 		FILE *fp;
 		char path[LINUX_PATH_MAX];
@@ -70,7 +70,7 @@ namespace Hazel {
 		if (fgets(path, LINUX_PATH_MAX, fp) == NULL)
 		{
 			pclose(fp);
-			return std::nullopt;
+			return std::string();
 		}
 
 		pclose(fp);

@@ -2,7 +2,7 @@ project "Hazelnut"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -43,6 +43,18 @@ project "Hazelnut"
 			"pthread",
 			"stdc++fs",	--GCC versions 5.3 through 8.x need stdc++fs for std::filesystem
 			"yaml-cpp",
+
+			"vulkan",
+			"shaderc_shared",
+			"spirv-cross-c",
+			"spirv-cross-core",
+			"spirv-cross-cpp",
+			"spirv-cross-glsl",
+			"spirv-cross-reflect",
+			"spirv-cross-util",
+			"spirv-cross-c-shared",
+			"spirv-cross-hlsl",
+			"spirv-cross-msl",
 		}
 		defines
 		{

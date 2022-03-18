@@ -14,7 +14,8 @@ namespace Hazel {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(std::string base_directory, const std::string& name)
+	Application::Application(std::string base_directory, const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
 		HZ_PROFILE_FUNCTION();
 
@@ -70,7 +71,7 @@ namespace Hazel {
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			if (e.Handled) 
+			if (e.Handled)
 				break;
 			(*it)->OnEvent(e);
 		}
