@@ -25,8 +25,9 @@ namespace Hazel {
 
 		ImGuiIO& io = ImGui::GetIO();
 		//(void)io;
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 18.0f);
-		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 18.0f);
+		float fontSize = 18.0f;// *2.0f;
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", fontSize);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", fontSize);
 
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
