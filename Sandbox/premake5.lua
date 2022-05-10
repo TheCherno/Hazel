@@ -44,6 +44,8 @@ project "Sandbox"
 		defines "HZ_RELEASE"
 		runtime "Release"
 		optimize "on"
+		kind "WindowedApp"
+		entrypoint "mainCRTStartup"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
