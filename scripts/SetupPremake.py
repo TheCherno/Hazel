@@ -1,11 +1,25 @@
 import sys
 import os
+import requests
 from pathlib import Path
 
 import Utils
 
+def GetLatestPremakeVersion():
+    LATEST_ENTRY = 0
+    TAG_FIELD = "tag_name"
+    url = "https://api.github.com/repos/premake/premake-core/releases"
+    headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    }
+    response = requests.request("GET", url, headers = headers)
+    if (response.status_code != 200) :
+        return "5.0.0-beta1" # default if lookup fails
+    return response.json()[LATEST_ENTRY][TAG_FIELD][1:] # Strip 'v' character out of tag name. Ex: v5.0.0-beta1 -> 5.0.0-beta1
+
 class PremakeConfiguration:
-    premakeVersion = "5.0.0-beta1"
+
+    premakeVersion = GetLatestPremakeVersion()
     premakeZipUrls = f"https://github.com/premake/premake-core/releases/download/v{premakeVersion}/premake-{premakeVersion}-windows.zip"
     premakeLicenseUrl = "https://raw.githubusercontent.com/premake/premake-core/master/LICENSE.txt"
     premakeDirectory = "./vendor/premake/bin"
