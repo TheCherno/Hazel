@@ -552,7 +552,7 @@ namespace Hazel {
 					glm::mat4 transform = glm::translate(glm::mat4(1.0f), tc.Translation)
 						* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
 						* glm::translate(glm::mat4(1.0f), glm::vec3(cc2d.Offset, 0.001f))
-						* glm::scale(glm::mat4(1.0f), scale);
+						* glm::scale(glm::mat4(1.0f), glm::vec3(scale.x, scale.x, scale.z));
 
 					Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.01f);
 				}
