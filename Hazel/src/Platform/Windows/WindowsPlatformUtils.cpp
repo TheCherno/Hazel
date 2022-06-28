@@ -1,12 +1,11 @@
 #include "hzpch.h"
 #include "Hazel/Utils/PlatformUtils.h"
+#include "Hazel/Core/Application.h"
 
 #include <commdlg.h>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
-
-#include "Hazel/Core/Application.h"
 
 namespace Hazel {
 
