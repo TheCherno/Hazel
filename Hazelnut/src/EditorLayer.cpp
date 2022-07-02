@@ -558,6 +558,14 @@ namespace Hazel {
 			}
 		}
 
+		// Draw selected entity outline 
+		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity()) {
+			TransformComponent transform = selectedEntity.GetComponent<TransformComponent>();
+
+			//Red
+			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1, 0, 0, 1));
+		}
+
 		Renderer2D::EndScene();
 	}
 
