@@ -9,7 +9,7 @@ from io import BytesIO
 from urllib.request import urlopen
 
 class VulkanConfiguration:
-    requiredVulkanVersion = "1.3."
+    requiredVulkanVersion = "1.3.216.0"
     vulkanDirectory = "./Hazel/vendor/VulkanSDK"
 
     @classmethod
@@ -17,7 +17,7 @@ class VulkanConfiguration:
         if (not cls.CheckVulkanSDK()):
             print("Vulkan SDK not installed correctly.")
             return
-            
+
         if (not cls.CheckVulkanSDKDebugLibs()):
             print("\nNo Vulkan SDK debug libs found. Install Vulkan SDK with debug libs.")
             print("(see docs.hazelengine.com/GettingStarted for more info).")
@@ -37,7 +37,7 @@ class VulkanConfiguration:
             print(f"You don't have the correct Vulkan SDK version! (Engine requires {cls.requiredVulkanVersion})")
             cls.__InstallVulkanSDK()
             return False
-    
+
         print(f"Correct Vulkan SDK located at {vulkanSDK}")
         return True
 
@@ -63,7 +63,7 @@ class VulkanConfiguration:
     def CheckVulkanSDKDebugLibs(cls):
         vulkanSDK = os.environ.get("VULKAN_SDK")
         shadercdLib = Path(f"{vulkanSDK}/Lib/shaderc_sharedd.lib")
-        
+
         return shadercdLib.exists()
 
 if __name__ == "__main__":
