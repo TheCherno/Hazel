@@ -332,7 +332,7 @@ namespace Hazel {
 				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 
 				b2PolygonShape boxShape;
-				boxShape.SetAsBox(bc2d.Size.x * transform.Scale.x, bc2d.Size.y * transform.Scale.y, b2Vec2(bc2d.Offset.x, bc2d.Offset.y), bc2d.Rotation);
+				boxShape.SetAsBox(bc2d.Size.x * transform.Scale.x, bc2d.Size.y * transform.Scale.y, b2Vec2(bc2d.Offset.x, bc2d.Offset.y), 0.0f);
 
 				b2FixtureDef fixtureDef;
 				fixtureDef.shape = &boxShape;
