@@ -351,6 +351,7 @@ namespace Hazel {
 				out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.Texture->GetPath();
 			}
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+
 			out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.TilingFactor;
 
 			out << YAML::EndMap; // SpriteRendererComponent
