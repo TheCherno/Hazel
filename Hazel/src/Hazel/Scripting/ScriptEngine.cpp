@@ -91,15 +91,13 @@ namespace Hazel {
 		template<typename T>
 		struct IsPointer<T*> { static constexpr bool value = true; };
 
-		template<typename Func, typename T, typename... Args>
-		static void WrapArgs(Func function, T* result, Args&&... args)
+		template<typename T, typename Func, typename... Args>
+		static T* WrapArgs(Func function, Args&&... args)
 		{
 			constexpr int argc = sizeof...(Args);
 
 			if constexpr (argc == 0)
-			{
-				result = function(nullptr, 0);
-			}
+				return function(nullptr, 0);
 			else
 			{
 				void* argv[argc] = { nullptr };
@@ -117,7 +115,7 @@ namespace Hazel {
 						i++;
 					}(), ...);
 
-				result = function(argv, static_cast<int>(argc));
+				return function(argv, static_cast<int>(argc));
 			}
 		}
 
@@ -188,7 +186,11 @@ namespace Hazel {
 		MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
 		MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
 		void* stringParam = monoString;
-		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
+
+		MonoObject* result = Utils::WrapArgs<MonoObject>([=](void** argv, int argc)
+			{
+				return s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, argv);
+			}, result, monoString);
 
 		HZ_CORE_ASSERT(false);
 	}
