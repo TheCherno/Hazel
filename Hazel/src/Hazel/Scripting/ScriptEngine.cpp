@@ -84,6 +84,57 @@ namespace Hazel {
 			}
 		}
 
+
+		template<typename T>
+		struct IsPointer { static constexpr bool value = false; };
+
+		template<typename T>
+		struct IsPointer<T*> { static constexpr bool value = true; };
+
+		template<typename Func, typename T, typename... Args>
+		static void WrapArgs(Func function, T* result, Args&&... args)
+		{
+			constexpr int argc = sizeof...(Args);
+
+			if constexpr (argc == 0)
+			{
+				result = function(nullptr, 0);
+			}
+			else
+			{
+				void* argv[argc] = { nullptr };
+
+				size_t i = 0;
+				([&]()
+					{
+						void* tmp = nullptr;
+						if constexpr (IsPointer<Args>::value)
+							tmp = args;
+						else
+							tmp = &args;
+						argv[i] = tmp;
+
+						i++;
+					}(), ...);
+
+				result = function(argv, static_cast<int>(argc));
+			}
+		}
+
+		/*
+			Example of use:
+
+				MonoObject* returnValue;
+				Utils::WrapArgs([=](void** argv, int argc) {
+					MonoMethod* method = s_Data->EntityClass.GetMethod("PrintInts", argc);
+					return s_Data->EntityClass.InvokeMethod(instance, method, argv);
+				}, returnValue, 5, 508);
+
+			Here instance is presumed to be captured by value from the same scope the WrapArgs function is in.
+			The WrapArgs cannot deduce the return type of the lambda function to use as its own return type, so the return value is passed back as the 2nd parameter.
+			The remaining paramters are the parameters wished to be packed into a void* array. They are packed inside WrapArgs and passed as parameters to the lambda function.
+		*/ 
+
 	}
 
 	struct ScriptEngineData
