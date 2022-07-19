@@ -118,21 +118,6 @@ namespace Hazel {
 				return function(argv, static_cast<int>(argc));
 			}
 		}
-
-		/*
-			Example of use:
-
-				MonoObject* returnValue;
-				Utils::WrapArgs([=](void** argv, int argc) {
-					MonoMethod* method = s_Data->EntityClass.GetMethod("PrintInts", argc);
-					return s_Data->EntityClass.InvokeMethod(instance, method, argv);
-				}, returnValue, 5, 508);
-
-			Here instance is presumed to be captured by value from the same scope the WrapArgs function is in.
-			The WrapArgs cannot deduce the return type of the lambda function to use as its own return type, so the return value is passed back as the 2nd parameter.
-			The remaining paramters are the parameters wished to be packed into a void* array. They are packed inside WrapArgs and passed as parameters to the lambda function.
-		*/ 
-
 	}
 
 	struct ScriptEngineData
@@ -186,11 +171,7 @@ namespace Hazel {
 		MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
 		MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
 		void* stringParam = monoString;
-
-		MonoObject* result = Utils::WrapArgs<MonoObject>([=](void** argv, int argc)
-			{
-				return s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, argv);
-			}, result, monoString);
+		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
 
 		HZ_CORE_ASSERT(false);
 	}
