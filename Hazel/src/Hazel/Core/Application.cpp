@@ -6,21 +6,25 @@
 #include "Hazel/Renderer/Renderer.h"
 
 #include "Hazel/Core/Input.h"
-
-#include <GLFW/glfw3.h>
+#include "Hazel/Utils/PlatformUtils.h"
 
 namespace Hazel {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
-		: m_CommandLineArgs(args)
+	Application::Application(const ApplicationSpecification& specification)
+		: m_Specification(specification)
 	{
 		HZ_PROFILE_FUNCTION();
 
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-		m_Window = Window::Create(WindowProps(name));
+
+		// Set working directory here
+		if (!m_Specification.WorkingDirectory.empty())
+			std::filesystem::current_path(m_Specification.WorkingDirectory);
+
+		m_Window = Window::Create(WindowProps(m_Specification.Name));
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
@@ -81,7 +85,7 @@ namespace Hazel {
 		{
 			HZ_PROFILE_SCOPE("RunLoop");
 
-			float time = (float)glfwGetTime();
+			float time = Time::GetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 

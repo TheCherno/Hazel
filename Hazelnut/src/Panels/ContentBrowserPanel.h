@@ -1,8 +1,8 @@
 #pragma once
 
-#include <filesystem>
-
 #include "Hazel/Renderer/Texture.h"
+
+#include <filesystem>
 
 namespace Hazel {
 

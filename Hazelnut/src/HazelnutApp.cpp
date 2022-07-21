@@ -8,20 +8,20 @@ namespace Hazel {
 	class Hazelnut : public Application
 	{
 	public:
-		Hazelnut(ApplicationCommandLineArgs args)
-			: Application("Hazelnut", args)
+		Hazelnut(const ApplicationSpecification& spec)
+			: Application(spec)
 		{
 			PushLayer(new EditorLayer());
-		}
-
-		~Hazelnut()
-		{
 		}
 	};
 
 	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new Hazelnut(args);
+		ApplicationSpecification spec;
+		spec.Name = "Hazelnut";
+		spec.CommandLineArgs = args;
+
+		return new Hazelnut(spec);
 	}
 
 }
