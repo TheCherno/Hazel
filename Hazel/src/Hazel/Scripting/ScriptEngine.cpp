@@ -162,12 +162,12 @@ namespace Hazel {
 
 	void ScriptEngine::ShutdownMono()
 	{
-		// NOTE(Yan): mono is a little confusing to shutdown, so maybe come back to this
-
-		// mono_domain_unload(s_Data->AppDomain);
+		mono_domain_set(mono_get_root_domain(), false);
+		
+		mono_domain_unload(s_Data->AppDomain);
 		s_Data->AppDomain = nullptr;
 
-		// mono_jit_cleanup(s_Data->RootDomain);
+		mono_jit_cleanup(s_Data->RootDomain);
 		s_Data->RootDomain = nullptr;
 	}
 
