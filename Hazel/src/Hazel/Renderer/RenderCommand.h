@@ -9,6 +9,7 @@ namespace Hazel {
 	public:
 		static void Init()
 		{
+			s_RendererAPI = RendererAPI::Create();
 			s_RendererAPI->Init();
 		}
 
