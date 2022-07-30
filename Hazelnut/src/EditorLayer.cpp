@@ -241,6 +241,13 @@ namespace Hazel {
 		ImGui::End();
 	}
 
+	void EditorLayer::UI_Settings()
+	{
+		ImGui::Begin("Settings");
+		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
+		ImGui::End();
+	}
+
 	void EditorLayer::UI_Viewport()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
@@ -373,13 +380,6 @@ namespace Hazel {
 		}
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);
-		ImGui::End();
-	}
-
-	void EditorLayer::UI_Settings()
-	{
-		ImGui::Begin("Settings");
-		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
 		ImGui::End();
 	}
 
