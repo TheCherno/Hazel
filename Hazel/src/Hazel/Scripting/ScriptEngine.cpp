@@ -162,7 +162,7 @@ namespace Hazel {
 
 	void ScriptEngine::ShutdownMono()
 	{
-		mono_domain_set(mono_get_root_domain(), false);
+		mono_domain_set(s_Data->RootDomain, false);
 
 		mono_domain_unload(s_Data->AppDomain);
 		s_Data->AppDomain = nullptr;
