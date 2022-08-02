@@ -9,6 +9,7 @@ Entities:
       Scale: [6.74196768, 0.46067813, 1]
     SpriteRendererComponent:
       Color: [0.949806929, 0.455301404, 0.0660097376, 1]
+      TilingFactor: 1
     Rigidbody2DComponent:
       BodyType: Static
       FixedRotation: false
@@ -37,15 +38,18 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
+    ScriptComponent:
+      ClassName: Sandbox.Camera
   - Entity: 15045535320033348975
     TagComponent:
-      Tag: Sprite
+      Tag: Block
     TransformComponent:
-      Translation: [0.0495706201, 0.271503896, 0.0225147791]
-      Rotation: [0, 0, -0.235084534]
+      Translation: [-0.560881913, 0.980064034, 0.0225147791]
+      Rotation: [0, 0, 0]
       Scale: [0.361159712, 0.375572056, 0.848135769]
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Color: [0.277992249, 0.277989477, 0.277989477, 1]
+      TilingFactor: 1
     Rigidbody2DComponent:
       BodyType: Dynamic
       FixedRotation: false
@@ -65,6 +69,7 @@ Entities:
       Scale: [6.74196959, 0.46067816, 1]
     SpriteRendererComponent:
       Color: [0.949806929, 0.455301404, 0.0660097376, 1]
+      TilingFactor: 1
     Rigidbody2DComponent:
       BodyType: Static
       FixedRotation: false
@@ -79,7 +84,7 @@ Entities:
     TagComponent:
       Tag: Circle
     TransformComponent:
-      Translation: [2.0106864, -1.1843524, 0]
+      Translation: [1.02738881, -1.70331478, 0]
       Rotation: [0, 0, 0]
       Scale: [2.15999985, 2.15999985, 2.15999985]
     CircleRendererComponent:
@@ -90,9 +95,31 @@ Entities:
       BodyType: Static
       FixedRotation: false
     CircleCollider2DComponent:
-      Offset: [-1, 0.5]
+      Offset: [0, 0]
       Radius: 0.5
       Density: 1
       Friction: 0.5
       Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 8254140920860137284
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [0.0495706201, 0.271503896, 0.0225147791]
+      Rotation: [0, 0, -0.235084534]
+      Scale: [0.361159712, 0.375572056, 0.848135769]
+    ScriptComponent:
+      ClassName: Sandbox.Player
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 0.879999995
+      Friction: 0.100000001
+      Restitution: 0.819999993
       RestitutionThreshold: 0.5
