@@ -3,8 +3,8 @@ project "Hazel-ScriptCore"
 	language "C#"
 	dotnetframework "4.7.2"
 
-	targetdir ("%{wks.location}/Hazelnut/Resources/Scripts")
-	objdir ("%{wks.location}/Hazelnut/Resources/Scripts/Intermediates")
+	targetdir ("../Hazelnut/Resources/Scripts")
+	objdir ("../Hazelnut/Resources/Scripts/Intermediates")
 
 	files 
 	{
