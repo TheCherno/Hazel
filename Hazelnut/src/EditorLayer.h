@@ -5,7 +5,6 @@
 #include "Panels/ContentBrowserPanel.h"
 
 #include "Hazel/Renderer/EditorCamera.h"
-#include "Hazel/Events/GamepadEvent.h"
 
 namespace Hazel {
 
