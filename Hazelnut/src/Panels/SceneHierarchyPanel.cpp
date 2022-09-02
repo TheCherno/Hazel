@@ -18,6 +18,7 @@
 namespace Hazel {
 
 	extern const std::filesystem::path g_AssetPath;
+	static bool g_DoubleClick = false;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
@@ -81,6 +82,9 @@ namespace Hazel {
 		if (ImGui::IsItemClicked())
 		{
 			m_SelectionContext = entity;
+			
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+				g_DoubleClick = true;
 		}
 
 		bool entityDeleted = false;
@@ -208,7 +212,7 @@ namespace Hazel {
 			if (open)
 			{
 				uiFunction(component);
-				ImGui::TreePop();
+				ImGui::TreePop();s
 			}
 
 			if (removeComponent)
@@ -225,7 +229,15 @@ namespace Hazel {
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
 			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
-			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
+
+			// Entity has been double-clicked from the Scene Hierarchy Panel, so we interpret that as an attempt to rename it.
+			if(g_DoubleClick)
+			{
+				ImGui::SetKeyboardFocusHere(0);
+				g_DoubleClick = false;
+			}
+
+			if (ImGui::InputText("##Tag", buffer, sizeof(buffer), ImGuiInputTextFlags_AutoSelectAll))
 			{
 				tag = std::string(buffer);
 			}
