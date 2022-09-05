@@ -16,6 +16,7 @@ namespace Hazel {
 		{ "System.Double", ScriptFieldType::Double },
 		{ "System.Boolean", ScriptFieldType::Bool },
 		{ "System.Char", ScriptFieldType::Char },
+		{ "System.SByte", ScriptFieldType::SByte },
 		{ "System.Int16", ScriptFieldType::Short },
 		{ "System.Int32", ScriptFieldType::Int },
 		{ "System.Int64", ScriptFieldType::Long },
@@ -127,11 +128,11 @@ namespace Hazel {
 				case ScriptFieldType::Double:  return "Double";
 				case ScriptFieldType::Bool:    return "Bool";
 				case ScriptFieldType::Char:    return "Char";
-				case ScriptFieldType::Byte:    return "Byte";
+				case ScriptFieldType::SByte:   return "SByte";
 				case ScriptFieldType::Short:   return "Short";
 				case ScriptFieldType::Int:     return "Int";
 				case ScriptFieldType::Long:    return "Long";
-				case ScriptFieldType::UByte:   return "UByte";
+				case ScriptFieldType::Byte:    return "Byte";
 				case ScriptFieldType::UShort:  return "UShort";
 				case ScriptFieldType::UInt:    return "UInt";
 				case ScriptFieldType::ULong:   return "ULong";
