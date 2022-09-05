@@ -42,7 +42,7 @@ namespace Sandbox
 			else if (Input.IsKeyDown(KeyCode.D))
 				velocity.X = 1.0f;
 
-			velocity *= speed;
+			velocity *= speed * ts;
 
 			m_Rigidbody.ApplyLinearImpulse(velocity.XY, true);
 
