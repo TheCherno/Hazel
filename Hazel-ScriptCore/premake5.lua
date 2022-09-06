@@ -2,6 +2,7 @@ project "Hazel-ScriptCore"
 	kind "SharedLib"
 	language "C#"
 	dotnetframework "4.7.2"
+	namespace "Hazel"
 
 	targetdir ("../Hazelnut/Resources/Scripts")
 	objdir ("../Hazelnut/Resources/Scripts/Intermediates")
