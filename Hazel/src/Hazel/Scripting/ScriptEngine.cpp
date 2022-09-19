@@ -396,6 +396,13 @@ namespace Hazel {
 		return s_Data->CoreAssemblyImage;
 	}
 
+
+	MonoObject* ScriptEngine::GetManagedInstance(UUID uuid)
+	{
+		HZ_CORE_ASSERT(s_Data->EntityInstances.find(uuid) != s_Data->EntityInstances.end());
+		return s_Data->EntityInstances.at(uuid)->GetManagedObject();
+	}
+
 	MonoObject* ScriptEngine::InstantiateClass(MonoClass* monoClass)
 	{
 		MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
