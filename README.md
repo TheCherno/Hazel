@@ -2,7 +2,10 @@
 
 ![Hazel](/Resources/Branding/Hazel_Logo_Text_Light_Square.png?raw=true "Hazel")
 
-Hazel is primarily an early-stage interactive application and rendering engine for Windows. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
+## About
+Hazel is an early-stage interactive application and rendering engine by Yan "TheCherno" Chernikov. Hazel's goal is to be a library for developers that structures and manages the inner workings of a game with abstractions to different APIs and platforms. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
+
+"TheCherno" is an Australian YouTuber who creates programming tutorials around different subjects from game development to general programming language tutorials at [TheChernoProject](https://www.youtube.com/user/TheChernoProject) on Youtube.
 
 ***
 
@@ -58,3 +61,82 @@ We want everyone to be able to play the game on all desktop platforms (Windows, 
 [![Youtube](https://img.shields.io/badge/TheChernoProject--red.svg?style=social&logo=youtube)](https://www.youtube.com/user/TheChernoProject)
 [![Discord](https://img.shields.io/badge/TheCherno%20Server--blue.svg?style=social&logo=Discord)](https://discord.gg/K2eSyQA)
 [![Patreon](https://img.shields.io/badge/%40thecherno--green.svg?style=social&logo=Patreon)](https://patreon.com/thecherno)
+
+## Hazel support
+
+Hazel is in active development. Here is a short list of what is supported and what isn't. This can change at any time.
+
+### Supported platforms
+Currently Hazel supports:
+
+- Computer OS:
+  - ![Windows supported](https://img.shields.io/badge/Windows-win--64-green.svg)
+  - ![Linux supported](https://img.shields.io/badge/Linux-Arch%20%7C%20Debian-green.svg)
+  - ![MacOS not supported](https://img.shields.io/badge/MacOS-Not%20Supported-red.svg)
+- Mobile OS:
+  - ![Android not supported](https://img.shields.io/badge/Android-Not%20Supported-red.svg)
+  - ![IOS not supported](https://img.shields.io/badge/IOS-Not%20Supported-red.svg)
+
+Windows and Linux is currently supported with plans for MacOS and Android/IOS support in the future.
+
+### Hardware requirements
+Hazel uses OpenGL Rendering only at this time. Vulkan and OpenGL 4.6 is required to support the SPIR-V intermediate language for shaders. OpenGL 4.5 is required for the remainder of the graphics call stack.
+
+## Installing and setup
+
+Start by cloning the repository with `git clone --recursive https://github.com/TheCherno/Hazel`.
+
+If the repository was cloned non-recursively previously, use `git submodule update --init` to clone the necessary submodules.
+Hazel uses _Premake 5_ as a build generation tool. Visit the [Premake website](https://premake.github.io/download.html) to download and install it.
+
+Next: Follow the steps relevant to your operating system.
+
+### Windows
+
+Premake 5.0.0-alphaXX is provided as [premake5.exe](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5.exe) in the repository. Execute and follow the install instructions.
+
+Premake generates project files for Visual Studio, Visual Studio 2017 or 2019 is recommended. To generate the `.sln` and `.vcxproj` files for Visual Studio 2017, run `premake vs2017` at the command line. Or you may run [GenerateProjects.bat](https://github.com/TheCherno/Hazel/blob/master/GenerateProjects.bat) as a convenience batch file for this task.
+
+### Linux
+
+Premake 5.0.0-alphaXX is provided as [premake5-linux.tar.gz](https://github.com/TheCherno/Hazel/blob/master/vendor/bin/premake/premake5-linux.tar.gz) in the repository. To download and install it, follow the instructions:
+
+```bash
+$ wget https://github.com/TheCherno/Hazel/raw/master/vendor/bin/premake/premake5-linux.tar.gz
+$ tar -xzvf premake5-linux.tar.gz
+$ chmod +x premake5 # make premake executable
+$ sudo cp premake5 /usr/bin/
+
+$ premake5 --help
+```
+
+Hazel uses a few Vulkan API features and needs the Vulkan SDK to be installed. Visit the [Vulkan SDK Download](https://vulkan.lunarg.com/sdk/home) page and follow the directions for either a Ubuntu install or other Linux distribution install. Installing by *Tarball* to a custom directory is not supported by this Hazel branch at this time.
+
+Hazel has extra development dependencies needed for Linux. The following packages are needed to compile the project:
+
+- `libxcursor`
+- `libxrandr`
+- `libxinerama`
+- `libxi`
+- `zenity`
+- `libvulkan-dev`
+- `vulkan-sdk`
+
+Hazel is configured and compiled with:
+
+```bash
+premake5 gmake2
+make
+```
+
+#### Arch
+
+On Arch and Arch derivative distributions, install the additional dependencies by running:
+
+`sudo pacman -S libxcursor libxrandr libxinerama libxi zenity`
+
+#### Debian
+
+On Debian and Debian derivative distributions, install the additional dependencies by running:
+
+`sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglu1-mesa-dev zenity libvulkan-dev`

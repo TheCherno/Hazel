@@ -6,6 +6,9 @@
 #include "Hazel/Renderer/Renderer.h"
 
 #include "Hazel/Core/Input.h"
+
+#include <GLFW/glfw3.h>
+#include <filesystem>
 #include "Hazel/Utils/PlatformUtils.h"
 
 namespace Hazel {
@@ -71,7 +74,7 @@ namespace Hazel {
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			if (e.Handled) 
+			if (e.Handled)
 				break;
 			(*it)->OnEvent(e);
 		}
@@ -116,6 +119,24 @@ namespace Hazel {
 	{
 		m_Running = false;
 		return true;
+	}
+
+	std::string Application::CorrectFilePath(const std::string& path)
+	{
+		#if defined(HZ_DEBUG) || defined(HZ_RELEASE)
+			if (std::filesystem::exists(path))	//Unmodified path check
+				return path;
+
+			auto check_path = std::filesystem::path(".") / m_BaseDirectory / path;	//Subdirectory of project
+			if (std::filesystem::exists(check_path))
+				return check_path.string();
+
+			check_path = std::filesystem::path("../../..") / m_BaseDirectory / path;	//Decend to project directory from executable's directory
+			if (std::filesystem::exists(check_path))
+				return check_path.string();
+		#endif
+
+		return path;
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)

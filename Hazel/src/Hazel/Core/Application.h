@@ -52,6 +52,7 @@ namespace Hazel {
 		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		static Application& Get() { return *s_Instance; }
+		std::string CorrectFilePath(const std::string&);
 
 		const ApplicationSpecification& GetSpecification() const { return m_Specification; }
 	private:
@@ -68,6 +69,7 @@ namespace Hazel {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
+		std::string m_BaseDirectory;
 		friend int ::main(int argc, char** argv);
 	};
 

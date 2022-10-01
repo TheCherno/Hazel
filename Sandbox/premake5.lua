@@ -27,8 +27,45 @@ project "Sandbox"
 		"Hazel"
 	}
 
+	filter "system:linux"
+		links
+		{
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"Xrandr",
+			"Xi",
+			"GLU",
+			"GL",
+			"X11",
+			"dl",
+			"pthread",
+			"stdc++fs",	--GCC versions 5.3 through 8.x need stdc++fs for std::filesystem
+
+			"vulkan",
+			"shaderc_shared",
+			"spirv-cross-c",
+			"spirv-cross-core",
+			"spirv-cross-cpp",
+			"spirv-cross-glsl",
+			"spirv-cross-reflect",
+			"spirv-cross-util",
+			"spirv-cross-c-shared",
+			"spirv-cross-hlsl",
+			"spirv-cross-msl",
+		}
+		defines
+		{
+			"HZ_PLATFORM_LINUX"
+		}
+
 	filter "system:windows"
 		systemversion "latest"
+	
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS"
+		}
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"

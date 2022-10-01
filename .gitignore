@@ -2,6 +2,14 @@
 **/bin/
 bin-int/
 
+# Files
+*.user
+Makefile
+Hazel.config
+Hazel.creator
+Hazel.files
+Hazel.includes
+
 # Hazel files
 *.log
 

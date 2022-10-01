@@ -2,8 +2,6 @@
 #include "Hazel/Core/Base.h"
 #include "Hazel/Core/Application.h"
 
-#ifdef HZ_PLATFORM_WINDOWS
-
 extern Hazel::Application* Hazel::CreateApplication(ApplicationCommandLineArgs args);
 
 int main(int argc, char** argv)
@@ -22,5 +20,3 @@ int main(int argc, char** argv)
 	delete app;
 	HZ_PROFILE_END_SESSION();
 }
-
-#endif

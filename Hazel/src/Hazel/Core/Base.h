@@ -2,6 +2,7 @@
 
 #include "Hazel/Core/PlatformDetection.h"
 
+// Debug settings
 #include <memory>
 
 #ifdef HZ_DEBUG

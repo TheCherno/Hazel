@@ -38,21 +38,26 @@ namespace Hazel {
 
 		ImGui::Columns(columnCount, 0, false);
 
+		int id_numbering = 0;
 		for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
 		{
 			const auto& path = directoryEntry.path();
+			auto relativePath = std::filesystem::relative(path, g_AssetPath);
 			std::string filenameString = path.filename().string();
-			
-			ImGui::PushID(filenameString.c_str());
+			ImGui::PushID(id_numbering);
+			id_numbering++;
 			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 
 			if (ImGui::BeginDragDropSource())
 			{
-				auto relativePath = std::filesystem::relative(path, g_AssetPath);
+#ifndef HZ_PLATFORM_LINUX
 				const wchar_t* itemPath = relativePath.c_str();
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+#else
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", (void*)relativePath.c_str(), relativePath.string().length() + 1);
+#endif
 				ImGui::EndDragDropSource();
 			}
 
