@@ -42,9 +42,8 @@ namespace Hazel {
 		for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
 		{
 			const auto& path = directoryEntry.path();
-			std::filesystem::path relativePath = std::filesystem::relative(path, g_AssetPath);
-			std::string filenameString = relativePath.filename().string();
-
+			auto relativePath = std::filesystem::relative(path, g_AssetPath);
+			std::string filenameString = path.filename().string();
 			ImGui::PushID(id_numbering);
 			id_numbering++;
 			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;

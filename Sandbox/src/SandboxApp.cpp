@@ -7,7 +7,8 @@
 class Sandbox : public Hazel::Application
 {
 public:
-	Sandbox(std::string base_directory, const std::string& name, Hazel::ApplicationCommandLineArgs args) : Hazel::Application(base_directory, name, args)
+	Sandbox(const Hazel::ApplicationSpecification& specification)
+		: Hazel::Application(specification)
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
@@ -20,5 +21,10 @@ public:
 
 Hazel::Application* Hazel::CreateApplication(Hazel::ApplicationCommandLineArgs args)
 {
-	return new Sandbox("Sandbox", "Hazel App", args);
+	ApplicationSpecification spec;
+	spec.Name = "Sandbox";
+	spec.WorkingDirectory = "../Hazelnut";
+	spec.CommandLineArgs = args;
+
+	return new Sandbox(spec);
 }

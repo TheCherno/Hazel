@@ -100,4 +100,9 @@ namespace Hazel {
 
 		return true;
 	}
+
+	float Time::GetTime()
+	{
+		return glfwGetTime();
+	}
 }

@@ -43,6 +43,7 @@ project "Hazelnut"
 			"pthread",
 			"stdc++fs",	--GCC versions 5.3 through 8.x need stdc++fs for std::filesystem
 			"yaml-cpp",
+			"Box2D",
 
 			"vulkan",
 			"shaderc_shared",
@@ -67,12 +68,6 @@ project "Hazelnut"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS"
-		}
-
-	filter {"system:windows", "configurations:Debug"}
-		postbuildcommands
-		{
-			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
 		}
 
 	filter "configurations:Debug"
