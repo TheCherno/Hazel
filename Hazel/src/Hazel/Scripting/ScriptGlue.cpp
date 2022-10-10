@@ -149,6 +149,7 @@ namespace Hazel {
 
 	void ScriptGlue::RegisterComponents()
 	{
+		s_EntityHasComponentFuncs.clear();
 		RegisterComponent(AllComponents{});
 	}
 
