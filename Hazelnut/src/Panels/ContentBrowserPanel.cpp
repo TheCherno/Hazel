@@ -5,6 +5,17 @@
 
 namespace Hazel {
 
+	namespace Utils {
+
+		bool IsImageFile(const std::filesystem::path& path)
+		{
+			if (path.extension() == ".png")
+				return true;
+
+			return false;
+		}
+
+	}
 	// Once we have projects, change this
 	extern const std::filesystem::path g_AssetPath = "assets";
 
@@ -13,6 +24,16 @@ namespace Hazel {
 	{
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
+
+		// Loading Textures
+		for (auto& directoryEntry : std::filesystem::recursive_directory_iterator(g_AssetPath))
+		{
+			const auto& path = directoryEntry.path();
+			const auto& filenameString = path.string();
+
+			if (Utils::IsImageFile(path))
+				m_TextureIcons[filenameString] = Texture2D::Create(filenameString);
+		}
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()
@@ -21,7 +42,7 @@ namespace Hazel {
 
 		if (m_CurrentDirectory != std::filesystem::path(g_AssetPath))
 		{
-			if (ImGui::Button("<-"))
+			if (ImGui::Button("Back"))
 			{
 				m_CurrentDirectory = m_CurrentDirectory.parent_path();
 			}
@@ -44,7 +65,14 @@ namespace Hazel {
 			std::string filenameString = path.filename().string();
 			
 			ImGui::PushID(filenameString.c_str());
-			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
+			Ref<Texture2D> icon = nullptr;
+
+			if (Utils::IsImageFile(path))
+				icon = m_TextureIcons[path.string()];
+
+			else
+				icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
+
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 

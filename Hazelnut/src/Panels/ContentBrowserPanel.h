@@ -17,6 +17,7 @@ namespace Hazel {
 		
 		Ref<Texture2D> m_DirectoryIcon;
 		Ref<Texture2D> m_FileIcon;
+		std::unordered_map<std::string, Ref<Texture2D>> m_TextureIcons;
 	};
 
 }
