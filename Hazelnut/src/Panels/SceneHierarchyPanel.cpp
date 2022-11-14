@@ -26,6 +26,11 @@ namespace Hazel {
 		SetContext(context);
 	}
 
+	void SceneHierarchyPanel::Init()
+	{
+		m_DefaultTexture = Texture2D::Create(1, 1);
+	}
+
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
@@ -401,11 +406,15 @@ namespace Hazel {
 				ImGui::PopStyleColor();
 		});
 
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [this](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 			
-			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+			uint32_t buttonTex = component.Texture ? component.Texture->GetRendererID()
+				: m_DefaultTexture->GetRendererID();
+
+			ImGui::ImageButton((ImTextureID)buttonTex, ImVec2{ 100.0f, 100.0f });
+
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))

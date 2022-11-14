@@ -12,6 +12,7 @@ namespace Hazel {
 		SceneHierarchyPanel() = default;
 		SceneHierarchyPanel(const Ref<Scene>& scene);
 
+		void Init();
 		void SetContext(const Ref<Scene>& scene);
 
 		void OnImGuiRender();
@@ -27,6 +28,7 @@ namespace Hazel {
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;
+		Ref<Texture2D> m_DefaultTexture;
 	};
 
 }
