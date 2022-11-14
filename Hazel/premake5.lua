@@ -76,6 +76,13 @@ project "Hazel"
 			"%{Library.WinVersion}",
 			"%{Library.BCrypt}",
 		}
+		
+		prebuildcommands
+		{
+			'"$(DevEnvDir)devenv" "$(SolutionPath)" /Build $(configuration) /project "$(SolutionDir)Hazel-ScriptCore\\Hazel-ScriptCore.csproj"',
+			'IF EXIST "$(SolutionDir)Hazelnut\\SandboxProject\\Assets\\Scripts\\Sandbox.sln" ("$(DevEnvDir)devenv" "$(SolutionDir)Hazelnut\\SandboxProject\\Assets\\Scripts\\Sandbox.sln" /Build $(configuration) /project "$(SolutionDir)Hazelnut\\SandboxProject\\Assets\\Scripts\\Sandbox.csproj") ELSE (ECHO Sandbox Solution Not Found!)'
+		}
+		prebuildmessage "\nBuilding Hazel-ScriptCore.csproj ...\nBuilding Sandbox.csproj ..."
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
