@@ -9,6 +9,4 @@ namespace Hazel {
 		static void RegisterFunctions();
 	};
 
-
-
 }
