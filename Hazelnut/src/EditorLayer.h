@@ -42,7 +42,13 @@ namespace Hazel {
 		void OnDuplicateEntity();
 
 		// UI Panels
+		void UI_ChildPanels();
+		void UI_MenuBar();
+		void UI_Stats();
 		void UI_Toolbar();
+		void UI_Settings();
+		void UI_Viewport();
+		void UI_Gizmos();
 	private:
 		Hazel::OrthographicCameraController m_CameraController;
 

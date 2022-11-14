@@ -180,6 +180,18 @@ namespace Hazel {
 
 		style.WindowMinSize.x = minWinSizeX;
 
+		UI_Viewport();
+		UI_MenuBar();
+		UI_Toolbar();
+		UI_Settings();
+		UI_ChildPanels();
+		UI_Stats();
+
+		ImGui::End();
+	}
+
+	void EditorLayer::UI_MenuBar()
+	{
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -215,10 +227,16 @@ namespace Hazel {
 
 			ImGui::EndMenuBar();
 		}
+	}
 
+	void EditorLayer::UI_ChildPanels()
+	{
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_ContentBrowserPanel.OnImGuiRender();
+	}
 
+	void EditorLayer::UI_Stats()
+	{
 		ImGui::Begin("Stats");
 
 		std::string name = "None";
@@ -234,11 +252,17 @@ namespace Hazel {
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
 		ImGui::End();
+	}
 
+	void EditorLayer::UI_Settings()
+	{
 		ImGui::Begin("Settings");
 		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
 		ImGui::End();
+	}
 
+	void EditorLayer::UI_Viewport()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
@@ -267,7 +291,14 @@ namespace Hazel {
 			ImGui::EndDragDropTarget();
 		}
 
-		// Gizmos
+		UI_Gizmos();
+
+		ImGui::End();
+		ImGui::PopStyleVar();
+	}
+
+	void EditorLayer::UI_Gizmos()
+	{
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
 		if (selectedEntity && m_GizmoType != -1)
 		{
@@ -277,7 +308,7 @@ namespace Hazel {
 			ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
 
 			// Camera
-			
+
 			// Runtime camera from entity
 			// auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
 			// const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
@@ -316,14 +347,6 @@ namespace Hazel {
 				tc.Scale = scale;
 			}
 		}
-
-
-		ImGui::End();
-		ImGui::PopStyleVar();
-
-		UI_Toolbar();
-
-		ImGui::End();
 	}
 
 	void EditorLayer::UI_Toolbar()
@@ -523,7 +546,7 @@ namespace Hazel {
 			Entity camera = m_ActiveScene->GetPrimaryCameraEntity();
 			if (!camera)
 				return;
-			
+
 			Renderer2D::BeginScene(camera.GetComponent<CameraComponent>().Camera, camera.GetComponent<TransformComponent>().GetTransform());
 		}
 		else
@@ -569,7 +592,7 @@ namespace Hazel {
 			}
 		}
 
-		// Draw selected entity outline 
+		// Draw selected entity outline
 		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity())
 		{
 			const TransformComponent& transform = selectedEntity.GetComponent<TransformComponent>();
@@ -583,7 +606,7 @@ namespace Hazel {
 	{
 		m_ActiveScene = CreateRef<Scene>();
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-		
+
 		m_EditorScenePath = std::filesystem::path();
 	}
 
