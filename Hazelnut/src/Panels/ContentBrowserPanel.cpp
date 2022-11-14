@@ -7,9 +7,9 @@ namespace Hazel {
 
 	namespace Utils {
 
-		bool IsImageFile(const std::filesystem::path& path)
+		static bool IsImageFile(const std::filesystem::path& path)
 		{
-			if (path.extension() == ".png")
+			if (path.extension() == ".png" || path.extension() == ".jpg")
 				return true;
 
 			return false;
@@ -24,6 +24,30 @@ namespace Hazel {
 	{
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
+
+		auto FileAssetEvent = [this](const std::string& path, const filewatch::Event change_type)
+		{
+			std::filesystem::path texturePath = path;
+			texturePath = g_AssetPath / path;
+
+			switch (change_type)
+			{
+			case filewatch::Event::added:
+			{
+				if (Utils::IsImageFile(texturePath))
+					m_TextureIcons[texturePath.string()] = Texture2D::Create(texturePath.string());
+
+				HZ_WARN("{}: File Added", texturePath.string());
+			}
+			case filewatch::Event::removed:
+			{
+				m_TextureIcons.erase(texturePath.string());
+				HZ_WARN("{}: File Deleted", texturePath.string());
+			}
+			}
+		};
+
+		m_ContentBrowserFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(g_AssetPath.string(), FileAssetEvent);
 
 		// Loading Textures
 		for (auto& directoryEntry : std::filesystem::recursive_directory_iterator(g_AssetPath))

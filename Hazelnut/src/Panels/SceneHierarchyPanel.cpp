@@ -26,11 +26,6 @@ namespace Hazel {
 		SetContext(context);
 	}
 
-	void SceneHierarchyPanel::Init()
-	{
-		m_DefaultTexture = Texture2D::Create(1, 1);
-	}
-
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
