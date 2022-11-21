@@ -26,6 +26,10 @@ namespace Hazel {
 		
 		void OnOverlayRender();
 
+		void NewProject();
+		void OpenProject(const std::filesystem::path& path);
+		void SaveProject();
+
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
@@ -84,7 +88,7 @@ namespace Hazel {
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
-		ContentBrowserPanel m_ContentBrowserPanel;
+		Scope<ContentBrowserPanel> m_ContentBrowserPanel;
 
 		// Editor resources
 		Ref<Texture2D> m_IconPlay, m_IconPause, m_IconStep, m_IconSimulate, m_IconStop;
