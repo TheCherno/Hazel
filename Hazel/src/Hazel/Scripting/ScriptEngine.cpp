@@ -133,8 +133,11 @@ namespace Hazel {
 		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
 
+#ifdef HZ_DEBUG
 		bool EnableDebugging = true;
-
+#else
+		bool EnableDebugging = false;
+#endif
 		// Runtime
 
 		Scene* SceneContext = nullptr;
