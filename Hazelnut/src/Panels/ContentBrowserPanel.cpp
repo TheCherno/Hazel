@@ -10,8 +10,13 @@ namespace Hazel {
 	ContentBrowserPanel::ContentBrowserPanel()
 		: m_BaseDirectory(Project::GetAssetDirectory()), m_CurrentDirectory(m_BaseDirectory)
 	{
+        #if defined(HZ_PLATFORM_WINDOWS)
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
+        #elif defined(HZ_PLATFORM_LINUX)
+		m_DirectoryIcon = Texture2D::Create("Hazelnut/Resources/Icons/ContentBrowser/DirectoryIcon.png");
+		m_FileIcon = Texture2D::Create("Hazelnut/Resources/Icons/ContentBrowser/FileIcon.png");
+	#endif
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()

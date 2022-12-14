@@ -22,12 +22,21 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+        #if defined(HZ_PLATFORM_WINDOWS)
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 		m_IconPlay = Texture2D::Create("Resources/Icons/PlayButton.png");
 		m_IconPause = Texture2D::Create("Resources/Icons/PauseButton.png");
 		m_IconSimulate = Texture2D::Create("Resources/Icons/SimulateButton.png");
 		m_IconStep = Texture2D::Create("Resources/Icons/StepButton.png");
 		m_IconStop = Texture2D::Create("Resources/Icons/StopButton.png");
+	#elif defined(HZ_PLATFORM_LINUX)
+		m_CheckerboardTexture = Texture2D::Create("Hazelnut/assets/textures/Checkerboard.png");
+		m_IconPlay = Texture2D::Create("Hazelnut/Resources/Icons/PlayButton.png");
+		m_IconPause = Texture2D::Create("Hazelnut/Resources/Icons/PauseButton.png");
+		m_IconSimulate = Texture2D::Create("Hazelnut/Resources/Icons/SimulateButton.png");
+		m_IconStep = Texture2D::Create("Hazelnut/Resources/Icons/StepButton.png");
+		m_IconStop = Texture2D::Create("Hazelnut/Resources/Icons/StopButton.png");
+	#endif
 
 		FramebufferSpecification fbSpec;
 		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
