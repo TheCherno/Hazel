@@ -1,6 +1,6 @@
 #include "hzpch.h"
-#include "ScriptGlue.h"
-#include "ScriptEngine.h"
+#include "Hazel/Scripting/ScriptGlue.h"
+#include "Hazel/Scripting/ScriptEngine.h"
 
 #include "Hazel/Core/UUID.h"
 #include "Hazel/Core/KeyCodes.h"
@@ -9,16 +9,16 @@
 #include "Hazel/Scene/Scene.h"
 #include "Hazel/Scene/Entity.h"
 
-#include "mono/metadata/object.h"
-#include "mono/metadata/reflection.h"
+#include <mono/metadata/object.h>
+#include <mono/metadata/reflection.h>
 
-#include "box2d/b2_body.h"
+#include <box2d/b2_body.h>
 
 namespace Hazel {
 
 	static std::unordered_map<MonoType*, std::function<bool(Entity)>> s_EntityHasComponentFuncs;
 
-#define HZ_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Hazel.InternalCalls::" #Name, Name)
+#define HZ_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Hazel.InternalCalls::" #Name, (const void*)Name)
 
 	static void NativeLog(MonoString* string, int parameter)
 	{

@@ -247,7 +247,7 @@ add_library(glad
 add_library(imgui
   ${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui.cpp
   ${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui_draw.cpp
-  ${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui_tables.cpp
+  #${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui_tables.cpp
   ${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui_widgets.cpp
   ${Hazel_SOURCE_DIR}/Hazel/vendor/imgui/imgui_demo.cpp
 )
