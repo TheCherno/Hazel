@@ -33,7 +33,6 @@
 	#error "Android is not supported!"
 #elif defined(__linux__)
 	#define HZ_PLATFORM_LINUX
-	#error "Linux is not supported!"
 #else
 	/* Unknown compiler/platform */
 	#error "Unknown platform!"
