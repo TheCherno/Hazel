@@ -130,7 +130,7 @@ namespace Hazel {
 		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
 		std::unordered_map<UUID, ScriptFieldMap> EntityScriptFields;
 
-		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
+		Scope<filewatch::FileWatch<std::filesystem::path>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
 
 		bool EnableDebugging = true;
@@ -142,7 +142,7 @@ namespace Hazel {
 
 	static ScriptEngineData* s_Data = nullptr;
 
-	static void OnAppAssemblyFileSystemEvent(const std::string& path, const filewatch::Event change_type)
+	static void OnAppAssemblyFileSystemEvent(const std::filesystem::path& path, const filewatch::Event change_type)
 	{
 		if (!s_Data->AssemblyReloadPending && change_type == filewatch::Event::modified)
 		{
@@ -252,7 +252,7 @@ namespace Hazel {
 
 		s_Data->AppAssemblyImage = mono_assembly_get_image(s_Data->AppAssembly);
 
-		s_Data->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(filepath.string(), OnAppAssemblyFileSystemEvent);
+		s_Data->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::filesystem::path>>(filepath, OnAppAssemblyFileSystemEvent);
 		s_Data->AssemblyReloadPending = false;
 		return true;
 	}
