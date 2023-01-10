@@ -63,7 +63,7 @@ class VulkanConfiguration:
     @classmethod
     def CheckVulkanSDKDebugLibs(cls):
         vulkanSDK = os.environ.get("VULKAN_SDK")
-        shadercdLib = Path(f"{vulkanSDK}/Lib/shaderc_sharedd.lib")
+        shadercdLib = Path(f"{vulkanSDK}/Lib/shaderc_shared.lib")
         
         return shadercdLib.exists()
 
