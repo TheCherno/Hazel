@@ -1,25 +1,29 @@
 #include "hzpch.h"
 #include "ContentBrowserPanel.h"
 
+#include "Hazel/Project/Project.h"
+
 #include <imgui/imgui.h>
 
 namespace Hazel {
 
-	// Once we have projects, change this
-	extern const std::filesystem::path g_AssetPath = "assets";
-
 	ContentBrowserPanel::ContentBrowserPanel()
-		: m_CurrentDirectory(g_AssetPath)
+		: m_BaseDirectory(Project::GetAssetDirectory()), m_CurrentDirectory(m_BaseDirectory)
 	{
+        #if defined(HZ_PLATFORM_WINDOWS)
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
+        #elif defined(HZ_PLATFORM_LINUX)
+		m_DirectoryIcon = Texture2D::Create("Hazelnut/Resources/Icons/ContentBrowser/DirectoryIcon.png");
+		m_FileIcon = Texture2D::Create("Hazelnut/Resources/Icons/ContentBrowser/FileIcon.png");
+	#endif
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Content Browser");
 
-		if (m_CurrentDirectory != std::filesystem::path(g_AssetPath))
+		if (m_CurrentDirectory != std::filesystem::path(m_BaseDirectory))
 		{
 			if (ImGui::Button("<-"))
 			{
@@ -46,12 +50,14 @@ namespace Hazel {
 			ImGui::PushID(filenameString.c_str());
 			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+			ImGui::ImageButton((ImTextureID)(uint64_t)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 
 			if (ImGui::BeginDragDropSource())
 			{
-				auto relativePath = std::filesystem::relative(path, g_AssetPath);
-				const wchar_t* itemPath = relativePath.c_str();
+				std::filesystem::path relativePath(path);
+				//const wchar_t* itemPath = relativePath.c_str();
+				wchar_t* itemPath;
+				std::mbstowcs(itemPath, relativePath.c_str(), relativePath.string().length());
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
 				ImGui::EndDragDropSource();
 			}

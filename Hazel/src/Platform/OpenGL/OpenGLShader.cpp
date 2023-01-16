@@ -51,7 +51,11 @@ namespace Hazel {
 		static const char* GetCacheDirectory()
 		{
 			// TODO: make sure the assets directory is valid
+                #if defined(HZ_PLATFORM_WINDOWS)
 			return "assets/cache/shader/opengl";
+		#elif defined(HZ_PLATFORM_LINUX)
+			return "Hazelnut/assets/cache/shader/opengl";
+		#endif
 		}
 
 		static void CreateCacheDirectoryIfNeeded()

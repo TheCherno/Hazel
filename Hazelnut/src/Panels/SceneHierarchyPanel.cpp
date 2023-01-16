@@ -2,6 +2,7 @@
 #include "Hazel/Scene/Components.h"
 
 #include "Hazel/Scripting/ScriptEngine.h"
+#include "Hazel/UI/UI.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -18,8 +19,6 @@
 #endif
 
 namespace Hazel {
-
-	extern const std::filesystem::path g_AssetPath;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
@@ -226,7 +225,7 @@ namespace Hazel {
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strncpy_s(buffer, sizeof(buffer), tag.c_str(), sizeof(buffer));
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);
@@ -327,13 +326,16 @@ namespace Hazel {
 			bool scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
 
 			static char buffer[64];
-			strcpy_s(buffer, sizeof(buffer), component.ClassName.c_str());
+			//strcpy_s(buffer, sizeof(buffer), component.ClassName.c_str());
+			std::strncpy(buffer, component.ClassName.c_str(), sizeof(buffer));
 
-			if (!scriptClassExists)
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+			UI::ScopedStyleColor textColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f), !scriptClassExists);
 
 			if (ImGui::InputText("Class", buffer, sizeof(buffer)))
+			{
 				component.ClassName = buffer;
+				return;
+			}
 
 			// Fields
 			bool sceneRunning = scene->IsRunning();
@@ -396,9 +398,6 @@ namespace Hazel {
 					}
 				}
 			}
-
-			if (!scriptClassExists)
-				ImGui::PopStyleColor();
 		});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
@@ -411,7 +410,7 @@ namespace Hazel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 				{
 					const wchar_t* path = (const wchar_t*)payload->Data;
-					std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+					std::filesystem::path texturePath(path);
 					Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
 					if (texture->IsLoaded())
 						component.Texture = texture;

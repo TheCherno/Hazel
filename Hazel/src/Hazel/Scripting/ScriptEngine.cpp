@@ -1,21 +1,26 @@
 #include "hzpch.h"
-#include "ScriptEngine.h"
-
-#include "ScriptGlue.h"
-
-#include "mono/jit/jit.h"
-#include "mono/metadata/assembly.h"
-#include "mono/metadata/object.h"
-#include "mono/metadata/tabledefs.h"
-#include "mono/metadata/mono-debug.h"
-#include "mono/metadata/threads.h"
-
-#include "FileWatch.h"
+#include "Hazel/Scripting/ScriptEngine.h"
+#include "Hazel/Scripting/ScriptGlue.h"
 
 #include "Hazel/Core/Application.h"
 #include "Hazel/Core/Timer.h"
 #include "Hazel/Core/Buffer.h"
 #include "Hazel/Core/FileSystem.h"
+
+#include "Hazel/Project/Project.h"
+
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/object.h>
+#if defined(HZ_PLATFORM_WINDOWS)
+        #include <mono/metadata/tabledefs.h>
+#elif defined(HZ_PLATFORM_LINUX)
+        #include <mono/metadata/attrdefs.h>
+#endif
+#include <mono/metadata/mono-debug.h>
+#include <mono/metadata/threads.h>
+
+#include <FileWatch.h>
 
 namespace Hazel {
 
@@ -133,8 +138,11 @@ namespace Hazel {
 		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
 
+#ifdef HZ_DEBUG
 		bool EnableDebugging = true;
-
+#else
+		bool EnableDebugging = false;
+#endif
 		// Runtime
 
 		Scene* SceneContext = nullptr;
@@ -163,13 +171,24 @@ namespace Hazel {
 		InitMono();
 		ScriptGlue::RegisterFunctions();
 
+        #if defined(HZ_PLATFORM_WINDOWS)
 		bool status = LoadAssembly("Resources/Scripts/Hazel-ScriptCore.dll");
+        #elif defined(HZ_PLATFORM_LINUX)
+		bool status = LoadAssembly("Hazelnut/Resources/Scripts/Hazel-ScriptCore.dll");
+	#endif
 		if (!status)
 		{
 			HZ_CORE_ERROR("[ScriptEngine] Could not load Hazel-ScriptCore assembly.");
 			return;
 		}
-		status = LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+
+		auto scriptModulePath = Project::GetAssetDirectory() / Project::GetActive()->GetConfig().ScriptModulePath;
+		status = LoadAppAssembly(scriptModulePath);
+//        #if defined(HZ_PLATFORM_WINDOWS)
+//		status = LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+//        #elif defined(HZ_PLATFORM_LINUX)
+//		status = LoadAppAssembly("Hazelnut/SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+//	#endif
 		if (!status)
 		{
 			HZ_CORE_ERROR("[ScriptEngine] Could not load app assembly.");
@@ -192,7 +211,11 @@ namespace Hazel {
 
 	void ScriptEngine::InitMono()
 	{
+        #if defined(HZ_PLATFORM_WINDOWS)
 		mono_set_assemblies_path("mono/lib");
+        #elif defined(HZ_PLATFORM_LINUX)
+		mono_set_assemblies_path("/usr/lib/mono/4.5");
+	#endif
 
 		if (s_Data->EnableDebugging)
 		{
@@ -407,7 +430,11 @@ namespace Hazel {
 			{
 				const char* fieldName = mono_field_get_name(field);
 				uint32_t flags = mono_field_get_flags(field);
+                        #if defined(HZ_PLATFORM_WINDOWS)
 				if (flags & FIELD_ATTRIBUTE_PUBLIC)
+                        #elif defined(HZ_PLATFORM_LINUX)
+				if (flags & MONO_FIELD_ATTR_PUBLIC)
+			#endif
 				{
 					MonoType* type = mono_field_get_type(field);
 					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
@@ -497,7 +524,6 @@ namespace Hazel {
 			m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod, &param);
 		}
 	}
-
 
 	bool ScriptInstance::GetFieldValueInternal(const std::string& name, void* buffer)
 	{

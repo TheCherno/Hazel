@@ -2,6 +2,8 @@
 #include "Hazel/ImGui/ImGuiLayer.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
+
 #include <examples/imgui_impl_glfw.h>
 #include <examples/imgui_impl_opengl3.h>
 
@@ -11,7 +13,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "ImGuizmo.h"
+#include <ImGuizmo.h>
 
 namespace Hazel {
 
@@ -36,8 +38,13 @@ namespace Hazel {
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
 		float fontSize = 18.0f;// *2.0f;
+        #if defined(HZ_PLATFORM_WINDOWS)
 		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", fontSize);
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", fontSize);
+	#elif defined(HZ_PLATFORM_LINUX)
+		io.Fonts->AddFontFromFileTTF("Hazelnut/assets/fonts/opensans/OpenSans-Bold.ttf", fontSize);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("Hazelnut/assets/fonts/opensans/OpenSans-Regular.ttf", fontSize);
+	#endif
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
@@ -143,5 +150,10 @@ namespace Hazel {
 		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	}
+
+        uint32_t ImGuiLayer::GetActiveWidgetID() const
+        {
+                return GImGui->ActiveId;
+        }
 
 }
