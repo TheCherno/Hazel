@@ -324,16 +324,20 @@ namespace Hazel {
 
 		DrawComponent<ScriptComponent>("Script", entity, [entity, scene = m_Context](auto& component) mutable
 		{
-			bool scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
+			if (ImGui::BeginCombo("Class", component.ClassName.c_str()))
+			{
+				for (const auto& [className, scriptClass] : ScriptEngine::GetEntityClasses())
+				{
+					bool isSelected = className == component.ClassName;
+					if (ImGui::Selectable(className.c_str(), isSelected))
+						component.ClassName = className;
 
-			static char buffer[64];
-			strcpy_s(buffer, sizeof(buffer), component.ClassName.c_str());
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
 
-			if (!scriptClassExists)
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
-
-			if (ImGui::InputText("Class", buffer, sizeof(buffer)))
-				component.ClassName = buffer;
+				ImGui::EndCombo();
+			}
 
 			// Fields
 			bool sceneRunning = scene->IsRunning();
@@ -358,47 +362,41 @@ namespace Hazel {
 			}
 			else
 			{
-				if (scriptClassExists)
+				Ref<ScriptClass> entityClass = ScriptEngine::GetEntityClass(component.ClassName);
+				const auto& fields = entityClass->GetFields();
+
+				auto& entityFields = ScriptEngine::GetScriptFieldMap(entity);
+				for (const auto& [name, field] : fields)
 				{
-					Ref<ScriptClass> entityClass = ScriptEngine::GetEntityClass(component.ClassName);
-					const auto& fields = entityClass->GetFields();
-
-					auto& entityFields = ScriptEngine::GetScriptFieldMap(entity);
-					for (const auto& [name, field] : fields)
+					// Field has been set in editor
+					if (entityFields.find(name) != entityFields.end())
 					{
-						// Field has been set in editor
-						if (entityFields.find(name) != entityFields.end())
-						{
-							ScriptFieldInstance& scriptField = entityFields.at(name);
+						ScriptFieldInstance& scriptField = entityFields.at(name);
 
-							// Display control to set it maybe
-							if (field.Type == ScriptFieldType::Float)
-							{
-								float data = scriptField.GetValue<float>();
-								if (ImGui::DragFloat(name.c_str(), &data))
-									scriptField.SetValue(data);
-							}
-						}
-						else
+						// Display control to set it maybe
+						if (field.Type == ScriptFieldType::Float)
 						{
-							// Display control to set it maybe
-							if (field.Type == ScriptFieldType::Float)
+							float data = scriptField.GetValue<float>();
+							if (ImGui::DragFloat(name.c_str(), &data))
+								scriptField.SetValue(data);
+						}
+					}
+					else
+					{
+						// Display control to set it maybe
+						if (field.Type == ScriptFieldType::Float)
+						{
+							float data = 0.0f;
+							if (ImGui::DragFloat(name.c_str(), &data))
 							{
-								float data = 0.0f;
-								if (ImGui::DragFloat(name.c_str(), &data))
-								{
-									ScriptFieldInstance& fieldInstance = entityFields[name];
-									fieldInstance.Field = field;
-									fieldInstance.SetValue(data);
-								}
+								ScriptFieldInstance& fieldInstance = entityFields[name];
+								fieldInstance.Field = field;
+								fieldInstance.SetValue(data);
 							}
 						}
 					}
 				}
-			}
-
-			if (!scriptClassExists)
-				ImGui::PopStyleColor();
+		}
 		});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
