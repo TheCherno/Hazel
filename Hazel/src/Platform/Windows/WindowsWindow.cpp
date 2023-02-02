@@ -20,11 +20,11 @@ namespace Hazel {
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	WindowsWindow::WindowsWindow(const WindowProps& props)
+	WindowsWindow::WindowsWindow(const WindowProps& props,bool maximized)
 	{
 		HZ_PROFILE_FUNCTION();
 
-		Init(props);
+		Init(props,maximized);
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -34,7 +34,7 @@ namespace Hazel {
 		Shutdown();
 	}
 
-	void WindowsWindow::Init(const WindowProps& props)
+	void WindowsWindow::Init(const WindowProps& props,bool maximized)
 	{
 		HZ_PROFILE_FUNCTION();
 
@@ -53,6 +53,9 @@ namespace Hazel {
 		}
 
 		{
+			if(maximized)
+				glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+
 			HZ_PROFILE_SCOPE("glfwCreateWindow");
 		#if defined(HZ_DEBUG)
 			if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
@@ -196,5 +199,4 @@ namespace Hazel {
 	{
 		return m_Data.VSync;
 	}
-
 }

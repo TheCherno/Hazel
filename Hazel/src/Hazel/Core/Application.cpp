@@ -25,7 +25,7 @@ namespace Hazel {
 		if (!m_Specification.WorkingDirectory.empty())
 			std::filesystem::current_path(m_Specification.WorkingDirectory);
 
-		m_Window = Window::Create(WindowProps(m_Specification.Name));
+		m_Window = Window::Create(WindowProps(m_Specification.Name),true);
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();

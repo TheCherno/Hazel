@@ -41,7 +41,3 @@ group ""
 group "Tools"
 	include "Hazelnut"
 group ""
-
-group "Misc"
-	include "Sandbox"
-group ""

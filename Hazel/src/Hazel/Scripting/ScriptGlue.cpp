@@ -22,25 +22,6 @@ namespace Hazel {
 
 #define HZ_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Hazel.InternalCalls::" #Name, Name)
 
-	static void NativeLog(MonoString* string, int parameter)
-	{
-		char* cStr = mono_string_to_utf8(string);
-		std::string str(cStr);
-		mono_free(cStr);
-		std::cout << str << ", " << parameter << std::endl;
-	}
-
-	static void NativeLog_Vector(glm::vec3* parameter, glm::vec3* outResult)
-	{
-		HZ_CORE_WARN("Value: {0}", *parameter);
-		*outResult = glm::normalize(*parameter);
-	}
-
-	static float NativeLog_VectorDot(glm::vec3* parameter)
-	{
-		HZ_CORE_WARN("Value: {0}", *parameter);
-		return glm::dot(*parameter, *parameter);
-	}
 
 	static MonoObject* GetScriptInstance(UUID entityID)
 	{
@@ -83,6 +64,25 @@ namespace Hazel {
 
 		*outTranslation = entity.GetComponent<TransformComponent>().Translation;
 	}
+	static void TransformComponent_GetRotation(UUID entityID, glm::vec3* outRotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		HZ_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		HZ_CORE_ASSERT(entity);
+
+		*outRotation = entity.GetComponent<TransformComponent>().Rotation;
+	}
+
+	static void TransformComponent_GetScale(UUID entityID, glm::vec3* outScale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		HZ_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		HZ_CORE_ASSERT(entity);
+
+		*outScale = entity.GetComponent<TransformComponent>().Scale;
+	}
 
 	static void TransformComponent_SetTranslation(UUID entityID, glm::vec3* translation)
 	{
@@ -92,6 +92,24 @@ namespace Hazel {
 		HZ_CORE_ASSERT(entity);
 
 		entity.GetComponent<TransformComponent>().Translation = *translation;
+	}
+	static void TransformComponent_SetRotation(UUID entityID, glm::vec3* rotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		HZ_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		HZ_CORE_ASSERT(entity);
+
+		entity.GetComponent<TransformComponent>().Rotation = *rotation;
+	}
+	static void TransformComponent_SetScale(UUID entityID, glm::vec3* scale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		HZ_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		HZ_CORE_ASSERT(entity);
+
+		entity.GetComponent<TransformComponent>().Scale = *scale;
 	}
 
 	static void Rigidbody2DComponent_ApplyLinearImpulse(UUID entityID, glm::vec2* impulse, glm::vec2* point, bool wake)
@@ -194,10 +212,6 @@ namespace Hazel {
 
 	void ScriptGlue::RegisterFunctions()
 	{
-		HZ_ADD_INTERNAL_CALL(NativeLog);
-		HZ_ADD_INTERNAL_CALL(NativeLog_Vector);
-		HZ_ADD_INTERNAL_CALL(NativeLog_VectorDot);
-
 		HZ_ADD_INTERNAL_CALL(GetScriptInstance);
 
 		HZ_ADD_INTERNAL_CALL(Entity_HasComponent);
@@ -205,6 +219,10 @@ namespace Hazel {
 
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_GetRotation);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_SetRotation);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_GetScale);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_SetScale);
 		
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
