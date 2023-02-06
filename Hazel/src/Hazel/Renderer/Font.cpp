@@ -33,7 +33,7 @@ namespace Hazel {
 		TextureSpecification spec;
 		spec.Width = bitmap.width;
 		spec.Height = bitmap.height;
-		spec.Format = ImageFormat::RGB8;
+		spec.Format = ImageFormat::RGBA8;
 		spec.GenerateMips = false;
 
 		Ref<Texture2D> texture = Texture2D::Create(spec);
@@ -96,7 +96,7 @@ namespace Hazel {
 		atlasPacker.getDimensions(width, height);
 		emSize = atlasPacker.getScale();
 
-		m_AtlasTexture = CreateAndCacheAtlas<uint8_t, float, 3, msdf_atlas::msdfGenerator>("Test", (float)emSize, m_Data->Glyphs, m_Data->FontGeometry, width, height);
+		m_AtlasTexture = CreateAndCacheAtlas<uint8_t, float, 4, msdf_atlas::mtsdfGenerator>("Test", (float)emSize, m_Data->Glyphs, m_Data->FontGeometry, width, height);
 
 
 #if 0
