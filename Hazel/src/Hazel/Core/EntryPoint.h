@@ -29,15 +29,19 @@ namespace Hazel
 }
 
 #ifdef HZ_DIST
+
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdLine, int cmdShow)
 {
 	return Hazel::Main(__argc, __argv);
 }
+
 #else
+
 int main(int argc, char** argv)
 {
 	return Hazel::Main(argc, argv);
 }
+
 #endif // HZ_DIST
 
 #endif
