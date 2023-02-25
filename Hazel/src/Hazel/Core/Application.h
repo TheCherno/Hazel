@@ -75,7 +75,7 @@ namespace Hazel {
 		std::mutex m_MainThreadQueueMutex;
 	private:
 		static Application* s_Instance;
-		friend int ::main(int argc, char** argv);
+		friend int Main(int argc, char** argv);
 	};
 
 	// To be defined in CLIENT
