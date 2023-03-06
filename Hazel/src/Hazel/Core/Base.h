@@ -1,8 +1,8 @@
 #pragma once
 
-#include <memory>
-
 #include "Hazel/Core/PlatformDetection.h"
+
+#include <memory>
 
 #ifdef HZ_DEBUG
 	#if defined(HZ_PLATFORM_WINDOWS)

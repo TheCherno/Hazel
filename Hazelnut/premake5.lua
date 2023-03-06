@@ -18,8 +18,9 @@ project "Hazelnut"
 		"%{wks.location}/Hazel/vendor/spdlog/include",
 		"%{wks.location}/Hazel/src",
 		"%{wks.location}/Hazel/vendor",
-		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.filewatch}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGuizmo}"
 	}
 
@@ -35,11 +36,6 @@ project "Hazelnut"
 		defines "HZ_DEBUG"
 		runtime "Debug"
 		symbols "on"
-		
-		postbuildcommands
-		{
-			"{COPYDIR} \"%{LibraryDir.VulkanSDK_DebugDLL}\" \"%{cfg.targetdir}\""
-		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
