@@ -2,6 +2,7 @@
 #include "ContentBrowserPanel.h"
 
 #include <imgui/imgui.h>
+#include "Hazel/Core/Application.h"
 
 namespace Hazel {
 
@@ -16,6 +17,7 @@ namespace Hazel {
 		}
 
 	}
+
 	// Once we have projects, change this
 	extern const std::filesystem::path g_AssetPath = "assets";
 
@@ -25,24 +27,38 @@ namespace Hazel {
 		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
 		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
 
-		auto FileAssetEvent = [this](const std::string& path, const filewatch::Event change_type)
+		auto FileAssetEvent = [this](const std::string& filepath, const filewatch::Event change_type)
 		{
-			std::filesystem::path texturePath = path;
-			texturePath = g_AssetPath / path;
-
 			switch (change_type)
 			{
 			case filewatch::Event::added:
 			{
-				if (Utils::IsImageFile(texturePath))
-					m_TextureIcons[texturePath.string()] = Texture2D::Create(texturePath.string());
+				Application::Get().SubmitToMainThread([this, filepath]()
+				{
+					if (Utils::IsImageFile(filepath))
+					{
+						std::filesystem::path texturePath = filepath;
+						texturePath = g_AssetPath / filepath;
 
-				HZ_WARN("{}: File Added", texturePath.string());
+						m_TextureIcons[texturePath.string()] = Texture2D::Create(texturePath.string());
+						HZ_WARN("{}: File Added", texturePath.string());
+					}
+				});
+
+				break;
 			}
 			case filewatch::Event::removed:
 			{
-				m_TextureIcons.erase(texturePath.string());
-				HZ_WARN("{}: File Deleted", texturePath.string());
+				Application::Get().SubmitToMainThread([this, filepath]()
+				{
+					std::filesystem::path texturePath = filepath;
+					texturePath = g_AssetPath / filepath;
+
+					m_TextureIcons.erase(texturePath.string());
+					HZ_WARN("{}: File Deleted", texturePath.string());
+				});
+
+				break;
 			}
 			}
 		};
@@ -98,7 +114,8 @@ namespace Hazel {
 				icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
 
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+			if (icon.get() != nullptr)
+				ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 
 			if (ImGui::BeginDragDropSource())
 			{
