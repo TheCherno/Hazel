@@ -40,6 +40,12 @@ namespace Hazel {
 						std::filesystem::path texturePath = filepath;
 						texturePath = g_AssetPath / filepath;
 
+						// NOTE: Waiting for Texture to load fully on directory otherwise we'll get black thumbnails
+						// Waiting Time can vary depending on asset size
+						// To remove this we need a way to know if file has loaded completely or not
+						using namespace std::literals::chrono_literals;
+						std::this_thread::sleep_for(0.02s);
+
 						m_TextureIcons[texturePath.string()] = Texture2D::Create(texturePath.string());
 						HZ_WARN("{}: File Added", texturePath.string());
 					}
