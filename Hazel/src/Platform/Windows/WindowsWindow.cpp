@@ -177,6 +177,12 @@ namespace Hazel {
 		HZ_PROFILE_FUNCTION();
 
 		glfwPollEvents();
+	}
+
+	void WindowsWindow::OnRender()
+	{
+		HZ_PROFILE_FUNCTION();
+
 		m_Context->SwapBuffers();
 	}
 
