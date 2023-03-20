@@ -45,7 +45,7 @@ namespace Hazel
 			get => InternalCalls.Rigidbody2DComponent_GetType(Entity.ID);
 			set => InternalCalls.Rigidbody2DComponent_SetType(Entity.ID, value);
 		}
-		
+
 		public void ApplyLinearImpulse(Vector2 impulse, Vector2 worldPosition, bool wake)
 		{
 			InternalCalls.Rigidbody2DComponent_ApplyLinearImpulse(Entity.ID, ref impulse, ref worldPosition, wake);
@@ -57,4 +57,42 @@ namespace Hazel
 		}
 
 	}
+
+	public class TextComponent : Component
+	{
+
+		public string Text
+		{
+			get => InternalCalls.TextComponent_GetText(Entity.ID);
+			set => InternalCalls.TextComponent_SetText(Entity.ID, value);
+		}
+
+		public Vector4 Color
+		{
+			get
+			{
+				InternalCalls.TextComponent_GetColor(Entity.ID, out Vector4 color);
+				return color;
+			}
+
+			set
+			{
+				InternalCalls.TextComponent_SetColor(Entity.ID, ref value);
+			}
+		}
+
+		public float Kerning
+		{
+			get => InternalCalls.TextComponent_GetKerning(Entity.ID);
+			set => InternalCalls.TextComponent_SetKerning(Entity.ID, value);
+		}
+
+		public float LineSpacing
+		{
+			get => InternalCalls.TextComponent_GetLineSpacing(Entity.ID);
+			set => InternalCalls.TextComponent_SetLineSpacing(Entity.ID, value);
+		}
+
+	}
+
 }
