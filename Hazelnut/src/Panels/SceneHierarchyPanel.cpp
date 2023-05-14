@@ -399,12 +399,12 @@ namespace Hazel {
 			}
 		});
 
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [this](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [defaultTexture = m_DefaultTexture](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 			
 			uint32_t buttonTex = component.Texture ? component.Texture->GetRendererID()
-				: m_DefaultTexture->GetRendererID();
+				: defaultTexture->GetRendererID();
 
 			ImGui::ImageButton((ImTextureID)buttonTex, ImVec2{ 100.0f, 100.0f });
 
