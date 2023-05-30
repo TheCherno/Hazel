@@ -23,6 +23,7 @@
 #include <unordered_set>
 
 #include "Hazel/Core/Base.h"
+#include "Hazel/Core/Buffer.h"
 
 #include "Hazel/Core/Log.h"
 

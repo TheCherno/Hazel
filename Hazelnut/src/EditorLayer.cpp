@@ -441,6 +441,7 @@ namespace Hazel {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
+		dispatcher.Dispatch<WindowDropEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnWindowDrop));
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
@@ -548,6 +549,15 @@ namespace Hazel {
 				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
 		}
 		return false;
+	}
+
+	bool EditorLayer::OnWindowDrop(WindowDropEvent& e)
+	{
+		// TODO(Yan): if a project is dropped in, probably open it
+
+		//AssetManager::ImportAsset();
+
+		return true;
 	}
 
 	void EditorLayer::OnOverlayRender()
