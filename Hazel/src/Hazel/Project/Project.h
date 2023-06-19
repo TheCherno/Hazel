@@ -17,6 +17,7 @@ namespace Hazel {
 		std::filesystem::path StartScene;
 
 		std::filesystem::path AssetDirectory;
+		std::filesystem::path AssetRegistryPath; // Relative to AssetDirectory
 		std::filesystem::path ScriptModulePath;
 	};
 
@@ -33,6 +34,12 @@ namespace Hazel {
 		{
 			HZ_CORE_ASSERT(s_ActiveProject);
 			return GetProjectDirectory() / s_ActiveProject->m_Config.AssetDirectory;
+		}
+
+		static std::filesystem::path GetAssetRegistryPath()
+		{
+			HZ_CORE_ASSERT(s_ActiveProject);
+			return GetAssetDirectory() / s_ActiveProject->m_Config.AssetRegistryPath;
 		}
 
 		// TODO(Yan): move to asset manager when we have one

@@ -410,13 +410,15 @@ namespace Hazel {
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 				{
+#if 0
 					const wchar_t* path = (const wchar_t*)payload->Data;
 					std::filesystem::path texturePath(path);
 					Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
 					if (texture->IsLoaded())
-						component.Texture = texture;
+						component.Texture = texture->Handle;
 					else
 						HZ_WARN("Could not load texture {0}", texturePath.filename().string());
+#endif
 				}
 				ImGui::EndDragDropTarget();
 			}

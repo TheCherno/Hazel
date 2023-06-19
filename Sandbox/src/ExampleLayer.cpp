@@ -1,5 +1,7 @@
 #include "ExampleLayer.h"
 
+#include "Hazel/Asset/TextureImporter.h"
+
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -121,8 +123,8 @@ ExampleLayer::ExampleLayer()
 
 	auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
-	m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
-	m_ChernoLogoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
+	m_Texture = Hazel::TextureImporter::LoadTexture2D("assets/textures/Checkerboard.png");
+	m_ChernoLogoTexture = Hazel::TextureImporter::LoadTexture2D("assets/textures/ChernoLogo.png");
 
 	textureShader->Bind();
 	textureShader->SetInt("u_Texture", 0);
