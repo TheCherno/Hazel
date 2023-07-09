@@ -58,6 +58,7 @@ namespace Hazel {
 		void SubmitToMainThread(const std::function<void()>& function);
 	private:
 		void Run();
+		void OnUpdate();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
