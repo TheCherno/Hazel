@@ -290,11 +290,17 @@ namespace Hazel {
 				{
 					// Drag & Drop Textures
 					bool valid = true;
-					if(int(m_HoveredEntity <=0 || !m_HoveredEntity.HasComponent<TagComponent>())
+					if((int)m_HoveredEntity <=0 || !m_HoveredEntity.HasComponent<TagComponent>())
 						valid = false;
 					if(valid && m_HoveredEntity.HasComponent<SpriteRendererComponent>())
 					{
 						*m_SelectedEntity = m_HoveredEntity;
+						m_SelectedEntity->GetComponent<SpriteRendererComponent>().Texture = Texture2D::Create(path.string());
+					} else {
+						// Create a new entity
+						Entity e = m_ActiveScene->CreateEntity("New Sprite");
+						e.AddComponent<SpriteRendererComponent>();
+						*m_SelectedEntity = e;
 						m_SelectedEntity->GetComponent<SpriteRendererComponent>().Texture = Texture2D::Create(path.string());
 					}
 				}
