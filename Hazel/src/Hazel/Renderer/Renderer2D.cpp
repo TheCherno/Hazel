@@ -351,8 +351,9 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, position);
+		transform = glm::scale(transform, { size.x, size.y, 1.0f });
 		
 		DrawQuad(transform, color);
 	}
@@ -366,8 +367,9 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, position);
+		transform = glm::scale(transform, { size.x, size.y, 1.0f });
 
 		DrawQuad(transform, texture, tilingFactor, tintColor);
 	}
@@ -455,9 +457,10 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, position);
+		transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
+		transform = glm::scale(transform, { size.x, size.y, 1.0f });
 
 		DrawQuad(transform, color);
 	}
@@ -471,9 +474,10 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, position);
+		transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
+		transform = glm::scale(transform, { size.x, size.y, 1.0f });
 
 		DrawQuad(transform, texture, tilingFactor, tintColor);
 	}
