@@ -473,7 +473,7 @@ struct fnv1a_traits<std::uint64_t> {
  * @brief Zero overhead unique identifier.
  *
  * A hashed string is a compile-time tool that allows users to use
- * human-readable identifers in the codebase while using their numeric
+ * human-readable identifiers in the codebase while using their numeric
  * counterparts at runtime.<br/>
  * Because of that, a hashed string can also be used in constant expressions if
  * required.
@@ -519,7 +519,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @return The numeric representation of the string.
      */
     template<std::size_t N>
@@ -538,7 +538,7 @@ public:
 
     /**
      * @brief Returns directly the numeric representation of a string view.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @param size Length of the string to hash.
      * @return The numeric representation of the string.
      */
@@ -565,7 +565,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param curr Human-readable identifer.
+     * @param curr Human-readable identifier.
      */
     template<std::size_t N>
     constexpr basic_hashed_string(const value_type (&curr)[N]) ENTT_NOEXCEPT
@@ -625,11 +625,11 @@ private:
  * @brief Deduction guide.
  *
  * It allows to deduce the character type of the hashed string directly from a
- * human-readable identifer provided to the constructor.
+ * human-readable identifier provided to the constructor.
  *
  * @tparam Char Character type.
  * @tparam N Number of characters of the identifier.
- * @param str Human-readable identifer.
+ * @param str Human-readable identifier.
  */
 template<typename Char, std::size_t N>
 basic_hashed_string(const Char (&str)[N]) ENTT_NOEXCEPT
@@ -1743,7 +1743,7 @@ struct fnv1a_traits<std::uint64_t> {
  * @brief Zero overhead unique identifier.
  *
  * A hashed string is a compile-time tool that allows users to use
- * human-readable identifers in the codebase while using their numeric
+ * human-readable identifiers in the codebase while using their numeric
  * counterparts at runtime.<br/>
  * Because of that, a hashed string can also be used in constant expressions if
  * required.
@@ -1789,7 +1789,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @return The numeric representation of the string.
      */
     template<std::size_t N>
@@ -1808,7 +1808,7 @@ public:
 
     /**
      * @brief Returns directly the numeric representation of a string view.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @param size Length of the string to hash.
      * @return The numeric representation of the string.
      */
@@ -1835,7 +1835,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param curr Human-readable identifer.
+     * @param curr Human-readable identifier.
      */
     template<std::size_t N>
     constexpr basic_hashed_string(const value_type (&curr)[N]) ENTT_NOEXCEPT
@@ -1895,11 +1895,11 @@ private:
  * @brief Deduction guide.
  *
  * It allows to deduce the character type of the hashed string directly from a
- * human-readable identifer provided to the constructor.
+ * human-readable identifier provided to the constructor.
  *
  * @tparam Char Character type.
  * @tparam N Number of characters of the identifier.
- * @param str Human-readable identifer.
+ * @param str Human-readable identifier.
  */
 template<typename Char, std::size_t N>
 basic_hashed_string(const Char (&str)[N]) ENTT_NOEXCEPT
@@ -10431,7 +10431,7 @@ struct fnv1a_traits<std::uint64_t> {
  * @brief Zero overhead unique identifier.
  *
  * A hashed string is a compile-time tool that allows users to use
- * human-readable identifers in the codebase while using their numeric
+ * human-readable identifiers in the codebase while using their numeric
  * counterparts at runtime.<br/>
  * Because of that, a hashed string can also be used in constant expressions if
  * required.
@@ -10477,7 +10477,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @return The numeric representation of the string.
      */
     template<std::size_t N>
@@ -10496,7 +10496,7 @@ public:
 
     /**
      * @brief Returns directly the numeric representation of a string view.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @param size Length of the string to hash.
      * @return The numeric representation of the string.
      */
@@ -10523,7 +10523,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param curr Human-readable identifer.
+     * @param curr Human-readable identifier.
      */
     template<std::size_t N>
     constexpr basic_hashed_string(const value_type (&curr)[N]) ENTT_NOEXCEPT
@@ -10583,11 +10583,11 @@ private:
  * @brief Deduction guide.
  *
  * It allows to deduce the character type of the hashed string directly from a
- * human-readable identifer provided to the constructor.
+ * human-readable identifier provided to the constructor.
  *
  * @tparam Char Character type.
  * @tparam N Number of characters of the identifier.
- * @param str Human-readable identifer.
+ * @param str Human-readable identifier.
  */
 template<typename Char, std::size_t N>
 basic_hashed_string(const Char (&str)[N]) ENTT_NOEXCEPT
@@ -13875,7 +13875,7 @@ struct fnv1a_traits<std::uint64_t> {
  * @brief Zero overhead unique identifier.
  *
  * A hashed string is a compile-time tool that allows users to use
- * human-readable identifers in the codebase while using their numeric
+ * human-readable identifiers in the codebase while using their numeric
  * counterparts at runtime.<br/>
  * Because of that, a hashed string can also be used in constant expressions if
  * required.
@@ -13921,7 +13921,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @return The numeric representation of the string.
      */
     template<std::size_t N>
@@ -13940,7 +13940,7 @@ public:
 
     /**
      * @brief Returns directly the numeric representation of a string view.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @param size Length of the string to hash.
      * @return The numeric representation of the string.
      */
@@ -13967,7 +13967,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param curr Human-readable identifer.
+     * @param curr Human-readable identifier.
      */
     template<std::size_t N>
     constexpr basic_hashed_string(const value_type (&curr)[N]) ENTT_NOEXCEPT
@@ -14027,11 +14027,11 @@ private:
  * @brief Deduction guide.
  *
  * It allows to deduce the character type of the hashed string directly from a
- * human-readable identifer provided to the constructor.
+ * human-readable identifier provided to the constructor.
  *
  * @tparam Char Character type.
  * @tparam N Number of characters of the identifier.
- * @param str Human-readable identifer.
+ * @param str Human-readable identifier.
  */
 template<typename Char, std::size_t N>
 basic_hashed_string(const Char (&str)[N]) ENTT_NOEXCEPT
@@ -16160,7 +16160,7 @@ struct fnv1a_traits<std::uint64_t> {
  * @brief Zero overhead unique identifier.
  *
  * A hashed string is a compile-time tool that allows users to use
- * human-readable identifers in the codebase while using their numeric
+ * human-readable identifiers in the codebase while using their numeric
  * counterparts at runtime.<br/>
  * Because of that, a hashed string can also be used in constant expressions if
  * required.
@@ -16206,7 +16206,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @return The numeric representation of the string.
      */
     template<std::size_t N>
@@ -16225,7 +16225,7 @@ public:
 
     /**
      * @brief Returns directly the numeric representation of a string view.
-     * @param str Human-readable identifer.
+     * @param str Human-readable identifier.
      * @param size Length of the string to hash.
      * @return The numeric representation of the string.
      */
@@ -16252,7 +16252,7 @@ public:
      * @endcode
      *
      * @tparam N Number of characters of the identifier.
-     * @param curr Human-readable identifer.
+     * @param curr Human-readable identifier.
      */
     template<std::size_t N>
     constexpr basic_hashed_string(const value_type (&curr)[N]) ENTT_NOEXCEPT
@@ -16312,11 +16312,11 @@ private:
  * @brief Deduction guide.
  *
  * It allows to deduce the character type of the hashed string directly from a
- * human-readable identifer provided to the constructor.
+ * human-readable identifier provided to the constructor.
  *
  * @tparam Char Character type.
  * @tparam N Number of characters of the identifier.
- * @param str Human-readable identifer.
+ * @param str Human-readable identifier.
  */
 template<typename Char, std::size_t N>
 basic_hashed_string(const Char (&str)[N]) ENTT_NOEXCEPT
