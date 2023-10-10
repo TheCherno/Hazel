@@ -8,6 +8,24 @@
 
 namespace Hazel {
 
+	static std::map<std::filesystem::path, AssetType> s_AssetExtensionMap = {
+		{ ".hazel", AssetType::Scene },
+		{ ".png", AssetType::Texture2D },
+		{ ".jpg", AssetType::Texture2D },
+		{ ".jpeg", AssetType::Texture2D }
+	};
+
+	static AssetType GetAssetTypeFromFileExtension(const std::filesystem::path& extension)
+	{
+		if (s_AssetExtensionMap.find(extension) == s_AssetExtensionMap.end())
+		{
+			HZ_CORE_WARN("Could not find AssetType for {}", extension);
+			return AssetType::None;
+		}
+
+		return s_AssetExtensionMap.at(extension);
+	}
+
 	YAML::Emitter& operator<<(YAML::Emitter& out, const std::string_view& v)
 	{
 		out << std::string(v.data(), v.size());
@@ -24,16 +42,25 @@ namespace Hazel {
 		return m_LoadedAssets.find(handle) != m_LoadedAssets.end();
 	}
 
+	AssetType EditorAssetManager::GetAssetType(AssetHandle handle) const
+	{
+		if (!IsAssetHandleValid(handle))
+			return AssetType::None;
+
+		return m_AssetRegistry.at(handle).Type;
+	}
+
 	void EditorAssetManager::ImportAsset(const std::filesystem::path& filepath)
 	{
 		AssetHandle handle; // generate new handle
 		AssetMetadata metadata;
 		metadata.FilePath = filepath;
-		metadata.Type = AssetType::Texture2D; // TODO(Yan): grab this from extension and try to load
+		metadata.Type = GetAssetTypeFromFileExtension(filepath.extension());
+		HZ_CORE_ASSERT(metadata.Type != AssetType::None);
 		Ref<Asset> asset = AssetImporter::ImportAsset(handle, metadata);
-		asset->Handle = handle;
 		if (asset)
 		{
+			asset->Handle = handle;
 			m_LoadedAssets[handle] = asset;
 			m_AssetRegistry[handle] = metadata;
 			SerializeAssetRegistry();
@@ -50,7 +77,12 @@ namespace Hazel {
 		return it->second;
 	}
 
-	Ref<Asset> EditorAssetManager::GetAsset(AssetHandle handle) const
+	const std::filesystem::path& EditorAssetManager::GetFilePath(AssetHandle handle) const
+	{
+		return GetMetadata(handle).FilePath;
+	}
+
+	Ref<Asset> EditorAssetManager::GetAsset(AssetHandle handle)
 	{
 		// 1. check if handle is valid
 		if (!IsAssetHandleValid(handle))
@@ -71,7 +103,8 @@ namespace Hazel {
 			{
 				// import failed
 				HZ_CORE_ERROR("EditorAssetManager::GetAsset - asset import failed!");
-			} 
+			}
+			m_LoadedAssets[handle] = asset;
 		}
 		// 3. return asset
 		return asset;
@@ -102,7 +135,6 @@ namespace Hazel {
 
 		std::ofstream fout(path);
 		fout << out.c_str();
-
 	}
 
 	bool EditorAssetManager::DeserializeAssetRegistry()
