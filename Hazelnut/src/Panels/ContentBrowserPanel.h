@@ -2,6 +2,8 @@
 
 #include "Hazel/Renderer/Texture.h"
 
+#include "ThumbnailCache.h"
+
 #include <map>
 #include <set>
 #include <filesystem>
@@ -11,12 +13,15 @@ namespace Hazel {
 	class ContentBrowserPanel
 	{
 	public:
-		ContentBrowserPanel();
+		ContentBrowserPanel(Ref<Project> project);
 
 		void OnImGuiRender();
 	private:
 		void RefreshAssetTree();
 	private:
+		Ref<Project> m_Project;
+		Ref<ThumbnailCache> m_ThumbnailCache;
+
 		std::filesystem::path m_BaseDirectory;
 		std::filesystem::path m_CurrentDirectory;
 		

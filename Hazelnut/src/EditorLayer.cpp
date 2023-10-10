@@ -642,7 +642,7 @@ namespace Hazel {
 			AssetHandle startScene = Project::GetActive()->GetConfig().StartScene;
 			if (startScene)
 				OpenScene(startScene);
-			m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>();
+			m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>(Project::GetActive());
 		}
 	}
 
