@@ -90,37 +90,40 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		while (m_Running)
-		{
+		while (m_Running) {
 			HZ_PROFILE_SCOPE("RunLoop");
+			OnUpdate();
+		}
+	}
 
-			float time = Time::GetTime();
-			Timestep timestep = time - m_LastFrameTime;
-			m_LastFrameTime = time;
+	void Application::OnUpdate()
+	{
+		float time = Time::GetTime();
+		Timestep timestep = time - m_LastFrameTime;
+		m_LastFrameTime = time;
 
-			ExecuteMainThreadQueue();
+		ExecuteMainThreadQueue();
 
-			if (!m_Minimized)
+		if (!m_Minimized)
+		{
 			{
-				{
-					HZ_PROFILE_SCOPE("LayerStack OnUpdate");
+				HZ_PROFILE_SCOPE("LayerStack OnUpdate");
 
-					for (Layer* layer : m_LayerStack)
-						layer->OnUpdate(timestep);
-				}
-
-				m_ImGuiLayer->Begin();
-				{
-					HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
-
-					for (Layer* layer : m_LayerStack)
-						layer->OnImGuiRender();
-				}
-				m_ImGuiLayer->End();
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
 			}
 
-			m_Window->OnUpdate();
+			m_ImGuiLayer->Begin();
+			{
+				HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
 		}
+
+		m_Window->OnUpdate();
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
@@ -141,6 +144,8 @@ namespace Hazel {
 
 		m_Minimized = false;
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		OnUpdate();
 
 		return false;
 	}
