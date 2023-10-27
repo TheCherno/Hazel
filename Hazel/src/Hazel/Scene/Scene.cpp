@@ -134,8 +134,9 @@ namespace Hazel {
 			for (auto e : view)
 			{
 				Entity entity = { e, this };
-				ScriptEngine::OnCreateEntity(entity);
+				ScriptEngine::CreateEntity(entity);
 			}
+			ScriptEngine::OnCreateEntities();
 		}
 	}
 

@@ -290,10 +290,10 @@ namespace Hazel {
 		return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
 	}
 
-	void ScriptEngine::OnCreateEntity(Entity entity)
+	void ScriptEngine::CreateEntity(Entity entity)
 	{
 		const auto& sc = entity.GetComponent<ScriptComponent>();
-		if (ScriptEngine::EntityClassExists(sc.ClassName))
+		if (EntityClassExists(sc.ClassName))
 		{
 			UUID entityID = entity.GetUUID();
 
@@ -307,7 +307,13 @@ namespace Hazel {
 				for (const auto& [name, fieldInstance] : fieldMap)
 					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
 			}
+		}
+	}
 
+	void ScriptEngine::OnCreateEntities()
+	{
+		for (auto& [entity, instance] : s_Data->EntityInstances)
+		{
 			instance->InvokeOnCreate();
 		}
 	}
