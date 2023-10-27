@@ -28,6 +28,9 @@ namespace Hazel {
 		m_Window = Window::Create(WindowProps(m_Specification.Name));
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
+		Input::Init();
+		Input::SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
@@ -118,6 +121,8 @@ namespace Hazel {
 				}
 				m_ImGuiLayer->End();
 			}
+
+			Input::Update();
 
 			m_Window->OnUpdate();
 		}
