@@ -401,11 +401,26 @@ namespace Hazel {
 			}
 		});
 
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [defaultTexture = m_DefaultTexture](auto& component)
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 			
-			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+			uint32_t buttonTex = component.Texture ? component.Texture->GetRendererID()
+				: defaultTexture->GetRendererID();
+
+			ImGui::ImageButton((ImTextureID)buttonTex, ImVec2{ 100.0f, 100.0f });
+
+			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+				ImGui::OpenPopup("RemoveTexture");
+
+			if (ImGui::BeginPopup("RemoveTexture"))
+			{
+				if (ImGui::MenuItem("Remove Texture"))
+					component.Texture = nullptr;
+
+				ImGui::EndPopup();
+			}
+
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -418,6 +433,7 @@ namespace Hazel {
 					else
 						HZ_WARN("Could not load texture {0}", texturePath.filename().string());
 				}
+
 				ImGui::EndDragDropTarget();
 			}
 

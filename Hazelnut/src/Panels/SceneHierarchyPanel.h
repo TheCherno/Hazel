@@ -27,6 +27,7 @@ namespace Hazel {
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;
+		const Ref<Texture2D> m_DefaultTexture = Texture2D::Create(1, 1);
 	};
 
 }
