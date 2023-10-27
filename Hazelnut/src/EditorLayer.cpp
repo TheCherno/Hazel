@@ -39,8 +39,8 @@ namespace Hazel {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-		m_EditorScene = CreateRef<Scene>();
-		m_ActiveScene = m_EditorScene;
+		// Initialize blank scene
+		NewScene();
 
 		auto commandLineArgs = Application::Get().GetSpecification().CommandLineArgs;
 		if (commandLineArgs.Count > 1)
@@ -649,9 +649,13 @@ namespace Hazel {
 
 	void EditorLayer::NewScene()
 	{
-		m_ActiveScene = CreateRef<Scene>();
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		if (m_SceneState != SceneState::Edit)
+			return;
+
+		m_EditorScene = CreateRef<Scene>();
+		m_SceneHierarchyPanel.SetContext(m_EditorScene);
 		
+		m_ActiveScene = m_EditorScene;
 		m_EditorScenePath = std::filesystem::path();
 	}
 
