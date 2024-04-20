@@ -2,7 +2,7 @@
 
 #include "Hazel/Renderer/Texture.h"
 
-#include <glad/glad.h>
+typedef unsigned int GLenum;
 
 namespace Hazel {
 
